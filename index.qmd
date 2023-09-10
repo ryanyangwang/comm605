@@ -1,0 +1,38 @@
+---
+title: "Welcome to COMM 605!"
+author: "Ryan Y. Wang, Ph.D."
+affiliation: "Rochester Institute of Technology"
+---
+
+[![Source: xkcd.com](image/social_media.png)](https://xkcd.com/1239/)
+
+|             |                                                                                                                                           |
+|:------------------------------------:|:--------------------------------:|
+|   ⏰ Time   |                                                          Monday 5:00 -- 7:50 PM                                                           |
+| 📍 Location |                                                    Liberal Arts Hall (LBR)- Room 3201                                                     |
+|  📭 Email   |                                      [ryanwang\@mail.rit.edu](mailto:ryanwang@mail.rit.edu){.email}                                       |
+|  🏢 Office  | Room 3041 Eastman Building OR [Zoom](https://rit.zoom.us/j/94142380832) (By [appointment](https://calendar.app.google/k78C88Y62VVzzz3m7)) |
+
+### Course overview
+
+This is the tutorial website for COMM 605 *Social media analytics and research* at Rochester Institute of Technology. All the codes in the tutorials are created by the instructor and open access resources, including but not limited to:
+
+-   Wickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). [*R for data science (2nd version)*](https://r4ds.hadley.nz/).
+-   Liang, H. [*COMM3650: Social Media Analytics for Communication Professionals*](https://drhailiang.com/teaching/COMM3650).
+
+This course focuses on social media research with various methodological approaches to study public data, users and messages. Students will be introduced to a variety of techniques and concepts used to obtain, monitor and evaluate social media content with a focus on how the analytics could inform communication strategies. During the course, students will also learn how to design and evaluate social media-based research studies.
+
+### Objectives
+
+Students who successfully complete assigned coursework should develop the following skills:
+
+-   explain the theoretical and methodological perspectives that guide social media research;
+-   apply computational tools and practice basic data science skills to answer empirical research questions and conduct social science research;
+-   identify major milestones in social media platforms and research;
+-   critique on how algorithms and (social media)data may affect civil societies in both positive and adverse ways.
+
+### Suggested readings
+
+-   Required: Salganik, M. J. (2017). [*Bit by bit: Social research in the digital age*](https://www.bitbybitbook.com/%7D).
+-   Suggested: Grimmer, J., Roberts, M. E., & Stewart, B. M. (2022). [*Text as data: A new framework for machine learning and the social sciences*](https://press.princeton.edu/books/hardcover/9780691207544/text-as-data).
+-   Suggested: Borgatti, S. P., Everett, M. G., & Johnson, J. C. (2018). [*Analyzing social networks*](https://www.amazon.com/Analyzing-Social-Networks-Stephen-Borgatti/dp/1526404109/ref=dp_ob_title_bk).

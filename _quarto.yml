@@ -1,0 +1,29 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Social Media Analytics and Research"
+  sidebar:
+    #logo: "image/avatar.jpg"
+    style: "docked"
+    search: true
+    contents:
+      - text: "Home"
+        file: index.qmd
+      - text: "Schedule"
+        file: schedule.qmd
+      - section: "Tutorials" 
+        contents: 
+         - week2.qmd
+         - week3.qmd
+        
+
+format:
+  html:
+    theme: yeti
+    css: styles.css
+    toc: true
+
+editor: visual
+

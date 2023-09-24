@@ -17,6 +17,7 @@ website:
         contents: 
          - week3.qmd
          - week4.qmd
+         - week5.qmd
         
 
 format:

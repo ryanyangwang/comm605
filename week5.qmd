@@ -43,8 +43,8 @@ library(tidyverse)
 ### Authorizing with the client ID and secret
 
 ```{r}
-client_id <- "514872803270-ghqbfmufrm4j8h3ttaafeaur3q06dnva.apps.googleusercontent.com"
-client_secret <- "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"
+client_id <- "YOUR CLIENT ID"
+client_secret <- "YOUR CLIENT SECRET"
 yt_oauth(app_id = client_id,
          app_secret = client_secret,
          token = " ")
@@ -140,3 +140,6 @@ ukraine_videostat <- lapply(as.character(ukraine_stat$contentDetails.videoId), f
 ukraine_videostat_df <- ukraine_videostat %>% map_df(as_tibble)
 
 ```
+
+
+# YouTube Data API V3

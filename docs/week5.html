@@ -195,6 +195,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#collecting-comments-from-a-list" id="toc-collecting-comments-from-a-list" class="nav-link" data-scroll-target="#collecting-comments-from-a-list">Collecting comments from a list</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#youtube-data-api-v3-1" id="toc-youtube-data-api-v3-1" class="nav-link" data-scroll-target="#youtube-data-api-v3-1">YouTube Data API V3</a></li>
   </ul>
 </nav>
     </div>
@@ -253,8 +254,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="authorizing-with-the-client-id-and-secret" class="level3">
 <h3 class="anchored" data-anchor-id="authorizing-with-the-client-id-and-secret">Authorizing with the client ID and secret</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>client_id <span class="ot">&lt;-</span> <span class="st">"514872803270-ghqbfmufrm4j8h3ttaafeaur3q06dnva.apps.googleusercontent.com"</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>client_secret <span class="ot">&lt;-</span> <span class="st">"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"</span></span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>client_id <span class="ot">&lt;-</span> <span class="st">"YOUR CLIENT ID"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>client_secret <span class="ot">&lt;-</span> <span class="st">"YOUR CLIENT SECRET"</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">yt_oauth</span>(<span class="at">app_id =</span> client_id,</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">app_secret =</span> client_secret,</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">token =</span> <span class="st">" "</span>)</span>
@@ -349,10 +350,13 @@ Note
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ukraine_videostat <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">as.character</span>(ukraine_stat<span class="sc">$</span>contentDetails.videoId), <span class="cf">function</span>(x){<span class="fu">get_stats</span>(<span class="fu">c</span>(<span class="at">video_id =</span> x))})</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>ukraine_videostat_df <span class="ot">&lt;-</span> ukraine_videostat <span class="sc">%&gt;%</span> <span class="fu">map_df</span>(as_tibble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-
-
 </section>
 </section>
+</section>
+<section id="youtube-data-api-v3-1" class="level1">
+<h1>YouTube Data API V3</h1>
+
+
 </section>
 
 </main> <!-- /main -->

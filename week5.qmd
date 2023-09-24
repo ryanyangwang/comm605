@@ -12,7 +12,7 @@ execute:
 
 1.  You will need to have a Google account/gmail (e.g., RIT email).
 
-2.  Log in Google's developers console to create a new project: https://console.developers.google.com/
+2.  Log in Google's developers console to create a new project: <https://console.developers.google.com/>
 
 ![](image/youtube/01.png){width="50%"}
 

@@ -208,5 +208,12 @@
     "title": "Week 4 Lab",
     "section": "Footnotes",
     "text": "Footnotes\n\n\nDasu, T. & Johnson, T. (2003). Exploratory Data Mining and Data Cleaning.↩︎\nWickham, H. (2014). Journal of Statistical Software, 59(10), 1–23. https://doi.org/10.18637/jss.v059.i10↩︎"
+  },
+  {
+    "objectID": "week5.html#collect-reddit-data-through-redditextractor-package.",
+    "href": "week5.html#collect-reddit-data-through-redditextractor-package.",
+    "title": "Week 5 Lab",
+    "section": "Collect Reddit data through RedditExtractoR package.",
+    "text": "Collect Reddit data through RedditExtractoR package.\n\nLoading package\n\n# install.packages(\"RedditExtractoR\")\nlibrary(RedditExtractoR)\n\n\n\nObtaining the urls from r/Rochester subreddit\n\nrocthreads &lt;- find_thread_urls(subreddit = \"Rochester\", sort_by = \"top\", period = \"all\") # you can use keywords to limit the search as well\n\n\nroccomments &lt;- get_thread_content(rocthreads$url)\n\nYou can find there are two dataframes the large list, the threads is for the posts, and the comments is for the comments. Similarily, you can also merge the metadata of posts with the comments based on the common column url.\n\nreddit_posts &lt;- roccomments$threads\nreddit_comments &lt;- roccomments$comments\nreddit_all &lt;- merge(reddit_comments, reddit_posts, by = \"url\", all.x = T)"
   }
 ]

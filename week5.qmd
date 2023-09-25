@@ -141,5 +141,33 @@ ukraine_videostat_df <- ukraine_videostat %>% map_df(as_tibble)
 
 ```
 
+# Reddit data
 
-# YouTube Data API V3
+Recently, Reddit has updated their [terms of service](https://www.reddit.com/r/reddit/comments/145bram/addressing_the_community_about_changes_to_our_api/), which limits 100 queries per minute per OAuth client id if you are using OAuth authentication and 10 queries per minute if you are not using OAuth authentication. Previously, researchers have been accessing a larger dataset of Reddit through Pushshift but Reddit declared that Pushshift is in violation of their updated TOS and all the access have been turnt off. You can see Pushshift team's response [here](https://www.reddit.com/r/pushshift/comments/135tdl2/a_response_from_pushshift_a_call_for/). However, you can still extract a small amount of data using `RedditExtractoR` package. And we are using the `r/Rochester` subreddit as an example.
+
+## Collect Reddit data through `RedditExtractoR` package.
+
+### Loading package
+
+```{r}
+# install.packages("RedditExtractoR")
+library(RedditExtractoR)
+```
+
+### Obtaining the urls from r/Rochester subreddit
+```{r}
+rocthreads <- find_thread_urls(subreddit = "Rochester", sort_by = "top", period = "all") # you can use keywords to limit the search as well
+
+```
+```{r}
+roccomments <- get_thread_content(rocthreads$url)
+```
+
+You can find there are two dataframes the large list, the `threads` is for the posts, and the `comments` is for the comments. Similarily, you can also merge the metadata of posts with the comments based on the common column `url`.
+
+```{r}
+reddit_posts <- roccomments$threads
+reddit_comments <- roccomments$comments
+reddit_all <- merge(reddit_comments, reddit_posts, by = "url", all.x = T)
+```
+

@@ -195,7 +195,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#collecting-comments-from-a-list" id="toc-collecting-comments-from-a-list" class="nav-link" data-scroll-target="#collecting-comments-from-a-list">Collecting comments from a list</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#youtube-data-api-v3-1" id="toc-youtube-data-api-v3-1" class="nav-link" data-scroll-target="#youtube-data-api-v3-1">YouTube Data API V3</a></li>
+  <li><a href="#reddit-data" id="toc-reddit-data" class="nav-link" data-scroll-target="#reddit-data">Reddit data</a>
+  <ul class="collapse">
+  <li><a href="#collect-reddit-data-through-redditextractor-package." id="toc-collect-reddit-data-through-redditextractor-package." class="nav-link" data-scroll-target="#collect-reddit-data-through-redditextractor-package.">Collect Reddit data through <code>RedditExtractoR</code> package.</a>
+  <ul class="collapse">
+  <li><a href="#loading-package-1" id="toc-loading-package-1" class="nav-link" data-scroll-target="#loading-package-1">Loading package</a></li>
+  <li><a href="#obtaining-the-urls-from-rrochester-subreddit" id="toc-obtaining-the-urls-from-rrochester-subreddit" class="nav-link" data-scroll-target="#obtaining-the-urls-from-rrochester-subreddit">Obtaining the urls from r/Rochester subreddit</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -353,10 +360,36 @@ Note
 </section>
 </section>
 </section>
-<section id="youtube-data-api-v3-1" class="level1">
-<h1>YouTube Data API V3</h1>
+<section id="reddit-data" class="level1">
+<h1>Reddit data</h1>
+<p>Recently, Reddit has updated their <a href="https://www.reddit.com/r/reddit/comments/145bram/addressing_the_community_about_changes_to_our_api/">terms of service</a>, which limits 100 queries per minute per OAuth client id if you are using OAuth authentication and 10 queries per minute if you are not using OAuth authentication. Previously, researchers have been accessing a larger dataset of Reddit through Pushshift but Reddit declared that Pushshift is in violation of their updated TOS and all the access have been turnt off. You can see Pushshift team’s response <a href="https://www.reddit.com/r/pushshift/comments/135tdl2/a_response_from_pushshift_a_call_for/">here</a>. However, you can still extract a small amount of data using <code>RedditExtractoR</code> package. And we are using the <code>r/Rochester</code> subreddit as an example.</p>
+<section id="collect-reddit-data-through-redditextractor-package." class="level2">
+<h2 class="anchored" data-anchor-id="collect-reddit-data-through-redditextractor-package.">Collect Reddit data through <code>RedditExtractoR</code> package.</h2>
+<section id="loading-package-1" class="level3">
+<h3 class="anchored" data-anchor-id="loading-package-1">Loading package</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("RedditExtractoR")</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RedditExtractoR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="obtaining-the-urls-from-rrochester-subreddit" class="level3">
+<h3 class="anchored" data-anchor-id="obtaining-the-urls-from-rrochester-subreddit">Obtaining the urls from r/Rochester subreddit</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>rocthreads <span class="ot">&lt;-</span> <span class="fu">find_thread_urls</span>(<span class="at">subreddit =</span> <span class="st">"Rochester"</span>, <span class="at">sort_by =</span> <span class="st">"top"</span>, <span class="at">period =</span> <span class="st">"all"</span>) <span class="co"># you can use keywords to limit the search as well</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>roccomments <span class="ot">&lt;-</span> <span class="fu">get_thread_content</span>(rocthreads<span class="sc">$</span>url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can find there are two dataframes the large list, the <code>threads</code> is for the posts, and the <code>comments</code> is for the comments. Similarily, you can also merge the metadata of posts with the comments based on the common column <code>url</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>reddit_posts <span class="ot">&lt;-</span> roccomments<span class="sc">$</span>threads</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>reddit_comments <span class="ot">&lt;-</span> roccomments<span class="sc">$</span>comments</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>reddit_all <span class="ot">&lt;-</span> <span class="fu">merge</span>(reddit_comments, reddit_posts, <span class="at">by =</span> <span class="st">"url"</span>, <span class="at">all.x =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->

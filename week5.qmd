@@ -53,6 +53,10 @@ yt_authorized()
 
 If you sign in with your gmail account, click *allow* the authorization, then you should be able to see the following page, which mean you have successfully complete the authorization process and you can now close the page. ![](image/youtube/final.png)
 
+::: callout-warning
+You might run into a error message - "HTTP failure: 400" and "Error: redirect_uri_mismatch". A quick workaround would be running `install.packages("httpuv")` in your console, which should fix the issue.
+:::
+
 ### Collecting comments from a YouTube video
 
 Before collecting the comments, you will need the ID of the video. The ID can be identifid from the url. For instance, we are using a video titled "Exposing the Russian Military Unit Behind a Massacre in Bucha \| Visual Investigations" from the New York Times channel as an example. You can find the ID for this specific video is `IrGZ66uKcl0` (after `v=`) in the URL. ![](image/youtube/videoid.png)
@@ -155,10 +159,12 @@ library(RedditExtractoR)
 ```
 
 ### Obtaining the urls from r/Rochester subreddit
+
 ```{r}
 rocthreads <- find_thread_urls(subreddit = "Rochester", sort_by = "top", period = "all") # you can use keywords to limit the search as well
 
 ```
+
 ```{r}
 roccomments <- get_thread_content(rocthreads$url)
 ```
@@ -170,4 +176,3 @@ reddit_posts <- roccomments$threads
 reddit_comments <- roccomments$comments
 reddit_all <- merge(reddit_comments, reddit_posts, by = "url", all.x = T)
 ```
-

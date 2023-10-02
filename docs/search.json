@@ -215,5 +215,19 @@
     "title": "Week 5 Lab",
     "section": "Collect Reddit data through RedditExtractoR package.",
     "text": "Collect Reddit data through RedditExtractoR package.\n\nLoading package\n\n# install.packages(\"RedditExtractoR\")\nlibrary(RedditExtractoR)\n\n\n\nObtaining the urls from r/Rochester subreddit\n\nrocthreads &lt;- find_thread_urls(subreddit = \"Rochester\", sort_by = \"top\", period = \"all\") # you can use keywords to limit the search as well\n\n\nroccomments &lt;- get_thread_content(rocthreads$url)\n\nYou can find there are two dataframes the large list, the threads is for the posts, and the comments is for the comments. Similarily, you can also merge the metadata of posts with the comments based on the common column url.\n\nreddit_posts &lt;- roccomments$threads\nreddit_comments &lt;- roccomments$comments\nreddit_all &lt;- merge(reddit_comments, reddit_posts, by = \"url\", all.x = T)"
+  },
+  {
+    "objectID": "week6.html",
+    "href": "week6.html",
+    "title": "Week 6 Lab",
+    "section": "",
+    "text": "We will be mainly using ggplot2 package (and maybe other extended packages) for data visualization in this class. ggplot2 is a system for declaratively creating graphics, based on The Grammar of Graphics. This lab is just a quick glimpse on ggplot2. And if you would like to learn more, check out Hadley Wickham’s ggplot2: Elegant Graphics for Data Analysis. Here is a cheatsheet by posit."
+  },
+  {
+    "objectID": "week6.html#a-breakdown-of-the-common-layers",
+    "href": "week6.html#a-breakdown-of-the-common-layers",
+    "title": "Week 6 Lab",
+    "section": "A breakdown of the common layers",
+    "text": "A breakdown of the common layers\n\nData:\n\nyour data, in tidy format, will provide ingredients for your plot\nuse dplyr techniques to prepare data for optimal plotting format\nusually, this means you should have one row for every observation that you want to plot\n\nAesthetics (aes), to make data visible\n\nx, y: variable along the x and y axis\ncolour: color of geoms according to data\nfill: the inside color of the geom\ngroup: what group a geom belongs to\nshape: the figure used to plot a point\nlinetype: the type of line used (solid, dashed, etc)\nsize: size scaling for an extra dimension\nalpha: the transparency of the geom\n\nGeometric objects (geoms - determines the type of plot)\n\ngeom_point(): scatterplot\ngeom_line(): lines connecting points by increasing value of x\ngeom_path(): lines connecting points in sequence of appearance\ngeom_boxplot(): box and whiskers plot for categorical variables\ngeom_bar(): bar charts for categorical x axis\ngeom_histogram(): histogram for continuous x axis\ngeom_violin(): distribution kernel of data dispersion\ngeom_smooth(): function line based on data\n\nFacets\n\nfacet_wrap() or facet_grid() for small multiples\n\nStatistics\n\nsimilar to geoms, but computed\nshow means, counts, and other statistical summaries of data\n\nCoordinates - fitting data onto a page\n\ncoord_cartesian to set limits\ncoord_polar for circular plots\ncoord_map for different map projections\n\nThemes\n\noverall visual defaults\nfonts, colors, shapes, outlines\n\n\nOur goal: putting all the layers together!"
   }
 ]

@@ -52,7 +52,7 @@ We will be mainly using `ggplot2` package (and maybe other extended packages) fo
 
 Our goal: putting all the layers together! 
 
-# Pratices
+# Practices
 We will be using the dataset from the `palmerpenguins` ([Horst, Hill, and Gorman 2020](https://doi.org/10.5281/zenodo.3960218)) package, which contains size measurements for three penguin species observed on three islands in the Palmer Archipelago, Antarctica, collected from 2007 - 2009 by Dr. Kristen Gorman. An alternative common dataset is the `iris` package. 
 ![Artwork by [Allison Horst](https://allisonhorst.com/)](image/penguins.png){width="70%"}
 

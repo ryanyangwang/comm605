@@ -229,5 +229,243 @@
     "title": "Week 6 Lab",
     "section": "A breakdown of the common layers",
     "text": "A breakdown of the common layers\n\nData:\n\nyour data, in tidy format, will provide ingredients for your plot\nuse dplyr techniques to prepare data for optimal plotting format\nusually, this means you should have one row for every observation that you want to plot\n\nAesthetics (aes), to make data visible\n\nx, y: variable along the x and y axis\ncolour: color of geoms according to data\nfill: the inside color of the geom\ngroup: what group a geom belongs to\nshape: the figure used to plot a point\nlinetype: the type of line used (solid, dashed, etc)\nsize: size scaling for an extra dimension\nalpha: the transparency of the geom\n\nGeometric objects (geoms - determines the type of plot)\n\ngeom_point(): scatterplot\ngeom_line(): lines connecting points by increasing value of x\ngeom_path(): lines connecting points in sequence of appearance\ngeom_boxplot(): box and whiskers plot for categorical variables\ngeom_bar(): bar charts for categorical x axis\ngeom_histogram(): histogram for continuous x axis\ngeom_violin(): distribution kernel of data dispersion\ngeom_smooth(): function line based on data\n\nFacets\n\nfacet_wrap() or facet_grid() for small multiples\n\nStatistics\n\nsimilar to geoms, but computed\nshow means, counts, and other statistical summaries of data\n\nCoordinates - fitting data onto a page\n\ncoord_cartesian to set limits\ncoord_polar for circular plots\ncoord_map for different map projections\n\nThemes\n\noverall visual defaults\nfonts, colors, shapes, outlines\n\n\nOur goal: putting all the layers together!"
+  },
+  {
+    "objectID": "slides/week5_slides.html",
+    "href": "slides/week5_slides.html",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Platform-centric\n\nAPI\nWeb scrapping/crawling\n\nUser-centeric\n\nData donation\nTracking\n\nBrowser plug-in\nThe Human Screenome Project"
+  },
+  {
+    "objectID": "slides/week5_slides.html#data-collection-on-social-media",
+    "href": "slides/week5_slides.html#data-collection-on-social-media",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Platform-centric\n\nAPI\nWeb scrapping/crawling\n\nUser-centeric\n\nData donation\nTracking\n\nBrowser plug-in\nThe Human Screenome Project"
+  },
+  {
+    "objectID": "slides/week5_slides.html#what-is-api",
+    "href": "slides/week5_slides.html#what-is-api",
+    "title": "COMM 605",
+    "section": "What is API?",
+    "text": "What is API?\n\n\n\nAn illustration of API"
+  },
+  {
+    "objectID": "slides/week5_slides.html#what-is-api-1",
+    "href": "slides/week5_slides.html#what-is-api-1",
+    "title": "COMM 605",
+    "section": "What is API?",
+    "text": "What is API?\nApplication Programming Interfaces: API (Application Programming Interface) is a small script file (i.e., program) written by users, following the rules specified by the web owner, to download data from its database (rather than webpages)\nAn API script usually contains:\n\nLogin information (if required by the owner) ◦ Name of the data source requested\nName of the fields (i.e., variables) requested ◦ Range of date/time\nOther information requested\nFormat of the output data\netc."
+  },
+  {
+    "objectID": "slides/week5_slides.html#what-is-api-2",
+    "href": "slides/week5_slides.html#what-is-api-2",
+    "title": "COMM 605",
+    "section": "What is API?",
+    "text": "What is API?\n\n\n\nAn illustration of Twitter API"
+  },
+  {
+    "objectID": "slides/week5_slides.html#what-is-api-3",
+    "href": "slides/week5_slides.html#what-is-api-3",
+    "title": "COMM 605",
+    "section": "What is API?",
+    "text": "What is API?\nThe package(s) has made the life easier for you - It is a wrapper for everything: easy request"
+  },
+  {
+    "objectID": "slides/week5_slides.html#the-apicalypse-and-its-aftermath",
+    "href": "slides/week5_slides.html#the-apicalypse-and-its-aftermath",
+    "title": "COMM 605",
+    "section": "The APIcalypse and its aftermath",
+    "text": "The APIcalypse and its aftermath\n\nCambridge Analytica\nAftermath: shutdown, suspension and updated TOS\n\nMeta: the CrowdTangle model, Social Science One, Ad Library\nTwitter\n\nbefore: the easy-access API and related packages (rtweet and academictwitteR)\nnow: restriction on free access\n\nYouTube: still available for now!!!\nReddit: restriction on free access\nTikTok: Research API\n\n\n\nCambridge analytica for micro-targeting"
+  },
+  {
+    "objectID": "slides/week5_slides.html#data-collection-through-other-channels",
+    "href": "slides/week5_slides.html#data-collection-through-other-channels",
+    "title": "COMM 605",
+    "section": "Data collection through other channels?",
+    "text": "Data collection through other channels?\n\nCurated dataset:\n\nDocNow\nDataverse\nKaggle\nOther publications\n\nResearch institutes\n\nDigital methods initiatives\nSocial media lab\n\nCompanies/Organizations\n\nSocial Media Analysis Toolkit (SMAT)\nJunkipedia\n4CAT"
+  },
+  {
+    "objectID": "slides/week3.html",
+    "href": "slides/week3.html",
+    "title": "Week 3: Overview of social media and computational communication research",
+    "section": "",
+    "text": "{css, echo=FALSE} .title {   font-size: 100px;   color: blue;   font-family: Arial;   font-variant: small-caps; }\n\nFirst slide"
+  },
+  {
+    "objectID": "slides/week3_slides.html",
+    "href": "slides/week3_slides.html",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Opportunities: individual, group, and societal level collected by new technologies and analyzed by new methods\nChallenges:\n\nnew paradigms needed for the massive dataset?\ninstitutional obstacle?\ndata access and privacy issue\n\n\n\n\n\n\nParadigm change?\n\nObservational\nTheoretical research\nExperimental\n\nQuestions:\n\nMore data is good data?\nNew tools but new theories?\nEthical issues?\nResources\n\n\n\n\n\n\nWhat is social media – compared to mass media\n\nOnline platform: blogs, business networks, collaborative projects, enterprise social networks, forums, microblogs, photo sharing, products review, social bookmarking, social gaming, SN, video sharing, and virtual worlds.\n\nWhat do social media do?\n\nSocializing/Romance\nInteracting with government/politicians/companies/brands\nJob seeking and professional networking\nBusiness\n\nHow would you define it?\n\n\n\n\n\n\n\n\n\n\n\n\n\nCommunication as a field has put less emphasis on methodologies\n\n\n“…lack of methods for the study of [communication] process and adoption of approaches from other fields”1\n\n\nDefinition of Computational Communication Science (if we ever need one)?\n\n\nAn application of computational science to questions of human and social communication”2\n\n\n\n\n\nA subfield of Computational Social Science 3\n\nlarge and complex data sets;\nconsisting of digital traces and other “naturally occurring” data;\nrequiring algorithmic solutions to analyze;\nallowing the study of human communication by applying and testing communication theory.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTax records\nSchool records\nPhone call records\n\n\n\n\n\n\n\n\nTwitter: text & network\nInstagram: image & text\nYoutube: image/video & text\n\n\n\n\n\n\n\nSome applications of machine learning\n\n\n\n\n\n\n\n\n\n\n\n\n(a) Unsupervised\n\n\n\n\n\n\n\n(b) Supervised\n\n\n\n\nFigure 1: An analogy of unsupervised and supervised machine learning\n\n\n\n\n\n\n\n\nAutomatic content analysis\n\n\n\nExplanatory modeling\nPredictive modeling\n\n\n\n\n\n\n\n\n\n\nBIGNESS\nALWAYS-ON\nNONREACTIVE\n\n\n\n\n\n\nINCOMPLETE\nINACCESSIBLE\nNONREPRESENTATIVE\nDRIFTING\nALGORITHMICALLY CONFOUNDED\nDIRTY AND NOISY\nSENSITIVE (potential harm?)\n\n\n\n\n\n\n\n\n\n\nBig data hubris? “Big” data does not mean “Good” data\nValid and reliable measurement?\n\nValidation matters\n\nInterpretable machine learning?\n\nThe good-for-prediction vs. The good-for-explanation\n\nEthics: the fairness of machine learning\n\nAlgorithmic bias – annotation matters!\nCase: large language models, toxicity detection"
+  },
+  {
+    "objectID": "slides/week3_slides.html#lazer-et-al.-2009",
+    "href": "slides/week3_slides.html#lazer-et-al.-2009",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Opportunities: individual, group, and societal level collected by new technologies and analyzed by new methods\nChallenges:\n\nnew paradigms needed for the massive dataset?\ninstitutional obstacle?\ndata access and privacy issue"
+  },
+  {
+    "objectID": "slides/week3_slides.html#hilbert-et-al.-2019",
+    "href": "slides/week3_slides.html#hilbert-et-al.-2019",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Paradigm change?\n\nObservational\nTheoretical research\nExperimental\n\nQuestions:\n\nMore data is good data?\nNew tools but new theories?\nEthical issues?\nResources"
+  },
+  {
+    "objectID": "slides/week3_slides.html#aichner-et-al.-2021",
+    "href": "slides/week3_slides.html#aichner-et-al.-2021",
+    "title": "COMM 605",
+    "section": "",
+    "text": "What is social media – compared to mass media\n\nOnline platform: blogs, business networks, collaborative projects, enterprise social networks, forums, microblogs, photo sharing, products review, social bookmarking, social gaming, SN, video sharing, and virtual worlds.\n\nWhat do social media do?\n\nSocializing/Romance\nInteracting with government/politicians/companies/brands\nJob seeking and professional networking\nBusiness\n\nHow would you define it?"
+  },
+  {
+    "objectID": "slides/week3_slides.html#what-is-ccs",
+    "href": "slides/week3_slides.html#what-is-ccs",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Communication as a field has put less emphasis on methodologies\n\n\n“…lack of methods for the study of [communication] process and adoption of approaches from other fields”1\n\n\nDefinition of Computational Communication Science (if we ever need one)?\n\n\nAn application of computational science to questions of human and social communication”2"
+  },
+  {
+    "objectID": "slides/week3_slides.html#what-is-ccs-1",
+    "href": "slides/week3_slides.html#what-is-ccs-1",
+    "title": "COMM 605",
+    "section": "",
+    "text": "A subfield of Computational Social Science 3\n\nlarge and complex data sets;\nconsisting of digital traces and other “naturally occurring” data;\nrequiring algorithmic solutions to analyze;\nallowing the study of human communication by applying and testing communication theory."
+  },
+  {
+    "objectID": "slides/week3_slides.html#what-data-is-out-there-1",
+    "href": "slides/week3_slides.html#what-data-is-out-there-1",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Tax records\nSchool records\nPhone call records"
+  },
+  {
+    "objectID": "slides/week3_slides.html#what-kinds-of-social-media-data",
+    "href": "slides/week3_slides.html#what-kinds-of-social-media-data",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Twitter: text & network\nInstagram: image & text\nYoutube: image/video & text"
+  },
+  {
+    "objectID": "slides/week3_slides.html#how-can-we-utilize-social-media-data",
+    "href": "slides/week3_slides.html#how-can-we-utilize-social-media-data",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Some applications of machine learning"
+  },
+  {
+    "objectID": "slides/week3_slides.html#how-can-we-utilize-social-media-data-1",
+    "href": "slides/week3_slides.html#how-can-we-utilize-social-media-data-1",
+    "title": "COMM 605",
+    "section": "",
+    "text": "(a) Unsupervised\n\n\n\n\n\n\n\n(b) Supervised\n\n\n\n\nFigure 1: An analogy of unsupervised and supervised machine learning"
+  },
+  {
+    "objectID": "slides/week3_slides.html#how-can-we-utilize-social-media-data-2",
+    "href": "slides/week3_slides.html#how-can-we-utilize-social-media-data-2",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Automatic content analysis\n\n\n\nExplanatory modeling\nPredictive modeling"
+  },
+  {
+    "objectID": "slides/week3_slides.html#characteristics-of-big-data",
+    "href": "slides/week3_slides.html#characteristics-of-big-data",
+    "title": "COMM 605",
+    "section": "",
+    "text": "BIGNESS\nALWAYS-ON\nNONREACTIVE\n\n\n\n\n\n\nINCOMPLETE\nINACCESSIBLE\nNONREPRESENTATIVE\nDRIFTING\nALGORITHMICALLY CONFOUNDED\nDIRTY AND NOISY\nSENSITIVE (potential harm?)"
+  },
+  {
+    "objectID": "slides/week3_slides.html#is-computational-approach-a-one-for-all-solution",
+    "href": "slides/week3_slides.html#is-computational-approach-a-one-for-all-solution",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Big data hubris? “Big” data does not mean “Good” data\nValid and reliable measurement?\n\nValidation matters\n\nInterpretable machine learning?\n\nThe good-for-prediction vs. The good-for-explanation\n\nEthics: the fairness of machine learning\n\nAlgorithmic bias – annotation matters!\nCase: large language models, toxicity detection"
+  },
+  {
+    "objectID": "slides/week3_slides.html#footnotes",
+    "href": "slides/week3_slides.html#footnotes",
+    "title": "COMM 605",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nPoole, M. S. (2007). Generalization in process theories of communication. Communication Methods and Measures, 1(3), 181-190.↩︎\nHilbert, M., Barnett, G., Blumenstock, J., Contractor, N., Diesner, J., Frey, S., … & Zhu, J. J. (2019). Computational communication science: A methodological catalyzer for a maturing discipline. International Journal of Communication, 13, 3912-3934.↩︎\nvan Atteveldt, W., & Peng, T. Q. (2018). When communication meets computation: Opportunities, challenges, and pitfalls in computational communication science. Communication Methods and Measures, 12(2-3), 81-92.↩︎"
+  },
+  {
+    "objectID": "slides/week4_slides.html",
+    "href": "slides/week4_slides.html",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Definition of digital media data: data that are collected, extracted, gathered, or scraped from a web-based platform such as a website, social networking site, mobile application, or another online space.\n\nDigital life data (e.g., text, image, and videos)\nDigital trace data (e.g., timestamp, author information, social media metrics)\nDigitized data (e.g., books, radio recordings, and broadcasts shared online)\n\n\n\n\nMain goal for social scientists:\n\nfeature extraction (variable)\nfeed the features into statistical modeling\n\nMethods:\n\nSupervised machine learning (classification of text): BERT model\n\nhate speech, conspiracy theory, framing, sentiment, toxicity, personality\n\nUnsupervised machine learning: topic modeling\n\nDiscourse/theme…\n\nDictionary-based approach: custom-made dictionaries, LIWC, VADER\n\nemotion, sentiment\n\n\n\nThe polarized discourses on Twitter about Gillette’s campaign on toxic masculinity (Xu & Xiong, 2020) The global LGBTQ CSR discourse in Fortune Global 500 companies’ annual report\n\n\n\n\n\n\n\nPeng, Y., Lu, Y., & Shen, C. (2023). An Agenda for Studying Credibility Perceptions of Visual Misinformation. Political Communication, 40(2), 225-237.\n\n\n\n\n\n\nZero-shot model (i.e., Microsoft’s Azure Face API):\n\nFacial detection/recognition (gender, age)\n\nThe links between personalities and number of faces in the respondents’ Instagram accounts (Kim & Kim, 2018)\n\nEmotion detection\n\nFacial expression emotions in credibility perception of a crisis management (Stephens et al., 2019)\n\nAesthetic features: brightness, contrast, composition, color, texture, blur, and complexity (image entropy)\n\nHow do the environmental characteristics (colors, luminance, and saturation, style)inspire consumers to engage in creating and posting environment-cued indirect advertising (Campell et al., 2022)\n\n\nSupervised machine learning:\n\nViolence in political protest\n\nUnsupervised machine learning:\n\nImage clustering\n\n\n\nMulti-modal data\n\n\n\n\nVocal pitch as measurement of emotional intensity in legislators’ speech when mentioning about women (Dietrich et al. 2019)\n\n\n\n\nDescriptive analysis\n\nCommunity detection\nNetwork centrality (i.e., opinion leader)\n\nInferential analysis\n\nHow do nodal and dyadic features influence the emergence of edge/link\n\nExponential Random Graph Model (ERGM): cross-sectional network\nStochastic actor-oriented model (SAOM) or SIENA model: longitudinal network\n\n\n\n\n\n\nResearch methods:\n\nObservational research\n\nLinking survey data and digital trace data\n\nExperiment\n\nVirtual lab experiment (e.g., apps/web as labs)\nVirtual field experiment (Bail et al., 2018)\n\nAlgorithm auditing\nSimulation\n\nHow does theory fit in?\n\nFraming (Chen et al., 2023)\nAgenda-setting (Vargo et al., 2018)\nTwo-step flow model/networked-step flow model (Hilbert et al., 2017)\nSelective exposure (Song & Boomgaarden, 2017)"
+  },
+  {
+    "objectID": "slides/week4_slides.html#lukito-et-al.-2023",
+    "href": "slides/week4_slides.html#lukito-et-al.-2023",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Definition of digital media data: data that are collected, extracted, gathered, or scraped from a web-based platform such as a website, social networking site, mobile application, or another online space.\n\nDigital life data (e.g., text, image, and videos)\nDigital trace data (e.g., timestamp, author information, social media metrics)\nDigitized data (e.g., books, radio recordings, and broadcasts shared online)"
+  },
+  {
+    "objectID": "slides/week4_slides.html#text-as-data-natural-language-processing",
+    "href": "slides/week4_slides.html#text-as-data-natural-language-processing",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Main goal for social scientists:\n\nfeature extraction (variable)\nfeed the features into statistical modeling\n\nMethods:\n\nSupervised machine learning (classification of text): BERT model\n\nhate speech, conspiracy theory, framing, sentiment, toxicity, personality\n\nUnsupervised machine learning: topic modeling\n\nDiscourse/theme…\n\nDictionary-based approach: custom-made dictionaries, LIWC, VADER\n\nemotion, sentiment\n\n\n\nThe polarized discourses on Twitter about Gillette’s campaign on toxic masculinity (Xu & Xiong, 2020) The global LGBTQ CSR discourse in Fortune Global 500 companies’ annual report"
+  },
+  {
+    "objectID": "slides/week4_slides.html#imagevideo-as-data",
+    "href": "slides/week4_slides.html#imagevideo-as-data",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Peng, Y., Lu, Y., & Shen, C. (2023). An Agenda for Studying Credibility Perceptions of Visual Misinformation. Political Communication, 40(2), 225-237."
+  },
+  {
+    "objectID": "slides/week4_slides.html#imagevideo-as-data-1",
+    "href": "slides/week4_slides.html#imagevideo-as-data-1",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Zero-shot model (i.e., Microsoft’s Azure Face API):\n\nFacial detection/recognition (gender, age)\n\nThe links between personalities and number of faces in the respondents’ Instagram accounts (Kim & Kim, 2018)\n\nEmotion detection\n\nFacial expression emotions in credibility perception of a crisis management (Stephens et al., 2019)\n\nAesthetic features: brightness, contrast, composition, color, texture, blur, and complexity (image entropy)\n\nHow do the environmental characteristics (colors, luminance, and saturation, style)inspire consumers to engage in creating and posting environment-cued indirect advertising (Campell et al., 2022)\n\n\nSupervised machine learning:\n\nViolence in political protest\n\nUnsupervised machine learning:\n\nImage clustering\n\n\n\nMulti-modal data"
+  },
+  {
+    "objectID": "slides/week4_slides.html#audio-as-data",
+    "href": "slides/week4_slides.html#audio-as-data",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Vocal pitch as measurement of emotional intensity in legislators’ speech when mentioning about women (Dietrich et al. 2019)"
+  },
+  {
+    "objectID": "slides/week4_slides.html#network-as-data",
+    "href": "slides/week4_slides.html#network-as-data",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Descriptive analysis\n\nCommunity detection\nNetwork centrality (i.e., opinion leader)\n\nInferential analysis\n\nHow do nodal and dyadic features influence the emergence of edge/link\n\nExponential Random Graph Model (ERGM): cross-sectional network\nStochastic actor-oriented model (SAOM) or SIENA model: longitudinal network"
+  },
+  {
+    "objectID": "slides/week4_slides.html#new-methods-old-methods",
+    "href": "slides/week4_slides.html#new-methods-old-methods",
+    "title": "COMM 605",
+    "section": "",
+    "text": "Research methods:\n\nObservational research\n\nLinking survey data and digital trace data\n\nExperiment\n\nVirtual lab experiment (e.g., apps/web as labs)\nVirtual field experiment (Bail et al., 2018)\n\nAlgorithm auditing\nSimulation\n\nHow does theory fit in?\n\nFraming (Chen et al., 2023)\nAgenda-setting (Vargo et al., 2018)\nTwo-step flow model/networked-step flow model (Hilbert et al., 2017)\nSelective exposure (Song & Boomgaarden, 2017)"
+  },
+  {
+    "objectID": "slides/week4_slides.html#serrano-et-al.-2020",
+    "href": "slides/week4_slides.html#serrano-et-al.-2020",
+    "title": "COMM 605",
+    "section": "Serrano et al. (2020)",
+    "text": "Serrano et al. (2020)\n\nData collection:\n\nhashtags: #republican and #democrat on February 1, 2020\noriginal videos of above\nvideos using the same audio clip\n\n\n\nData types:\n\nVideo\n\nAudio\n\nCaption\nInteraction: duet\n\n\n\nMeasurement and data analysis:\n\nManual labeling: Pro-democrat/Pro-republican/Non-partisan\nFace detection (Microsoft’s Azure Face API): emotion, gender, age\nAudio (speech-to-text): topic modeling\nCaption: topic modeling\nDuet: Intra-partisan or cross-partisan interaction"
+  },
+  {
+    "objectID": "slides/week4_slides.html#kim-et-al.-2023",
+    "href": "slides/week4_slides.html#kim-et-al.-2023",
+    "title": "COMM 605",
+    "section": "Kim et al. (2023)",
+    "text": "Kim et al. (2023)\n\nData collection (through Junkipedia):\n\nanti-vaccination keywords (e.g., #abolishbigpharma, #arrestbillgates)\n\n\n\nData types:\n\nVideo: Audio/Transcript\nCaption\n\n\n\nMeasurement:\n\nEmotion\n\nFace emotion detection (thumbnails): fear, anger, and happiness\nEmotion detection (caption and transcript): Dictionary based analysis (NRC)\n\nIdentity\n\nA list of vocabularies signifying partisanships (e.g., Republicans, Democrats), socio-cultural identities (e.g., Asian, child, doctor), different age groups (e.g., old, young, GenZ), and ideological identities (e.g.,liberal, conservative)\nCount the words associated with each identity in TikTok captions and transcripts\n\nTikTok engagement\n\nnumber of shares, number of comments, and number of likes"
+  },
+  {
+    "objectID": "slides/week4_slides.html#kim-et-al.-2023-1",
+    "href": "slides/week4_slides.html#kim-et-al.-2023-1",
+    "title": "COMM 605",
+    "section": "Kim et al. (2023)",
+    "text": "Kim et al. (2023)\n\nData analysis:\n\n(negative binominal) Regression\n\nEngagement as the dependent variables\nEmotion and identity cues as the independent variables\n\nMessage multimodalities\n\nEmotions in video captions, transcripts, and thumbnails\nIdentities in video captions and transcripts\nInteraction effect (affective polarization)\n\n\n\n\n\n\n\nTable 3 (Kim et al., 2023)"
   }
 ]

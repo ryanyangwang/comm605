@@ -1,0 +1,101 @@
+---
+title: "COMM 605"
+subtitle: "Week 5: Data collection on social media"
+date: 2023-09-18
+date-format: long
+author: 
+    - name: "Ryan Y. Wang, Ph.D."
+      email: ryanwang@rit.mail.edu
+      affiliation: School of Communication
+
+format:
+   revealjs:
+    theme: rit.scss
+    logo: /image/rit.png
+    footer: "COMM 605: Week 5"
+    date-format: long
+    slide-number: true
+    scrollable: true
+    chalkboard: true
+    src: drawings.json
+    #embed-resources: true
+    include-in-header:
+      - text: |
+          <style>
+          #title-slide .title {
+            font-size: 2em;
+          }
+          </style>
+    title-slide-attributes: 
+      data-background-image: /image/paw.png
+      data-background-size: 20%
+      data-background-position: 50% 5%
+---
+
+## Data collection on social media
+
+-   Platform-centric
+    -   API
+    -   Web scrapping/crawling
+-   User-centeric
+    -   Data donation
+    -   Tracking
+        -   Browser plug-in
+        -   [The Human Screenome Project](https://screenomics.stanford.edu/)
+
+## What is API?
+
+![An illustration of API](/image/api.png)
+
+## What is API?
+
+Application Programming Interfaces: API (Application Programming Interface) is a small script file (i.e., program) written by users, following the rules specified by the web owner, to download data from its database (rather than webpages)
+
+An API script usually contains:
+
+-   Login information (if required by the owner) ◦ Name of the data source requested
+-   Name of the fields (i.e., variables) requested ◦ Range of date/time
+-   Other information requested
+-   Format of the output data
+-   etc.
+
+## What is API?
+
+![An illustration of Twitter API](/image/twitterapi.png)
+
+## What is API?
+
+The package(s) has made the life easier for you - It is a wrapper for everything: easy request
+
+## The APIcalypse and its aftermath
+
+-   Cambridge Analytica
+-   Aftermath: shutdown, suspension and updated TOS
+    -   Meta: the [CrowdTangle](https://www.crowdtangle.com/request) model, [Social Science One](https://socialscience.one/rfps), [Ad Library](https://www.facebook.com/ads/library/api/)
+    -   Twitter
+        -   before: the easy-access API and related packages (`rtweet` and `academictwitteR`)
+        -   now: restriction on free access
+    -   YouTube: still available for now!!!
+    -   Reddit: restriction on free access
+    -   TikTok: [Research API](https://developers.tiktok.com/products/research-api/)
+
+::: notes
+Cambridge analytica for micro-targeting
+:::
+
+## Data collection through other channels?
+
+-   Curated dataset:
+    -   [DocNow](https://catalog.docnow.io/)
+    -   [Dataverse](https://dataverse.harvard.edu/dataverse/harvard)
+    -   [Kaggle](https://www.kaggle.com/datasets)
+    -   Other publications
+-   Research institutes
+    -   [Digital methods initiatives](https://wiki.digitalmethods.net/Dmi/ToolDatabase)
+    -   [Social media lab](https://socialmedialab.ca/apps/)
+-   Companies/Organizations
+    -   [Social Media Analysis Toolkit (SMAT)](http://www.smat-app.com/)
+    -   [Junkipedia](http://www.smat-app.com/)
+    -   [4CAT](https://4cat.nl/)
+
+# THANKS

@@ -1,0 +1,198 @@
+---
+title: "COMM 605"
+subtitle: "Week 4: What can we do with social media data?"
+date: 2023-09-18
+date-format: long
+author: 
+    - name: "Ryan Y. Wang, Ph.D."
+      email: ryanwang@rit.mail.edu
+      affiliation: School of Communication
+
+format:
+   revealjs:
+    theme: rit.scss
+    logo: /image/rit.png
+    footer: "COMM 605: Week 3"
+    date-format: long
+    slide-number: true
+    scrollable: true
+    chalkboard: true
+    src: drawings.json
+    #embed-resources: true
+    include-in-header:
+      - text: |
+          <style>
+          #title-slide .title {
+            font-size: 2em;
+          }
+          </style>
+    title-slide-attributes: 
+      data-background-image: /image/paw.png
+      data-background-size: 20%
+      data-background-position: 50% 5%
+---
+
+# READINGS
+
+## Lukito et al. (2023)
+
+Definition of *digital media data*: data that are collected, extracted, gathered, or scraped from a web-based platform such as a website, social networking site, mobile application, or another online space.
+
+-   Digital life data (e.g., text, image, and videos)
+-   Digital trace data (e.g., timestamp, author information, social media metrics)
+-   Digitized data (e.g., books, radio recordings, and broadcasts shared online)
+
+## Text-as-data: natural language processing {.smaller}
+
+Main goal for social scientists:
+
+-   feature extraction (variable)
+-   feed the features into statistical modeling
+
+Methods:
+
+-   Supervised machine learning (classification of text): BERT model
+    -   hate speech, conspiracy theory, framing, sentiment, toxicity, personality
+-   Unsupervised machine learning: topic modeling
+    -   Discourse/theme...
+-   Dictionary-based approach: custom-made dictionaries, LIWC, VADER
+    -   emotion, sentiment
+
+::: notes
+The polarized discourses on Twitter about Gillette's campaign on toxic masculinity (Xu & Xiong, 2020) The global LGBTQ CSR discourse in Fortune Global 500 companies' annual report
+:::
+
+## Image/Video-as-data
+
+![Peng, Y., Lu, Y., & Shen, C. (2023). An Agenda for Studying Credibility Perceptions of Visual Misinformation. Political Communication, 40(2), 225-237.](/image/cv.png)
+
+## Image/Video-as-data {.smaller}
+
+-   Zero-shot model (i.e., Microsoft's Azure Face API):
+    -   Facial detection/recognition (gender, age)
+        -   The links between personalities and number of faces in the respondents' Instagram accounts (Kim & Kim, 2018)
+    -   Emotion detection
+        -   Facial expression emotions in credibility perception of a crisis management (Stephens et al., 2019)
+    -   Aesthetic features: brightness, contrast, composition, color, texture, blur, and complexity (image entropy)
+        -   How do the environmental characteristics (colors, luminance, and saturation, style)inspire consumers to engage in creating and posting environment-cued indirect advertising (Campell et al., 2022)
+-   Supervised machine learning:
+    -   Violence in political protest
+-   Unsupervised machine learning:
+    -   Image clustering
+
+::: notes
+Multi-modal data
+:::
+
+## Audio-as-data
+
+Vocal pitch as measurement of emotional intensity in legislators' speech when mentioning about women (Dietrich et al. 2019)
+
+## Network-as-data
+
+-   Descriptive analysis
+    -   Community detection
+    -   Network centrality (i.e., opinion leader)
+-   Inferential analysis
+    -   How do nodal and dyadic features influence the emergence of edge/link
+        -   Exponential Random Graph Model (ERGM): cross-sectional network
+        -   Stochastic actor-oriented model (SAOM) or SIENA model: longitudinal network
+
+## New methods? Old methods? {.smaller}
+
+Research methods:
+
+-   Observational research
+    -   Linking survey data and digital trace data
+-   Experiment
+    -   Virtual lab experiment (e.g., apps/web as labs)
+    -   Virtual field experiment ([Bail et al., 2018](https://doi.org/10.1073/pnas.1804840115))
+-   Algorithm auditing
+-   Simulation
+
+How does theory fit in?
+
+-   Framing ([Chen et al., 2023](https://doi.org/10.1177/19401612221106405))
+-   Agenda-setting ([Vargo et al., 2018](https://doi.org/10.1177/1461444817712086))
+-   Two-step flow model/networked-step flow model ([Hilbert et al., 2017](https://doi.org/10.1177/0894439316639561))
+-   Selective exposure ([Song & Boomgaarden, 2017](https://doi.org/10.1111/jcom.12288))
+
+# Case study: TikTok
+
+::: notes
+Why TikTok - it is multimodal data: text, image/video, audio, network
+:::
+
+## Serrano et al. (2020) {.smaller}
+
+::: incremental
+Data collection:
+
+-   hashtags: #republican and #democrat on February 1, 2020
+-   original videos of above
+-   videos using the same audio clip
+:::
+
+::: incremental
+Data types:
+
+-   Video
+    -   Audio
+-   Caption
+-   Interaction: duet
+:::
+
+::: incremental
+Measurement and data analysis:
+
+-   Manual labeling: Pro-democrat/Pro-republican/Non-partisan
+-   Face detection (Microsoft's Azure Face API): emotion, gender, age
+-   Audio (speech-to-text): topic modeling
+-   Caption: topic modeling
+-   Duet: Intra-partisan or cross-partisan interaction
+:::
+
+## Kim et al. (2023) {.smaller}
+
+::: incremental
+Data collection (through Junkipedia):
+
+-   anti-vaccination keywords (e.g., #abolishbigpharma, #arrestbillgates)
+:::
+
+::: incremental
+Data types:
+
+-   Video: Audio/Transcript
+-   Caption
+:::
+
+::: incremental
+Measurement:
+
+-   Emotion
+    -   Face emotion detection (thumbnails): fear, anger, and happiness
+    -   Emotion detection (caption and transcript): Dictionary based analysis (NRC)
+-   Identity
+    -   A list of vocabularies signifying partisanships (e.g., Republicans, Democrats), socio-cultural identities (e.g., Asian, child, doctor), different age groups (e.g., old, young, GenZ), and ideological identities (e.g.,liberal, conservative)
+    -   Count the words associated with each identity in TikTok captions and transcripts
+-   TikTok engagement
+    -   number of shares, number of comments, and number of likes
+:::
+
+## Kim et al. (2023) {.smaller}
+
+### Data analysis:
+
+-   (negative binominal) Regression
+    -   Engagement as the dependent variables
+    -   Emotion and identity cues as the independent variables
+        -   Message multimodalities
+
+            -   Emotions in video captions, transcripts, and thumbnails
+            -   Identities in video captions and transcripts
+            -   Interaction effect (affective polarization)
+
+![Table 3 (Kim et al., 2023)](/image/Interaction_Kim.png)
+
+# THANKS

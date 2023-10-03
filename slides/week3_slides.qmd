@@ -1,0 +1,199 @@
+---
+title: "COMM 605"
+subtitle: "Week 3: A brief overview of social media and computational communication research"
+date: 2023-09-11
+date-format: long
+author: 
+    - name: "Ryan Y. Wang, Ph.D."
+      email: ryanwang@rit.mail.edu
+      affiliation: School of Communication
+
+format:
+   revealjs:
+    theme: rit.scss
+    logo: /image/rit.png
+    footer: "COMM 605: Week 3"
+    date-format: long
+    slide-number: true
+    scrollable: true
+    chalkboard: true
+    src: drawings.json
+    #embed-resources: true
+    include-in-header:
+      - text: |
+          <style>
+          #title-slide .title {
+            font-size: 2em;
+          }
+          </style>
+    title-slide-attributes: 
+      data-background-image: /image/paw.png
+      data-background-size: 20%
+      data-background-position: 50% 5%
+---
+
+# READINGS
+
+## **Lazer et al. (2009)**:
+
+-   Opportunities: individual, group, and societal level collected by new technologies and analyzed by new methods
+-   Challenges:
+    -   new paradigms needed for the massive dataset?
+    -   institutional obstacle?
+    -   data access and privacy issue
+
+## **Hilbert et al. (2019)**
+
+-   Paradigm change?
+    -   Observational
+    -   Theoretical research
+    -   Experimental
+-   Questions:
+    -   More data is good data?
+    -   New tools but new theories?
+    -   Ethical issues?
+    -   [Resources](https://sicss.io/)
+
+## **Aichner et al. (2021)** {.smaller}
+
+-   What is social media -- compared to mass media
+
+    -   Online platform: blogs, business networks, collaborative projects, enterprise social networks, forums, microblogs, photo sharing, products review, social bookmarking, social gaming, SN, video sharing, and virtual worlds.
+
+-   What do social media do?
+
+    -   Socializing/Romance
+    -   Interacting with government/politicians/companies/brands
+    -   Job seeking and professional networking
+    -   Business
+
+-   How would you define it?
+
+## **Road map** (for next two weeks)
+
+-   
+
+    ### What is Computational Communication Science?
+
+-   
+
+    ### What data is out there?
+
+-   
+
+    ### How to utilize the data?
+
+## What is CCS? {.smaller}
+
+-   Communication as a field has put less emphasis on methodologies
+
+> "...lack of methods for the study of \[communication\] process and adoption of approaches from other fields"[^1]
+
+[^1]: Poole, M. S. (2007). Generalization in process theories of communication. *Communication Methods and Measures*, *1*(3), 181-190.
+
+-   Definition of Computational Communication Science (if we ever need one)?
+
+> An application of computational science to questions of human and social communication"[^2]
+
+[^2]: Hilbert, M., Barnett, G., Blumenstock, J., Contractor, N., Diesner, J., Frey, S., ... & Zhu, J. J. (2019). Computational communication science: A methodological catalyzer for a maturing discipline. *International Journal of Communication*, *13*, 3912-3934.
+
+## What is CCS?
+
+-   A subfield of Computational Social Science [^3]
+
+    -   large and complex data sets;
+    -   consisting of digital traces and other "naturally occurring" data;
+    -   requiring algorithmic solutions to analyze;
+    -   allowing the study of human communication by applying and testing communication theory.
+
+[^3]: van Atteveldt, W., & Peng, T. Q. (2018). When communication meets computation: Opportunities, challenges, and pitfalls in computational communication science. *Communication Methods and Measures*, *12*(2-3), 81-92.
+
+## What data is out there?
+
+::: columns
+::: {.column width="50%"}
+### Digital trace / Social media data
+:::
+
+::: {.column width="50%"}
+### Administrative record
+
+-   Tax records
+-   School records
+-   Phone call records
+:::
+:::
+
+## What kinds of social media data?
+
+-   Twitter: text & network
+-   Instagram: image & text
+-   Youtube: image/video & text
+
+## How can we utilize social media data?
+
+![Some applications of machine learning](/image/ml.png)
+
+## How can we utilize social media data?
+
+::: {#fig-mls layout-ncol="2"}
+![Unsupervised](/image/ml_un.jpg){#fig-un width="280"}
+
+![Supervised](/image/ml_s.jpg){#fig-s width="420"}
+
+An analogy of unsupervised and supervised machine learning
+:::
+
+## How can we utilize social media data?
+
+-   
+
+    ### Measurement
+
+    -   Automatic content analysis
+
+-   
+
+    ### Inference
+
+    -   Explanatory modeling
+    -   Predictive modeling
+
+## Characteristics of *big data*
+
+::: columns
+::: {.column width="40%"}
+### PRO
+
+-   BIGNESS
+-   ALWAYS-ON
+-   NONREACTIVE
+:::
+
+::: {.column width="60%"}
+### CON
+
+-   INCOMPLETE
+-   INACCESSIBLE
+-   NONREPRESENTATIVE
+-   DRIFTING
+-   ALGORITHMICALLY CONFOUNDED
+-   DIRTY AND NOISY
+-   SENSITIVE (potential harm?)
+:::
+:::
+
+## IS COMPUTATIONAL APPROACH A ONE-FOR-ALL SOLUTION?
+
+### ABSOLUTELY NOT!
+
+-   Big data hubris? "Big" data does not mean "Good" data
+-   Valid and reliable measurement?
+    -   Validation matters
+-   Interpretable machine learning?
+    -   The good-for-prediction vs. The good-for-explanation
+-   Ethics: the fairness of machine learning
+    -   Algorithmic bias -- annotation matters!
+    -   Case: large language models, toxicity detection
+
+# THANKS

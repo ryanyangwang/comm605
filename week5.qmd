@@ -8,7 +8,7 @@ execute:
 
 # YouTube Data API V3
 
-## Get your YouTube Client ID and Sercret
+## Get your YouTube Client ID and Secret
 
 1.  You will need to have a Google account/gmail (e.g., RIT email).
 

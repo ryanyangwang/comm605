@@ -1,0 +1,383 @@
+---
+title: "Week 8 Lab"
+subtitle: "Basic text analysis"
+execute: 
+  eval: true
+---
+
+On social media platforms, **text** is often one of the most prevalent forms of data you will come across, in the shape of posts or comments. Similarly, textual data plays a significant role in social science, spanning from political discussions and newspaper archives to open-ended survey questions and reviews. We will be mainly using [`stringr`](https://stringr.tidyverse.org/) package and [`glue`](https://glue.tidyverse.org/) package in the `tidyverse` to wrangle textual data in this tutorial. And we will mainly use [`quanteda`](https://quanteda.io/) for textual analysis (an alternative choice could be [`tidytext`](https://www.tidytextmining.com/).
+
+![A flow chart of a typical text analysis, image from [Text Mining with R](https://www.tidytextmining.com/tidytext)](image/tidytext.png)
+
+```{r eval=F}
+library(glue)
+library(tidyverse)
+```
+
+# Pre-processing text
+
+## Understanding text as a string of characters
+
+In the previous tutorials, we have talked about various data types such as integer, numeric, factor, etc. Today we will delve into **string** (or **character**), which could be stored in multiple formats, such as txt, csv or json. When we think about text, we might think of sentences or words, but the computer only "thinks" about letters: text is represented internally as a string of characters.
+
+::: callout-note
+Technically speaking, text is represented as *bytes* (numbers) rather than *characters*. The Unicode standard determines how these bytes should be interpreted or "decoded." Here we assume that the bytes in a file are already "decoded" into characters (or Unicode code points), and we can just work with the characters. Especially if you are working with non-English text, it is very important to make sure you understand Unicode and encodings and check that the texts you work with are decoded properly.
+:::
+
+```{r}
+text = "This is text."
+glue("class(text): {class(text)}")
+glue("length(text): {length(text)}")
+glue("text[1]: {text[1]}")
+glue("str_length(text): {str_length(text)}")
+glue("str_sub(text, 6,7): {str_sub(text, 6,7)}")
+```
+
+```{r}
+words = c("These", "are", "words")
+glue("class(words): {class(words)}")
+glue("length(words): {length(words)}")
+glue("words[1]: {words[1]}")
+words_2_3 = str_c(words[2:3], collapse=", ")
+glue("words[2:3]: {words_2_3}")
+```
+
+## Deal with text in R
+
+| String operation                | `stringr` function          |
+|---------------------------------|-----------------------------|
+| Count characters in s           | `str_length`(s)             |
+| Extract a substring             | `str_sub`(s, n1, n2)        |
+| Test if s contains s2           | `str_detect`(s, s2)         |
+| Count number of matches of s2   | `str_count`(s, s2)          |
+| Strip spaces (at start and end) | `trimws`(s)                 |
+| Convert to lowercase/uppercase  | `tolower`(s) / `toupper`(s) |
+| Find s1 and replace by s2       | `str_replace`(s, s1, s2)    |
+
+: Common strings operations in R (`stringr`)
+
+```{r}
+text <- "    <b>Communication</b>    (from Latin 'communicare', meaning to share)  "
+cleaned <- text %>% 
+  # remove HTML tags:
+  str_replace_all("<b>", " ")  %>% 
+  str_replace_all("</b>", " ")  %>%
+  # remove quotation marks:
+  str_replace_all("'", "") %>%
+  # normalize white space 
+  str_squish() %>%
+  # lower case
+  tolower()  %>% 
+  # trim spaces at start and end
+  trimws()
+
+glue(cleaned)
+```
+
+```{r}
+str_length(cleaned)
+str_sub(cleaned, 1, 13)
+str_detect(cleaned, "communication")
+str_count(cleaned, "communication")
+```
+
+## Regular expression
+
+A **regular expression** or **regex** is a powerful language to locate strings that conform to a given pattern. For instance, we can extract usernames or email-addresses from text, or normalize spelling variations and improve the cleaning methods covered in the previous section. Specifically, regular expressions are a sequence of characters that we can use to design a pattern and then use this pattern to find strings (identify or extract) and also replace those strings by new ones.
+
+Regular expressions look complicated, and in fact they take time to get used to initially. For example, a relatively simple (and not totally correct) expression to match an email address is `[\w\.-]+@[\w\.-]+\.\w\w+`, which doesn't look like anything at all unless you know what you are looking for. The good news is that regular expression syntax is the same in R, Python as well as many other languages, so once you learn regular expressions you will have acquired a powerful and versatile tool for text processing.
+
+Why is it important to learn regex for handling social media data? Social media data is typically quite messy and noisy, requiring extensive cleaning and extraction. However, there is no need to memorize all the expressions. You can refer to the \[cheatsheet\](https://rstudio.github.io/cheatsheets/strings.pdf for quick reference. Additionally, you can always copy and paste the codes from the tutorials and apply them to other social media platforms, in most cases.
+
+```{r}
+tweets <- data.frame(id = 1:4,
+                     text = c("RT: @john_doe https://example.com/news VERY interesting! 😁",
+                            "tweet with just text 😉",
+                            "http://example.com/pandas #breaking #mustread ",
+                            "@me and @myself #selfietime"))
+
+tweets <- tweets %>% mutate(
+    # identify tweets with hashtags
+    hash_tag=str_extract_all(text, "#\\w+"),
+    # How many at-mentions are there?
+    n_at = str_count(text, "(^|\\s)@\\w+"),
+    mention = str_extract_all(text, "(^|\\s)@\\w+"),
+    # Extract first url
+    url = str_extract(text, "(https?://\\S+)"),
+    # Remove at-mentions, tags, and urls
+    clean_text = str_replace_all(text, "(|^|\\s)(RT: |@|#|https?://)\\S+", " ") %>%
+                 str_replace_all("\\W+", " ") %>%
+                 tolower() %>%
+                 trimws()
+          )
+tweets
+```
+
+Additionally, you might want to split and joining strings.
+
+```{r}
+text = "apples, pears, oranges"
+items=strsplit(text,", ", fixed=T)[[1]]
+items=str_split(text,"\\p{PUNCTUATION}\\s*")[[1]]
+items=str_extract_all(text,"\\p{LETTER}+")[[1]]
+print(items)
+
+joined = str_c(items, collapse=" & ")
+print(joined)
+```
+
+```{r}
+retweet <- tweets %>% 
+  unnest_wider(mention, names_sep = "_") %>%
+  select(id, starts_with("mention")) %>%
+  pivot_longer(cols = starts_with("mention"),
+  values_to = "mention") %>%
+  filter(!is.na(mention))
+
+```
+
+# Concepts in computational textual analysis
+
+```{r eval=F}
+
+#install.packages("quanteda.corpora") 
+#install.packages("quanteda.textstats") 
+#install.packages("quanteda.textplots")
+#install.packages("quanteda.textmodels")
+library(quanteda)
+library(quanteda.corpora)
+library(quanteda.textstats)
+library(quanteda.textplots)
+
+```
+
+#### Document-term matrix (DTM)
+
+For the analysis of textual data, we will employ **computational textual analysis**, also known as **natural language processing**, or **text-as-data**, depending on the field. In the previous tutorial, computations are usually done on numerical data. Hence, you must find a way to represent the text by numbers. The document-term matrix (DTM, also called the term-document matrix or TDM) is one common numerical representation of text. It represents a corpus (or set of documents) as a matrix or table, where each row represents a document, each column represents a term (word), and the numbers in each cell show how often that word occurs in that document. Here is an example:
+
+```{r}
+texts <- c(
+    "The caged bird sings with a fearful trill", 
+    "for the caged bird sings of freedom")
+dtm <- tokens(texts) %>% dfm()
+# Inspect by converting to a (dense) matrix
+convert(dtm, "matrix") 
+```
+
+As you can observe from above, it shows a DTM made from two lines from the famous poem by Maya Angelou. The resulting matrix has two rows, one for each line; and 11 columns, one for each unique term (word). In the columns you see the document frequencies of each term: the word "bird" occurs once in each line, but the word "with" occurs only in the first line (text1) and not in the second (text2). The `dfm` function here (from the `quanteda` package) can take a vector or column of texts and transforms it directly into a DTM (which quanteda actually calls a document-feature matrix.
+
+#### Tokenization
+
+In order to turn a corpus into a matrix, each text needs to be tokenized, meaning that it must be split into a list (vector) of words. This seems trivial, as English (and most western) text generally uses spaces to demarcate words. However, even for English there are a number of edge cases. For example, should "haven't" be seen as a single word, or two? In some other tokenizers, "haven't" could be splitted into "have" and "n't" (`TreebankWordTokenizer` included in the `nltk` package pf python). Other might silently drops all single-letter words, including the 't, 's, and I, which could be problematic in this case, "have't" to "haven".
+
+```{r}
+text <- "I haven't seen John's derring-do"
+tokens(text)
+```
+
+In languages such as Chinese, Japanese, and Korean, which do not use spaces to delimit words, the story is more difficult. For example, below is a case of the famous haiku "the sound of water" by Bashō. Although `quanteda`'s tokenizer did pretty good in this case, you might want to check out the specific tokenizer when dealing with different languages.
+
+```{r}
+haiku <- "\u53e4\u6c60\u86d9\u98db\u3073\u8fbc\u3080\u6c34\u306e\u97f3"
+tokens(haiku)
+```
+
+#### DTM as a Sparse Matrix
+
+```{r}
+d <- corpus(data_corpus_inaugural) %>% tokens() %>% dfm()
+d
+```
+
+`data_corpus_inaugural` is a collection all US presidential inaugural address texts, and metadata (for the corpus), from 1789 to present, and we just created a document-term matrix from them. You can tell from the meta-data, which lists 59 documents (rows) and 9,439 features (columns).
+
+```{r}
+textstat_frequency(d)[c(1, 10, 100, 1000, 9000), ]
+```
+
+```{r}
+as.matrix(d[
+  c(1, 10, 56, 57, 58, 59),
+  c("the","first","justice", "america", "people", "us", "we")])
+```
+
+First, we show the overall term and document frequencies of each word, where we showcase words at different frequencies. Unsurprisingly, the word the tops both charts, but further down there are minor differences. In all cases, the highly frequent words are mostly functional words like *the* or *first*. More informative words such as investments are by their nature used much less often. Such term statistics are very useful to check for noise in the data and get a feeling of the kind of language that is used.
+
+However, the words that ranked around 1000 in the top frequency are still used in less than half of the documents. Since there are about 8,000 even less frequent words in the corpus, you can imagine that most of the document-term matrix consists of zeros. The output also noted this sparsity in the first output above. In fact, R reports that the DTM is sparse, meaning 91.84% percent of all entries are zero.
+
+::: callout-note
+Matrices that contain mostly zero values are called **sparse**, distinct from matrices where most of the values are non-zero, called **dense**.
+:::
+
+#### DTM as a "Bag of Words"
+
+As you can see already in these simple examples, the document-term matrix discards quite a lot of information from text. Specifically, it disregards the order or words in a text: "John fired Mary" and "Mary fired John" both result in the same DTM, even though the meaning of the sentences is quite different. For this reason, a DTM is often called a bag of words, in the sense that all words in the document are simply put in a big bag without looking at the sentences or context of these words.
+
+Thus, the DTM can be said to be a specific and "lossy" representation of the text, that turns out to be quite useful for certain tasks: the frequent occurrence of words like "employment", "great", or "I" might well be good indicators that a text is about the economy, is positive, or contains personal expressions respectively. If a president uses the word "terrorism" more often than the word "economy", that could be an indication of their policy priorities. The DTM representation can be used for many different text analyses, from dictionaries to supervised and unsupervised machine learning. Sometimes, however, you need information that is encoded in the order of words. For example, in analyzing conflict coverage it might be quite important to know who attacks whom, not just that an attack took place. Then we need to get into more advance representation of text, such as word embedding.
+
+#### Pre-processing/Cleaning (stop words, punctuation, numbers, lowercasing, stemming or lemmatization, etc)
+
+```{r}
+d <- corpus(data_corpus_inaugural) %>% 
+  tokens() %>%
+  dfm()
+textplot_wordcloud(d, max_words=200)
+```
+
+A first step in cleaning a DTM is often *stop word* removal. Words such as "a" and "the" are often called stop words, i.e. words that do not tell us much about the content. However, we need to be more cautious about the stop wordsd list. As an example of the substantive choices inherent in using a stop word lists, consider the word "will". As an auxiliary verb, this is probably indeed a stop word: for most substantive questions, there is no difference whether you will do something or simply do it. However, "will" can also be a noun (a testament) and a name (e.g. Will Smith). Simply dropping such words from the corpus can be problematic. In some cases, some research questions might actually be interested in certain stop words. If you are interested in references to the future or specific modalities, the word might actually be a key indicator. Similarly, if you are studying self-expression on Internet forums, social identity theory, or populist rhetoric, words like "I", "us" and "them" can actually be very informative. Additionally, you can also customize your own stop word list.
+
+Next to stop words, text often contains *punctuation*, *numbers*, *symbol*, *hyphens*, and other things that can be considered "noise" for most research questions. For example, it could contain emoticons or emoji, Twitter hashtags or at-mentions, or HTML tags or other annotations. Meanwhile, it is a common practice to *lowercase* the tokens.
+
+Last, we need to consider *stemming* and *lemmatization* in the pre-processing. Stemming is the process of reducing infected words to their stem. For instance, stemming with replace words "history" and "historical" with "histori". Similarly, for the words finally and final, the base word is "fina". In a lot of cases (i.e., sentiment analysis), getting base word is important to know whether the word is positive or negative. The purpose of lemmatization is same as that of stemming but overcomes the drawbacks of stemming. In stemming, for some words, it may not give may not give meaningful representation such as "Histori". Here, lemmatization comes into picture as it gives meaningful word.
+
+Lemmatization takes more time as compared to stemming because it finds meaningful word/ representation. Stemming just needs to get a base word and therefore takes less time.
+
+| *Stemming*                                                                                                                     | *Lemmatization*                                                                                               |
+|------------------------------------|------------------------------------|
+| Stemming is a process that stems or removes last few characters from a word, often leading to incorrect meanings and spelling. | Lemmatization considers the context and converts the word to its meaningful base form, which is called Lemma. |
+| Example: stemming the word 'Caring' would return 'Car'.                                                                        | Example: lemmatizing the word 'Caring' would return 'Care'.                                                   |
+| Stemming is used in case of large dataset where performance is an issue.                                                       | Lemmatization is computationally expensive since it involves look-up tables and what not.                     |
+
+```{r}
+txt <- c(one = "eating eater eaters eats ate",
+         two = "taxing taxes taxed my tax return")
+txt_dfm <- txt %>% 
+           tokens() %>%
+           tokens_wordstem()%>%
+           dfm()
+           
+txt_dfm
+```
+
+```{r}
+txt <- c("I am going to lemmatize makes into make, but not maker")
+# stemming
+tokens_wordstem(tokens(txt))
+# lemmatizing using lemma table
+tokens_replace(tokens(txt), pattern = lexicon::hash_lemmas$token, replacement = lexicon::hash_lemmas$lemma)
+```
+
+```{r}
+d_clean <- corpus(data_corpus_inaugural) %>% 
+  tokens(remove_punct = T) %>%
+  dfm() %>%
+  dfm_remove(stopwords("english"))
+textplot_wordcloud(d_clean, max_words=200)
+```
+
+```{r}
+mystopwords = stopwords("english", source="snowball")
+mystopwords = c("can", "one", "let", "upon", mystopwords)
+glue("Now {length(mystopwords)} stopwords:")
+
+d_stopword <- corpus(data_corpus_inaugural) %>% 
+  tokens(remove_punct = T) %>% 
+  dfm() %>%
+  dfm_remove(mystopwords)
+textplot_wordcloud(d_stopword, max_words=200)
+
+```
+
+```{r}
+d_clean_all <- corpus(data_corpus_inaugural) %>% 
+  tokens(remove_punct = T, remove_numbers = T, remove_symbols = T, remove_hyphens = T) %>%
+  tokens_wordstem()%>%
+  dfm(tolower = T) %>%
+  dfm_remove(stopwords("english"))
+textplot_wordcloud(d_clean_all, max_words=200)
+```
+
+
+# Visualization
+
+#### Wordcloud
+```{r}
+corpus_subset(data_corpus_inaugural, 
+              President %in% c("Washington", "Obama", "Trump")) %>%
+    tokens(remove_punct = TRUE) %>%
+    tokens_remove(stopwords("english")) %>%
+    dfm() %>%
+    dfm_group(groups = President) %>%
+    dfm_trim(min_termfreq = 5, verbose = FALSE) %>%
+    textplot_wordcloud(comparison = TRUE)
+```
+
+
+## Simple frequency
+```{r}
+dfm_inaug <- corpus(data_corpus_inaugural) %>%
+             tokens(remove_punct = T) %>%
+             dfm(tolower = T) %>%
+             dfm_remove(stopwords("english")) %>%
+             dfm_trim(min_termfreq = 10, verbose = FALSE)
+
+features_dfm_inaug <- textstat_frequency(dfm_inaug, n = 100)
+
+# Sort by reverse frequency order
+features_dfm_inaug$feature <- with(features_dfm_inaug, reorder(feature, -frequency))
+
+ggplot(features_dfm_inaug, aes(x = feature, y = frequency)) +
+    geom_point() + 
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+```{r}
+# Get frequency grouped by president
+freq_grouped <- textstat_frequency(dfm_inaug, 
+                                   groups = President)
+
+# Filter the term "american"
+freq_american <- subset(freq_grouped, freq_grouped$feature %in% "american")  
+
+ggplot(freq_american, aes(x = group, y = frequency)) +
+    geom_point() + 
+    scale_y_continuous(limits = c(0, 14), breaks = c(seq(0, 14, 2))) +
+    xlab(NULL) + 
+    ylab("Frequency") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+```{r}
+dfm_weight_pres <- data_corpus_inaugural %>%
+  corpus_subset(Year > 2000) %>%
+  tokens(remove_punct = TRUE) %>%
+  tokens_remove(stopwords("english")) %>%
+  dfm() %>%
+  dfm_weight(scheme = "prop")
+
+# Calculate relative frequency by president
+freq_weight <- textstat_frequency(dfm_weight_pres, n = 10, 
+                                  groups = dfm_weight_pres$President)
+
+ggplot(data = freq_weight, aes(x = nrow(freq_weight):1, y = frequency)) +
+     geom_point() +
+     facet_wrap(~ group, scales = "free") +
+     coord_flip() +
+     scale_x_continuous(breaks = nrow(freq_weight):1,
+                        labels = freq_weight$feature) +
+     labs(x = NULL, y = "Relative frequency")
+```
+
+```{r}
+toks <- corpus(data_corpus_inaugural) %>%
+             tokens(remove_punct = T) 
+col <- toks %>% 
+       tokens_remove(stopwords("en")) %>% 
+       tokens_select(pattern = "^[A-Z]", valuetype = "regex", 
+                     case_insensitive = FALSE, padding = TRUE) %>% 
+       textstat_collocations(min_count = 5, tolower = FALSE)
+col
+
+```
+
+## Document/feature similarity scores
+
+## Collocation analysis
+
+
+# Back to social media data
+
+```{r}
+trump <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", "1xRKHaP-QwACMydlDnyFPEaFdtskJuBa6"))
+```
+

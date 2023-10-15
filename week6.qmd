@@ -4,9 +4,11 @@ subtitle: "Data visualization"
 execute: 
   eval: true
 ---
-We will be mainly using `ggplot2` package (and maybe other extended packages) for data visualization in this class. `ggplot2` is a system for declaratively creating graphics, based on [The Grammar of Graphics](https://link.springer.com/book/10.1007/0-387-28695-0). This lab is just a quick glimpse on `ggplot2`. And if you would like to learn more, check out Hadley Wickham's [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/). Here is a [cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf) by posit. 
+
+We will be mainly using `ggplot2` package (and maybe other extended packages) for data visualization in this class. `ggplot2` is a system for declaratively creating graphics, based on [The Grammar of Graphics](https://link.springer.com/book/10.1007/0-387-28695-0). This lab is just a quick glimpse on `ggplot2`. And if you would like to learn more, check out Hadley Wickham's [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/). Here is a [cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf) by posit.
 
 # The Grammar of Graphics layers
+
 `ggplot2` code is easier to read if each line represents a new element. This means that as you add each layer, you should start a new line.
 
 ![Image from [The Grammar of Graphics](https://link.springer.com/book/10.1007/0-387-28695-0)](image/graphics.png)
@@ -15,46 +17,46 @@ We will be mainly using `ggplot2` package (and maybe other extended packages) fo
 
 ## A breakdown of the common layers
 
-- Data:
-    - your data, in tidy format, will provide ingredients for your plot
-    - use `dplyr` techniques to prepare data for optimal plotting format
-    - usually, this means you should have one row for every observation that you want to plot
-- Aesthetics (aes), to make data visible
-    - x, y: variable along the x and y axis
-    - colour: color of geoms according to data
-    - fill: the inside color of the geom
-    - group: what group a geom belongs to
-    - shape: the figure used to plot a point
-    - linetype: the type of line used (solid, dashed, etc)
-    - size: size scaling for an extra dimension
-    - alpha: the transparency of the geom
-- [Geometric objects](https://ggplot2.tidyverse.org/reference/) (geoms - determines the type of plot)
-    - `geom_point()`: scatterplot
-    - `geom_line()`: lines connecting points by increasing value of x
-    - `geom_path()`: lines connecting points in sequence of appearance
-    - `geom_boxplot()`: box and whiskers plot for categorical variables
-    - `geom_bar()`: bar charts for categorical x axis
-    - `geom_histogram()`: histogram for continuous x axis
-    - `geom_violin()`: distribution kernel of data dispersion
-    - `geom_smooth()`: function line based on data
-- Facets
-    - `facet_wrap()` or `facet_grid()` for small multiples
-- Statistics
-    - similar to geoms, but computed
-    - show means, counts, and other statistical summaries of data
-- Coordinates - fitting data onto a page
-    - coord_cartesian to set limits
-    - coord_polar for circular plots
-    - coord_map for different map projections
-- [Themes](https://ggplot2.tidyverse.org/reference/ggtheme.html)
-    - overall visual defaults
-    - fonts, colors, shapes, outlines
+-   Data:
+    -   your data, in tidy format, will provide ingredients for your plot
+    -   use `dplyr` techniques to prepare data for optimal plotting format
+    -   usually, this means you should have one row for every observation that you want to plot
+-   Aesthetics (aes), to make data visible
+    -   x, y: variable along the x and y axis
+    -   colour: color of geoms according to data
+    -   fill: the inside color of the geom
+    -   group: what group a geom belongs to
+    -   shape: the figure used to plot a point
+    -   linetype: the type of line used (solid, dashed, etc)
+    -   size: size scaling for an extra dimension
+    -   alpha: the transparency of the geom
+-   [Geometric objects](https://ggplot2.tidyverse.org/reference/) (geoms - determines the type of plot)
+    -   `geom_point()`: scatterplot
+    -   `geom_line()`: lines connecting points by increasing value of x
+    -   `geom_path()`: lines connecting points in sequence of appearance
+    -   `geom_boxplot()`: box and whiskers plot for categorical variables
+    -   `geom_bar()`: bar charts for categorical x axis
+    -   `geom_histogram()`: histogram for continuous x axis
+    -   `geom_violin()`: distribution kernel of data dispersion
+    -   `geom_smooth()`: function line based on data
+-   Facets
+    -   `facet_wrap()` or `facet_grid()` for small multiples
+-   Statistics
+    -   similar to geoms, but computed
+    -   show means, counts, and other statistical summaries of data
+-   Coordinates - fitting data onto a page
+    -   coord_cartesian to set limits
+    -   coord_polar for circular plots
+    -   coord_map for different map projections
+-   [Themes](https://ggplot2.tidyverse.org/reference/ggtheme.html)
+    -   overall visual defaults
+    -   fonts, colors, shapes, outlines
 
-Our goal: putting all the layers together! 
+Our goal: putting all the layers together!
 
 # Practices
-We will be using the dataset from the `palmerpenguins` ([Horst, Hill, and Gorman 2020](https://doi.org/10.5281/zenodo.3960218)) package, which contains size measurements for three penguin species observed on three islands in the Palmer Archipelago, Antarctica, collected from 2007 - 2009 by Dr. Kristen Gorman. An alternative common dataset is the `iris` package. 
-![Artwork by [Allison Horst](https://allisonhorst.com/)](image/penguins.png){width="70%"}
+
+We will be using the dataset from the `palmerpenguins` ([Horst, Hill, and Gorman 2020](https://doi.org/10.5281/zenodo.3960218)) package, which contains size measurements for three penguin species observed on three islands in the Palmer Archipelago, Antarctica, collected from 2007 - 2009 by Dr. Kristen Gorman. An alternative common dataset is the `iris` package. ![Artwork by Allison Horst](image/penguins.png){width="70%"}
 
 ```{r output = F}
 # install.packages("palmerpenguins")
@@ -65,9 +67,11 @@ library(palmerpenguins)
 ```{r}
 str(penguins)
 ```
+
 ![Artwork by [Allison Horst](https://allisonhorst.com/)](image/bill.png){width="70%"}
 
 ### Before `ggplot2`
+
 You can always use R's basic graphics for quick glimpse on the data
 
 ```{r}
@@ -79,25 +83,32 @@ hist(penguins$bill_depth_mm)
 ### Basic layers
 
 #### Data layer: Without any other information, nothing will be visualised.
+
 ```{r}
 ggplot(data = penguins)
 ```
 
 #### Aesthetics layer: A group of parameters that specify what and how data is displayed.
+
 Here, we are telling R to plot `bill_length_mm` on the x axis and `bill_depth_mm` on the y axis. We have not yet told R how we want to represent the data though, so our data will not yet be plotted.
+
 ```{r}
 ggplot(data = penguins, aes(x = bill_length_mm, y = bill_depth_mm))
 ```
 
 #### Geometric layer: it determines the visual representation of your data.
- Let's start with a scatter plot, with `bill_length_mm` on the x axis and `bill_depth_mm` on the y axis
+
+Let's start with a scatter plot, with `bill_length_mm` on the x axis and `bill_depth_mm` on the y axis
+
 ```{r}
 ggplot(data = penguins, 
        aes(x = bill_length_mm, 
            y = bill_depth_mm)) + # Use the plus sign to add each additional layer
   geom_point() # The geom layer determines what style of plot we are using.
 ```
+
 You can further change the [color](https://colorbrewer2.org) or [shape](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html) of the points.
+
 ```{r}
 ggplot(data = penguins, 
        aes(x = bill_length_mm, 
@@ -105,6 +116,7 @@ ggplot(data = penguins,
   geom_point(shape = 2, color = "#2b8cbe") # or you can use "blue", or check the shape option on the aesthetic specifications
 
 ```
+
 ```{r}
 ggplot(data = penguins, 
        aes(x = bill_length_mm, 
@@ -112,6 +124,7 @@ ggplot(data = penguins,
            col = species)) + 
   geom_point()
 ```
+
 ```{r}
 ggplot(data = penguins, 
        aes(x = bill_length_mm, 
@@ -119,7 +132,9 @@ ggplot(data = penguins,
            shape = species)) + 
   geom_point()
 ```
+
 You can also specify the `size` and the `transparency` in the `aes()`
+
 ```{r}
 ggplot(data = penguins, 
        aes(x = bill_length_mm, 
@@ -129,9 +144,8 @@ ggplot(data = penguins,
   geom_point()
 ```
 
-
-
 #### Lab layer: we can customize the legend section
+
 ```{r}
 ggplot(data = penguins, 
        aes(x = bill_length_mm, 
@@ -144,8 +158,8 @@ ggplot(data = penguins,
 
 #### Facet layer: a way of dividing a plot into several windows according to some category in the data, to visually differentiate groupings.
 
-- The `facet_wrap()` function arranges the facets in a single row or column, which means it won’t produce any empty plots.
-- The `facet_grid()` function arranges the facets in a grid, with one variable defining the rows and another variable defining the columns. It will produce a grid of plots for each combination of variables that you specify, even if some plots are empty.
+-   The `facet_wrap()` function arranges the facets in a single row or column, which means it won't produce any empty plots.
+-   The `facet_grid()` function arranges the facets in a grid, with one variable defining the rows and another variable defining the columns. It will produce a grid of plots for each combination of variables that you specify, even if some plots are empty.
 
 ```{r}
 ggplot(data = penguins, 
@@ -153,6 +167,7 @@ ggplot(data = penguins,
     geom_point() + 
     facet_wrap(~species)  # This splits the plot into three windows: one per species (or you can use `var()`)
 ```
+
 ```{r}
 ggplot(data = penguins, 
        aes(x = bill_length_mm, y = bill_depth_mm)) +
@@ -168,6 +183,7 @@ ggplot(data = penguins,
 ```
 
 #### Coordinate layer: we can also adjust the scale of our axes in the plot itself, rather than transforming the data.
+
 ```{r}
 ggplot(data = penguins, 
        aes(x = bill_length_mm, y = bill_depth_mm)) +
@@ -177,8 +193,10 @@ ggplot(data = penguins,
 
 ```
 
-#### Theme layer: we can also customize the plot’s theme, which includes its background, grid lines, and other visual characteristics of the plot. 
+#### Theme layer: we can also customize the plot's theme, which includes its background, grid lines, and other visual characteristics of the plot.
+
 You can check out the different themes [here](https://ggplot2.tidyverse.org/reference/ggtheme.html). My personal preferences are `theme_bw` and `theme_classic()`.
+
 ```{r}
 ggplot(data = penguins, 
        aes(x = bill_length_mm, y = bill_depth_mm)) +
@@ -189,13 +207,15 @@ ggplot(data = penguins,
 ```
 
 ### Colors (on aesthetics layer)
+
 When we think about plotting, we may want to change the colour of our data points in order to communicate different parts of the data. We may want to:
 
-- Differentiate between groups
-- Represent data values
-- Highlight specific elements of the data
+-   Differentiate between groups
+-   Represent data values
+-   Highlight specific elements of the data
 
 #### Discrete/Qualitative colors
+
 ```{r}
 ggplot(data = penguins, 
        aes(x = bill_length_mm, 
@@ -218,7 +238,9 @@ ggplot(data = penguins,
 ```
 
 #### Gradient/Sequential colors
+
 Here we are using we are colouring our data points by body mass pf the penguins using a gradient.
+
 ```{r}
 ggplot(data = penguins, 
        aes(x = bill_length_mm, 
@@ -241,6 +263,7 @@ ggplot(data = penguins,
 ```
 
 #### Different color palettes - [Color Brewer](https://r-graph-gallery.com/38-rcolorbrewers-palettes.html) and Virdis
+
 ```{r}
 #install.packages("RColorBrewer")
 library(RColorBrewer)
@@ -280,10 +303,11 @@ ggplot(data = penguins,
 ```
 
 ### Different `geom_*` plot
-Scatter plot is only the starting point! We can way much more plots...
-![](image/geom.png)
+
+Scatter plot is only the starting point! We can way much more plots... ![](image/geom.png)
 
 #### Scatterplot and linear-fit
+
 ```{r}
 penguins %>% 
   ggplot(aes(x = bill_length_mm, 
@@ -311,6 +335,7 @@ penguins %>%
 ```
 
 #### Histograms and density plots
+
 A histogram is an accurate graphical representation of the distribution of numeric data.There is only one aesthetic required: the `x` variable.
 
 ```{r}
@@ -324,6 +349,7 @@ penguins %>%
 ```
 
 A density plot can further show the distribution patterns of a numerical variable. If we want to combine histogram and density plot, we need to add the argument `aes(y = ..density..)` in `geom_histogram()` for the histogram to take the same dimension as the density plot on the Y-axis and thus show up correctly.
+
 ```{r}
 penguins %>% 
   ggplot(aes(x = bill_length_mm)) + 
@@ -333,6 +359,7 @@ penguins %>%
        x = "Bill length (mm)", y = "Density") +
   theme_bw()
 ```
+
 ```{r}
 penguins %>% 
   ggplot(aes(x = bill_length_mm, fill = species)) + 
@@ -344,6 +371,7 @@ penguins %>%
 
 ?labs()
 ```
+
 You can further add the mean line
 
 ```{r}
@@ -362,9 +390,8 @@ ggplot(data = penguins, aes(x = bill_length_mm, fill = species)) +
 
 ```
 
-
-
 #### Boxplot: a popular way to plot the distribution of data across a grouping variable.
+
 ```{r}
 penguins %>%
   ggplot(aes(x = species, 
@@ -376,8 +403,8 @@ penguins %>%
        x = "Species", y = "Bill length (mm)") +
   theme_bw()
 ```
-![](image/boxplot.png)
-If you are making comparisons between these groups, you can also use `ggsignif` package to calculates the significance of a difference between groups and adds the annotation to the plot in a single line of code.
+
+![](image/boxplot.png) If you are making comparisons between these groups, you can also use `ggsignif` package to calculates the significance of a difference between groups and adds the annotation to the plot in a single line of code.
 
 ```{r}
 #install.packages("ggsignif")
@@ -413,7 +440,7 @@ penguins %>%
   coord_flip()
 ```
 
-### Violin plot: similar to boxplot, a violin’s shape represents the distribution of points that is obscured in a boxplot’s summarisation, allowing for a more accurate representation of the data.
+### Violin plot: similar to boxplot, a violin's shape represents the distribution of points that is obscured in a boxplot's summarisation, allowing for a more accurate representation of the data.
 
 ```{r}
 penguins %>%
@@ -428,6 +455,7 @@ penguins %>%
 ```
 
 Additionally, you can also add the summary statistics in the plot.
+
 ```{r}
 penguins %>%
   ggplot(aes(x = species, 
@@ -439,7 +467,9 @@ penguins %>%
        x = "Species", y = "Bill length (mm)") +
   theme_bw()
 ```
-### Combine two plots 
+
+### Combine two plots
+
 There are multiple ways to do combine two plots. For instance, both `cowplot` and `patchwork` packages could do the same job.
 
 ```{r}
@@ -464,7 +494,8 @@ plot_grid(density, boxplot, ncol = 1, rel_heights = c(2, 1),
 ```
 
 #### Time-series plot
-Since there is no temporal dimension for the `penguins` package, we are turning to the 'nycflights13` package in our previous tutorial.
+
+Since there is no temporal dimension for the `penguins` package, we are turning to the 'nycflights13\` package in our previous tutorial.
 
 ```{r}
 library(nycflights13)
@@ -473,6 +504,7 @@ flights_nyc <- flights %>%
 flights_nyc$date <- as.Date(flights_nyc$time_hour)
 str(flights_nyc)
 ```
+
 ```{r}
 flights_sum <- flights_nyc %>%
   group_by(date) %>%
@@ -483,6 +515,7 @@ flights_sum %>%
   labs(title = "NYC flights in 2013", x = "Date", y = "Count") +
   theme_bw()
 ```
+
 ```{r}
 flights_nyc %>%
   ggplot(aes(x = date)) +
@@ -520,7 +553,6 @@ flights_nyc %>%
 
 ```
 
-
 ### Fine-tuning your plots
 
 ```{r}
@@ -545,11 +577,9 @@ flights_nyc_ts <- flights_nyc %>%
                     y=100,label="Thanksgiving", size = 3)
 ```
 
-### Save your plot! 
+### Save your plot!
 
 ```{r}
 ggsave(plot = flights_nyc_ts, 
        "image/nyc_flights", device = "png", dpi = 600, width = 15, height = 8)
 ```
-
-

@@ -9,7 +9,7 @@ On social media platforms, **text** is often one of the most prevalent forms of 
 
 ![A flow chart of a typical text analysis, image from [Text Mining with R](https://www.tidytextmining.com/tidytext)](image/tidytext.png)
 
-```{r eval=F}
+```{r results='hide'}
 library(glue)
 library(tidyverse)
 ```
@@ -138,7 +138,7 @@ retweet <- tweets %>%
 
 # Concepts in computational textual analysis
 
-```{r eval=F}
+```{r results='hide'}
 
 #install.packages("quanteda.corpora") 
 #install.packages("quanteda.textstats") 
@@ -358,6 +358,7 @@ ggplot(data = freq_weight, aes(x = nrow(freq_weight):1, y = frequency)) +
      labs(x = NULL, y = "Relative frequency")
 ```
 
+## Collocation analysis
 ```{r}
 toks <- corpus(data_corpus_inaugural) %>%
              tokens(remove_punct = T) 
@@ -372,7 +373,7 @@ col
 
 ## Document/feature similarity scores
 
-## Collocation analysis
+
 
 
 # Back to social media data

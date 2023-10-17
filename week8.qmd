@@ -153,7 +153,7 @@ library(quanteda.textstats)
 library(quanteda.textplots)
 ```
 
-#### Document-term matrix (DTM)
+## Document-term matrix (DTM)
 
 For the analysis of textual data, we will employ **computational textual analysis**, also known as **natural language processing**, or **text-as-data**, depending on the field. In the previous tutorial, computations are usually done on numerical data. Hence, you must find a way to represent the text by numbers. The document-term matrix (DTM, also called the term-document matrix or TDM) is one common numerical representation of text. It represents a corpus (or set of documents) as a matrix or table, where each row represents a document, each column represents a term (word), and the numbers in each cell show how often that word occurs in that document. Here is an example:
 
@@ -168,7 +168,7 @@ convert(dtm, "matrix")
 
 As you can observe from above, it shows a DTM made from two lines from the famous poem by Maya Angelou. The resulting matrix has two rows, one for each line; and 11 columns, one for each unique term (word). In the columns you see the document frequencies of each term: the word "bird" occurs once in each line, but the word "with" occurs only in the first line (text1) and not in the second (text2). The `dfm` function here (from the `quanteda` package) can take a vector or column of texts and transforms it directly into a DTM (which quanteda actually calls a document-feature matrix.
 
-#### Tokenization
+## Tokenization
 
 In order to turn a corpus into a matrix, each text needs to be tokenized, meaning that it must be split into a list (vector) of words. This seems trivial, as English (and most western) text generally uses spaces to demarcate words. However, even for English there are a number of edge cases. For example, should "haven't" be seen as a single word, or two? In some other tokenizers, "haven't" could be splitted into "have" and "n't" (`TreebankWordTokenizer` included in the `nltk` package pf python). Other might silently drops all single-letter words, including the 't, 's, and I, which could be problematic in this case, "have't" to "haven".
 
@@ -184,7 +184,7 @@ haiku <- "\u53e4\u6c60\u86d9\u98db\u3073\u8fbc\u3080\u6c34\u306e\u97f3"
 tokens(haiku)
 ```
 
-#### DTM as a Sparse Matrix
+## DTM as a Sparse Matrix
 
 ```{r}
 d <- corpus(data_corpus_inaugural) %>% tokens() %>% dfm()
@@ -211,13 +211,13 @@ However, the words that ranked around 1000 in the top frequency are still used i
 Matrices that contain mostly zero values are called **sparse**, distinct from matrices where most of the values are non-zero, called **dense**.
 :::
 
-#### DTM as a "Bag of Words"
+## DTM as a "Bag of Words"
 
 As you can see already in these simple examples, the document-term matrix discards quite a lot of information from text. Specifically, it disregards the order or words in a text: "John fired Mary" and "Mary fired John" both result in the same DTM, even though the meaning of the sentences is quite different. For this reason, a DTM is often called a bag of words, in the sense that all words in the document are simply put in a big bag without looking at the sentences or context of these words.
 
 Thus, the DTM can be said to be a specific and "lossy" representation of the text, that turns out to be quite useful for certain tasks: the frequent occurrence of words like "employment", "great", or "I" might well be good indicators that a text is about the economy, is positive, or contains personal expressions respectively. If a president uses the word "terrorism" more often than the word "economy", that could be an indication of their policy priorities. The DTM representation can be used for many different text analyses, from dictionaries to supervised and unsupervised machine learning. Sometimes, however, you need information that is encoded in the order of words. For example, in analyzing conflict coverage it might be quite important to know who attacks whom, not just that an attack took place. Then we need to get into more advance representation of text, such as word embedding.
 
-#### Pre-processing/Cleaning (stop words, punctuation, numbers, lowercasing, stemming or lemmatization, etc)
+## Pre-processing/Cleaning (stop words, punctuation, numbers, lowercasing, stemming or lemmatization, etc)
 
 ```{r}
 d <- corpus(data_corpus_inaugural) %>% 
@@ -291,7 +291,7 @@ textplot_wordcloud(d_clean_all, max_words=200)
 
 # Visualization
 
-#### Wordcloud
+## Wordcloud
 
 ```{r}
 corpus_subset(data_corpus_inaugural, 
@@ -374,9 +374,9 @@ col
 
 ```
 
-## Document/feature similarity scores
 
-# Back to social media data
+# Trump's tweet
+In the example(s) above, we have been working with the presidential inaugural address texts. However, it is important to note the differences when compared to social media data, which can be considerably messier and noisier due to the presence of abbreviations, internet slang, emojis, and etc. Now, let's play with some social media data. The dataset we'll be using is from the [Trump Twitter Archive](https://www.thetrumparchive.com/), which compiles Donald Trump's tweets dating back to 2016 (until before his account was suspended).
 
 ```{r}
 trump <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", "1xRKHaP-QwACMydlDnyFPEaFdtskJuBa6"))

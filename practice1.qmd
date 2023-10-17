@@ -3,7 +3,6 @@ title: "Practice 1: Data wrangling and visualization"
 execute: 
   eval: true
 ---
-
 The dataset `youtubers.csv` comprises information about top 1000 YouTube influencers as of Sep 2022 (original dataset could be accessed from [Kaggle](https://www.kaggle.com/datasets/ramjasmaurya/top-1000-social-media-channels)). This dataset includes the following columns:
 
 -   Ranking

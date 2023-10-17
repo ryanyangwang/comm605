@@ -218,14 +218,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#deal-with-text-in-r" id="toc-deal-with-text-in-r" class="nav-link" data-scroll-target="#deal-with-text-in-r">Deal with text in R</a></li>
   <li><a href="#regular-expression" id="toc-regular-expression" class="nav-link" data-scroll-target="#regular-expression">Regular expression</a></li>
   </ul></li>
-  <li><a href="#concepts-in-computational-textual-analysis" id="toc-concepts-in-computational-textual-analysis" class="nav-link" data-scroll-target="#concepts-in-computational-textual-analysis">Concepts in computational textual analysis</a></li>
+  <li><a href="#concepts-in-computational-textual-analysis" id="toc-concepts-in-computational-textual-analysis" class="nav-link" data-scroll-target="#concepts-in-computational-textual-analysis">Concepts in computational textual analysis</a>
+  <ul class="collapse">
+  <li><a href="#document-term-matrix-dtm" id="toc-document-term-matrix-dtm" class="nav-link" data-scroll-target="#document-term-matrix-dtm">Document-term matrix (DTM)</a></li>
+  <li><a href="#tokenization" id="toc-tokenization" class="nav-link" data-scroll-target="#tokenization">Tokenization</a></li>
+  <li><a href="#dtm-as-a-sparse-matrix" id="toc-dtm-as-a-sparse-matrix" class="nav-link" data-scroll-target="#dtm-as-a-sparse-matrix">DTM as a Sparse Matrix</a></li>
+  <li><a href="#dtm-as-a-bag-of-words" id="toc-dtm-as-a-bag-of-words" class="nav-link" data-scroll-target="#dtm-as-a-bag-of-words">DTM as a “Bag of Words”</a></li>
+  <li><a href="#pre-processingcleaning-stop-words-punctuation-numbers-lowercasing-stemming-or-lemmatization-etc" id="toc-pre-processingcleaning-stop-words-punctuation-numbers-lowercasing-stemming-or-lemmatization-etc" class="nav-link" data-scroll-target="#pre-processingcleaning-stop-words-punctuation-numbers-lowercasing-stemming-or-lemmatization-etc">Pre-processing/Cleaning (stop words, punctuation, numbers, lowercasing, stemming or lemmatization, etc)</a></li>
+  </ul></li>
   <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">Visualization</a>
   <ul class="collapse">
+  <li><a href="#wordcloud" id="toc-wordcloud" class="nav-link" data-scroll-target="#wordcloud">Wordcloud</a></li>
   <li><a href="#simple-frequency" id="toc-simple-frequency" class="nav-link" data-scroll-target="#simple-frequency">Simple frequency</a></li>
   <li><a href="#collocation-analysis" id="toc-collocation-analysis" class="nav-link" data-scroll-target="#collocation-analysis">Collocation analysis</a></li>
-  <li><a href="#documentfeature-similarity-scores" id="toc-documentfeature-similarity-scores" class="nav-link" data-scroll-target="#documentfeature-similarity-scores">Document/feature similarity scores</a></li>
   </ul></li>
-  <li><a href="#back-to-social-media-data" id="toc-back-to-social-media-data" class="nav-link" data-scroll-target="#back-to-social-media-data">Back to social media data</a></li>
+  <li><a href="#trumps-tweet" id="toc-trumps-tweet" class="nav-link" data-scroll-target="#trumps-tweet">Trump’s tweet</a></li>
   </ul>
 </nav>
     </div>
@@ -513,8 +520,8 @@ ICU version: 70.1</code></pre>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textstats)</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textplots)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="document-term-matrix-dtm" class="level4">
-<h4 class="anchored" data-anchor-id="document-term-matrix-dtm">Document-term matrix (DTM)</h4>
+<section id="document-term-matrix-dtm" class="level2">
+<h2 class="anchored" data-anchor-id="document-term-matrix-dtm">Document-term matrix (DTM)</h2>
 <p>For the analysis of textual data, we will employ <strong>computational textual analysis</strong>, also known as <strong>natural language processing</strong>, or <strong>text-as-data</strong>, depending on the field. In the previous tutorial, computations are usually done on numerical data. Hence, you must find a way to represent the text by numbers. The document-term matrix (DTM, also called the term-document matrix or TDM) is one common numerical representation of text. It represents a corpus (or set of documents) as a matrix or table, where each row represents a document, each column represents a term (word), and the numbers in each cell show how often that word occurs in that document. Here is an example:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>texts <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
@@ -532,8 +539,8 @@ docs    the caged bird sings with a fearful trill for of freedom
 </div>
 <p>As you can observe from above, it shows a DTM made from two lines from the famous poem by Maya Angelou. The resulting matrix has two rows, one for each line; and 11 columns, one for each unique term (word). In the columns you see the document frequencies of each term: the word “bird” occurs once in each line, but the word “with” occurs only in the first line (text1) and not in the second (text2). The <code>dfm</code> function here (from the <code>quanteda</code> package) can take a vector or column of texts and transforms it directly into a DTM (which quanteda actually calls a document-feature matrix.</p>
 </section>
-<section id="tokenization" class="level4">
-<h4 class="anchored" data-anchor-id="tokenization">Tokenization</h4>
+<section id="tokenization" class="level2">
+<h2 class="anchored" data-anchor-id="tokenization">Tokenization</h2>
 <p>In order to turn a corpus into a matrix, each text needs to be tokenized, meaning that it must be split into a list (vector) of words. This seems trivial, as English (and most western) text generally uses spaces to demarcate words. However, even for English there are a number of edge cases. For example, should “haven’t” be seen as a single word, or two? In some other tokenizers, “haven’t” could be splitted into “have” and “n’t” (<code>TreebankWordTokenizer</code> included in the <code>nltk</code> package pf python). Other might silently drops all single-letter words, including the ’t, ’s, and I, which could be problematic in this case, “have’t” to “haven”.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>text <span class="ot">&lt;-</span> <span class="st">"I haven't seen John's derring-do"</span></span>
@@ -555,8 +562,8 @@ text1 :
 </div>
 </div>
 </section>
-<section id="dtm-as-a-sparse-matrix" class="level4">
-<h4 class="anchored" data-anchor-id="dtm-as-a-sparse-matrix">DTM as a Sparse Matrix</h4>
+<section id="dtm-as-a-sparse-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="dtm-as-a-sparse-matrix">DTM as a Sparse Matrix</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">corpus</span>(data_corpus_inaugural) <span class="sc">%&gt;%</span> <span class="fu">tokens</span>() <span class="sc">%&gt;%</span> <span class="fu">dfm</span>()</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -624,13 +631,13 @@ Note
 </div>
 </div>
 </section>
-<section id="dtm-as-a-bag-of-words" class="level4">
-<h4 class="anchored" data-anchor-id="dtm-as-a-bag-of-words">DTM as a “Bag of Words”</h4>
+<section id="dtm-as-a-bag-of-words" class="level2">
+<h2 class="anchored" data-anchor-id="dtm-as-a-bag-of-words">DTM as a “Bag of Words”</h2>
 <p>As you can see already in these simple examples, the document-term matrix discards quite a lot of information from text. Specifically, it disregards the order or words in a text: “John fired Mary” and “Mary fired John” both result in the same DTM, even though the meaning of the sentences is quite different. For this reason, a DTM is often called a bag of words, in the sense that all words in the document are simply put in a big bag without looking at the sentences or context of these words.</p>
 <p>Thus, the DTM can be said to be a specific and “lossy” representation of the text, that turns out to be quite useful for certain tasks: the frequent occurrence of words like “employment”, “great”, or “I” might well be good indicators that a text is about the economy, is positive, or contains personal expressions respectively. If a president uses the word “terrorism” more often than the word “economy”, that could be an indication of their policy priorities. The DTM representation can be used for many different text analyses, from dictionaries to supervised and unsupervised machine learning. Sometimes, however, you need information that is encoded in the order of words. For example, in analyzing conflict coverage it might be quite important to know who attacks whom, not just that an attack took place. Then we need to get into more advance representation of text, such as word embedding.</p>
 </section>
-<section id="pre-processingcleaning-stop-words-punctuation-numbers-lowercasing-stemming-or-lemmatization-etc" class="level4">
-<h4 class="anchored" data-anchor-id="pre-processingcleaning-stop-words-punctuation-numbers-lowercasing-stemming-or-lemmatization-etc">Pre-processing/Cleaning (stop words, punctuation, numbers, lowercasing, stemming or lemmatization, etc)</h4>
+<section id="pre-processingcleaning-stop-words-punctuation-numbers-lowercasing-stemming-or-lemmatization-etc" class="level2">
+<h2 class="anchored" data-anchor-id="pre-processingcleaning-stop-words-punctuation-numbers-lowercasing-stemming-or-lemmatization-etc">Pre-processing/Cleaning (stop words, punctuation, numbers, lowercasing, stemming or lemmatization, etc)</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">corpus</span>(data_corpus_inaugural) <span class="sc">%&gt;%</span> </span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens</span>() <span class="sc">%&gt;%</span></span>
@@ -750,8 +757,8 @@ text1 :
 </section>
 <section id="visualization" class="level1">
 <h1>Visualization</h1>
-<section id="wordcloud" class="level4">
-<h4 class="anchored" data-anchor-id="wordcloud">Wordcloud</h4>
+<section id="wordcloud" class="level2">
+<h2 class="anchored" data-anchor-id="wordcloud">Wordcloud</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corpus_subset</span>(data_corpus_inaugural, </span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>              President <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Washington"</span>, <span class="st">"Obama"</span>, <span class="st">"Trump"</span>)) <span class="sc">%&gt;%</span></span>
@@ -881,12 +888,10 @@ text1 :
 </div>
 </div>
 </section>
-<section id="documentfeature-similarity-scores" class="level2">
-<h2 class="anchored" data-anchor-id="documentfeature-similarity-scores">Document/feature similarity scores</h2>
 </section>
-</section>
-<section id="back-to-social-media-data" class="level1">
-<h1>Back to social media data</h1>
+<section id="trumps-tweet" class="level1">
+<h1>Trump’s tweet</h1>
+<p>In the example(s) above, we have been working with the presidential inaugural address texts. However, it is important to note the differences when compared to social media data, which can be considerably messier and noisier due to the presence of abbreviations, internet slang, emojis, and etc. Now, let’s play with some social media data. The dataset we’ll be using is from the <a href="https://www.thetrumparchive.com/">Trump Twitter Archive</a>, which compiles Donald Trump’s tweets dating back to 2016 (until before his account was suspended).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>trump <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">sprintf</span>(<span class="st">"https://docs.google.com/uc?id=%s&amp;export=download"</span>, <span class="st">"1xRKHaP-QwACMydlDnyFPEaFdtskJuBa6"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

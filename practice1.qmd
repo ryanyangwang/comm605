@@ -1,6 +1,6 @@
 ---
 title: "Practice 1: Data wrangling and visualization"
-subtitle: "Basic text analysis"
+
 execute: 
   eval: true
 ---

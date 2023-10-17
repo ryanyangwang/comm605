@@ -1,0 +1,121 @@
+---
+title: "COMM 605"
+subtitle: "Week 8: The introduction of computational text analysis"
+date: 2023-10-16
+date-format: long
+author: 
+    - name: "Ryan Y. Wang, Ph.D."
+      email: ryanwang@rit.mail.edu
+      affiliation: School of Communication
+
+format:
+   revealjs:
+    theme: rit.scss
+    logo: /image/rit.png
+    footer: "COMM 605: Week 6"
+    date-format: long
+    slide-number: true
+    scrollable: true
+    chalkboard: true
+    src: drawings.json
+    #embed-resources: true
+    include-in-header:
+      - text: |
+          <style>
+          #title-slide .title {
+            font-size: 2em;
+          }
+          </style>
+    title-slide-attributes: 
+      data-background-image: /image/paw.png
+      data-background-size: 20%
+      data-background-position: 50% 5%
+---
+
+## Defining computational text analysis
+
+A few different jargons:
+
+-   Natural language processing
+    -   **NOT** Natural language understanding or generation
+-   Automatic content analysis
+    -   Compare with traditional content analysis (human coders)
+-   Text-as-data
+    -   Political science: political speech, newspaper
+    -   What are the differences?
+    
+::: notes
+Long articles, which might less messy (comparatively speaking)
+:::
+
+## Defining computational text analysis
+
+An approach in which the analysis of text is, to some extent, automatically conducted by machines.
+
+-   Unlike qualitative way: text is not read and understood as one unit, but automatically broken down to its *features*, or *token*. The complexity of texts is then reduced further by converting text to numbers.
+-   Automated approaches do not replace human abilities to understand text. Rather, they amplify them: human decisions lie at the core of "automated" content analyses and thus necessarily introduce certain degrees of freedom to these approaches.
+    -   How to prepare text
+    -   How to clean text
+    -   What method to infer latent concepts of interest
+    -   Ongoing debate: which variables/latent constructs can and should be measured automatically instead of relying on human coding
+        -   Sentiment? Frames? Media bias?
+
+## A broad typology
+
+-   Deductive: assignment known categories to text
+    -   Dictionaries and rule-based approach
+        -   i.e., keywords, hashtags, link, name entitie
+    -   Supervised machine learning
+        -   i.e., classification (categories), regression (score)
+-   Inductive: exploring unknown categories in text
+    -   Unsupervised machine learning
+        -   i.e., topic modeling to identify topics based on word co-occurences.
+- Large language model: GPT, LLaMA, PaLM, etc.
+
+## What questions we can ask (in communication)?
+ ,
+- Actors: Name entities recognition (NER) for persons, organizations, or location
+  - simple count (mention)
+  - measure how different entities relate to each other (who talks about whom)
+  - sentiment concerning specific actors (how an entity is evaluated)
+- Sentiment or Tone (not **stance**)
+  - The general sentiment or tone of news in economics or political coverage
+  - Machine learning approaches in general might be better suited to analyze sentiment than dictionaries, and they might still fall short of human coding ([van Atteveldt et al. 2021](https://doi.org/10.1080/19312458.2020.1869198)).
+- Topics: what is being talked about in texts
+- Frames: How issues are being talked about, in particular framing as the selection and salience of specific aspects
+  - [OpenFraming](http://www.openframing.org/home.html)
+
+
+## What is missing?
+
+Data validiation (for supervised approach)
+
+-   One should not blindly trust the results of any automated method!
+-   Validity is reassured by comparing automated results,
+    -   i.e., which texts were assigned which sentiment, to a **benchmark**.
+    -   Oftentimes, this benchmark is manually annotated data as a *gold standard*, here describing which sentiment humans would assign. While this gold standard not necessarily implies the "true" value as human coding is quite erroneous
+        -   **Precision** indicates how many articles predicted to contain negative sentiment according to the automated analysis actually contain negative sentiment according to the manual benchmark
+            -   How good is the model at not creating too many *false positives*?
+        -   **Recall** indicates how many articles that actually contain negative sentiment were found
+            -   How good is our model at not creating too many *false negatives*?
+
+::: notes
+Precision: For example, a value of .8 implies that 80 % of all articles that do contain negative sentiment according to the automated classification actually contain negative sentiment according to the manual benchmark. However, 20 % were misclassified as containing negative sentiment and do, in fact, not.
+
+Recall:For example, a value of .8 implies that 80 % of all articles with negative sentiment were found by the automated approach. However, 20 % were not because they had been misclassified as not containing negative sentiment when they in fact did
+
+The validation of unsupervised models is less direct. While studies argue that topic models, for example, can be validated by manually checking whether topics are coherent (Quinn et al. 2010) and can be differentiated from other topics (Chang et al. 2009, see Grimmer and Stewart 2013 for other approaches), there are no clear thresholds for what constitutes a valid mode.
+:::
+
+## Next steps?
+
+### What we will cover in this class?
+- Dictionaries and rule-based approach in sentiment analysis
+- Unsupervised machine learning in topic modeling
+- (maybe) Zero-shot machine learning in toxcicity detection
+  - Google's Perspective API (no training dataset is needed)
+  
+### What we will **NOT** cover in this class?
+- Supervised machine learning: train your own model for classification/regression
+- Deep learning (neural network) 
+

@@ -1,0 +1,176 @@
+---
+title: "Practice 1: Data wrangling and visualization"
+subtitle: "Basic text analysis"
+execute: 
+  eval: true
+---
+
+The dataset `youtubers.csv` comprises information about top 1000 YouTube influencers as of Sep 2022 (original dataset could be accessed from [Kaggle](https://www.kaggle.com/datasets/ramjasmaurya/top-1000-social-media-channels)). This dataset includes the following columns:
+
+-   Ranking
+-   Channel name
+-   YouTuber name
+-   Category
+-   Country
+-   Number of subscribers
+-   Average number of views (on the channel)
+-   Average number of likes (on the channel)
+-   Average number of comments (on the channel)
+
+Additionally, there is a supplementary dataset named `channel.csv`, which I created for this (yep, I made it up!). It contains the number of videos uploaded on each channel and and the year of channel creation. Please use the `youtuber.csv` and `channel.csv` to complete the tasks outlined below. You are feel free to submit a R script or a markdown file. You are free to submit your responses in the form of an R script or a markdown file. If you choose to use an R script, you can include your answers as comments (begining with a `#`). As long as your code can render the same results as mine, I will give it full credits. In other words, the elegance of code will not be considered part of the rubrics. Additionally, there are no restrictions on the packages you can use. If you encounter challenges during the assignment, please submit your best effort, and your work will be evaluated based on your attempts.
+
+::: callout-note
+**Disclaimer**: Please be aware that the data obtained from Kaggle may not be entirely accurate. It's important to note that we are utilizing this data solely for the purpose of practice and learning, rather than relying on it for real-world applications."
+:::
+
+# Question 1: Data Cleaning
+
+1.  Upon importing the `youtubers.csv`, you may observe that certain column names and rows require some basic data cleaning:
+
+-   Rename the following column names (you are freee choose alternative names if you prefer, but please keep them clear and straightforward):
+    -   **"S.no"** to **"ranking"**
+    -   **"X.views..Avg...."** to **"views"**
+    -   **"X.likes..Avg...."** to **"likes"**
+    -   **"X.comments..Avg...."** to **"comments"**
+-   Remove the column **"Category_3"**, as it will not be used in subsequent analyses.
+-   Ensure that there are 1000 unique YouTubers in the list. If you encounter duplicate rows, remove them based on the column of **"ranking"** (or the previous **"S.no"**).
+-   Save your result in a new dataframe.
+
+```{r, setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "~/Documents/Ryan/RIT/Fall 2023/COMM 605/Practice1")
+```
+
+```{r}
+library(tidyverse)
+youtubers <- read.csv("youtubers.csv")
+```
+
+```{r}
+youtubers <- youtubers %>%
+  rename(ranking = "S.no",
+         views = "X.views..Avg....",
+         likes = "X.likes..Avg....",
+         comments = "X.comments..Avg....")
+youtubers$Category_3 <- NULL
+youtubers <- youtubers %>%
+  arrange(ranking) %>%
+  distinct(ranking, .keep_all = T)
+```
+
+# Question 2: Exploratory Data Analysis
+
+2.  Let's take a quick glimpse of the data. We are particularly interested in two variables: **"country"** and **"category"** (tip: do not forget to convert them into factor variables):
+
+-   How many unique countries and categories (of these YouTube channels) exist in the dataset (omiting the `NA` value)?
+-   Which are the top 3 countries and top 3 categories to which these YouTubers belong (omiting the `NA` value)?
+-   Utilize a bar chart to visualize the distribution of the two variables separately: **"country"** and **"category"** (note: There are no specific requirements for aesthetics; you can choose the visualization style that you find most suitable.)
+
+```{r}
+youtubers$country <- as.factor(youtubers$country)
+youtubers$category <- as.factor(youtubers$category)
+
+summary(youtubers$country)
+summary(youtubers$category)
+
+ggplot(data = youtubers, aes(x = country)) +
+  geom_bar() +
+  coord_flip()
+  
+ggplot(data = youtubers, aes(x = category)) +
+  geom_bar() +
+  coord_flip()
+
+```
+
+# Question 3: Classifying Influencers
+
+3.  These 1000 YouTubers are curated based on the count of subscribers. Now let's further classify these influencers by the following steps.
+
+-   Create a new column named **"type"** and recode the values according to the following criteria:
+    -   If the number of subscribers exceeds 100 million, code it as *"super influencer"*;
+    -   If the number of subscribers falls within the range of 10 million to 100 million, code it as *"mega influencer"*;
+    -   If the number of subscribers falls within the range of 1 million to 10 million, code it as *"power influencer"*.
+-   How many YouTubers are classified under each of these three types?
+-   Use a boxplot to show distribution of the **views** for these three influencer type. (tip: Given the potentially large range of view counts, consider applying data transformations to enhance visualization if necessary, such as log transformation \[`log()`\])
+
+::: callout-note
+**Disclaimer**: Please note that the classification applied here may not necessarily align with established categories found in social media influencer research. This classification is for the purpose of this assignment and may not reflect the nuances present in the broader literature.
+:::
+
+```{r}
+youtubers <- youtubers %>%
+  mutate(type = case_when(
+    subscribers > 100000000 ~ "super influencer",
+    subscribers > 10000000 ~ "mega influencer",
+    subscribers > 1000000 ~ "power influencer"
+  ))
+
+youtubers$type <- as.factor(youtubers$type) 
+summary(youtubers$type)
+
+
+youtubers %>%
+ggplot(aes(x = type, y = log(views))) +
+  geom_boxplot() +
+  coord_flip()
+
+```
+
+# Question 4: Analyzing YouTube Channels
+
+4.  incorporate the `channel.csv` dataset and conduct further analysis. Follow these steps:
+
+-   Import the `channel.csv`, and merge it with the modified `youtubers.csv` dataset (note: not the original one, but the one that has been modified as per previous steps), based on **channel_id** (from `channel.csv`) and **channel** ( from `youtubers.csv`) columns.
+-   Calculate the average number of videos uploaded to YouTube for each of the three influencer types (tip: `summarise()` function)?
+-   Investigate the relationship between the number of videos uploaded to the channel and the number of comments specificall among all the **mega influencer** (tip: remember to exclude the other two types). Visualize this relationship using a scatterplot with a linear fit line. If required, apply appropriate data transformations to enhance the clarity of the relationship.
+
+::: callout-note
+**Disclaimer**: Again, please be aware that `channel.csv` iis an arbitrary dataset and does not reflect the actual figures for the respective YouTube channels. We emphasize that we are employing this data exclusively for the purpose of practice and learning, and it should not be considered suitable for real-world applications.
+:::
+
+```{r}
+channel <- read.csv("channel.csv")
+youtubers_merge <- merge(youtubers, channel, by.x = "channel", by.y = "channel_id", all.x = TRUE)
+
+youtubers_merge %>%
+  group_by(type) %>%
+  summarise(mean_video = mean(video))
+
+youtubers_merge %>%
+  subset(type == "mega influencer") %>%
+  ggplot(aes(x = video, y = log(comments))) +
+  geom_point() +
+  geom_smooth(method = lm) +
+  ylim(c(5,6))
+
+```
+
+# Question 5: Comparing YouTube Channels
+
+5.  In this final analysis, we aim to compare YouTube channels from the United States and India, excluding all other countries and `NA` values.
+
+-   Generate summary statistics that include the means of views, likes, and comments for channels in both the United States and India.
+-   Visualize the distribution of the number of videos uploaded to YouTube by utilizing both a histogram and a density plot on a single graph. Please use different colors to represent the data from these two countries. (tip: `geom_histogram()` and `geom_density()`).
+-   Create a line plot to visualize the count of YouTube channels created each year, distinguishing between the counts for the United States and India. Please use different colors to represent the data for these two countries in the line plot (tip: `geom_line()`)
+
+```{r}
+youtubers_compare <- youtubers_merge %>%
+  subset(country == "United States" | country == "India")
+
+youtubers_compare %>%
+  group_by(country) %>%
+  summarise(mean_views = mean(views),
+            mean_likes = mean(likes),
+            mean_comments = mean(comments))
+
+youtubers_compare %>%
+  ggplot(aes(x = video, color = country, fill = country)) +
+  geom_histogram(aes(y = ..density..)) +
+  geom_density(color = "black")
+
+
+youtubers_compare %>%
+  ggplot(aes(x = year, color = country)) +
+  geom_line(stat = "count")
+
+```

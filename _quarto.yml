@@ -20,6 +20,9 @@ website:
          - week5.qmd
          - week6.qmd
          - week8.qmd
+      - section: "Practices" 
+        contents:
+         - practice1.qmd
         
 
 format:

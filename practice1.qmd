@@ -1,6 +1,5 @@
 ---
 title: "Practice 1: Data wrangling and visualization"
-
 execute: 
   eval: true
 ---

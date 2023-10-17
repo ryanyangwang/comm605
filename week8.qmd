@@ -139,16 +139,18 @@ retweet <- tweets %>%
 # Concepts in computational textual analysis
 
 ```{r results='hide'}
+# You might need to install the `quanteda.corpora` package through github.
+# install.packages("devtools")
+# devtools::install_github("quanteda/quanteda.corpora")
 
-#install.packages("quanteda.corpora") 
 #install.packages("quanteda.textstats") 
 #install.packages("quanteda.textplots")
 #install.packages("quanteda.textmodels")
+
 library(quanteda)
 library(quanteda.corpora)
 library(quanteda.textstats)
 library(quanteda.textplots)
-
 ```
 
 #### Document-term matrix (DTM)
@@ -287,10 +289,10 @@ d_clean_all <- corpus(data_corpus_inaugural) %>%
 textplot_wordcloud(d_clean_all, max_words=200)
 ```
 
-
 # Visualization
 
 #### Wordcloud
+
 ```{r}
 corpus_subset(data_corpus_inaugural, 
               President %in% c("Washington", "Obama", "Trump")) %>%
@@ -302,8 +304,8 @@ corpus_subset(data_corpus_inaugural,
     textplot_wordcloud(comparison = TRUE)
 ```
 
-
 ## Simple frequency
+
 ```{r}
 dfm_inaug <- corpus(data_corpus_inaugural) %>%
              tokens(remove_punct = T) %>%
@@ -359,6 +361,7 @@ ggplot(data = freq_weight, aes(x = nrow(freq_weight):1, y = frequency)) +
 ```
 
 ## Collocation analysis
+
 ```{r}
 toks <- corpus(data_corpus_inaugural) %>%
              tokens(remove_punct = T) 
@@ -373,12 +376,8 @@ col
 
 ## Document/feature similarity scores
 
-
-
-
 # Back to social media data
 
 ```{r}
 trump <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", "1xRKHaP-QwACMydlDnyFPEaFdtskJuBa6"))
 ```
-

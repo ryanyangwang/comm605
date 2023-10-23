@@ -7,7 +7,7 @@ affiliation: "Rochester Institute of Technology"
 [![Source: xkcd.com](image/social_media.png)](https://xkcd.com/1239/)
 
 |             |                                                                                                                                           |
-|:------------------------------------:|:--------------------------------:|
+|:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------:|
 |   ⏰ Time   |                                                          Monday 5:00 -- 7:50 PM                                                           |
 | 📍 Location |                                                    Liberal Arts Hall (LBR)- Room 3201                                                     |
 |  📭 Email   |                                      [ryanwang\@mail.rit.edu](mailto:ryanwang@mail.rit.edu){.email}                                       |

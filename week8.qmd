@@ -381,4 +381,3 @@ In the example(s) above, we have been working with the presidential inaugural ad
 ```{r}
 trump <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", "1xRKHaP-QwACMydlDnyFPEaFdtskJuBa6"))
 ```
-

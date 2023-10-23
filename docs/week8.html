@@ -183,6 +183,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Week 8 Lab</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9 Lab</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -232,7 +238,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#simple-frequency" id="toc-simple-frequency" class="nav-link" data-scroll-target="#simple-frequency">Simple frequency</a></li>
   <li><a href="#collocation-analysis" id="toc-collocation-analysis" class="nav-link" data-scroll-target="#collocation-analysis">Collocation analysis</a></li>
   </ul></li>
-  <li><a href="#trumps-tweet" id="toc-trumps-tweet" class="nav-link" data-scroll-target="#trumps-tweet">Trump’s tweet</a></li>
+  <li><a href="#trumps-tweets" id="toc-trumps-tweets" class="nav-link" data-scroll-target="#trumps-tweets">Trump’s tweets</a></li>
   </ul>
 </nav>
     </div>
@@ -506,7 +512,7 @@ Note
 <span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Package version: 3.2.4
+<pre><code>Package version: 3.3.1
 Unicode version: 14.0
 ICU version: 70.1</code></pre>
 </div>
@@ -568,7 +574,7 @@ text1 :
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">corpus</span>(data_corpus_inaugural) <span class="sc">%&gt;%</span> <span class="fu">tokens</span>() <span class="sc">%&gt;%</span> <span class="fu">dfm</span>()</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Document-feature matrix of: 59 documents, 9,439 features (91.84% sparse) and 4 docvars.
+<pre><code>Document-feature matrix of: 59 documents, 9,441 features (91.84% sparse) and 4 docvars.
                  features
 docs              fellow-citizens  of the senate and house representatives :
   1789-Washington               1  71 116      1  48     2               2 1
@@ -585,19 +591,19 @@ docs              among vicissitudes
   1801-Jefferson      1            0
   1805-Jefferson      7            0
   1809-Madison        0            0
-[ reached max_ndoc ... 53 more documents, reached max_nfeat ... 9,429 more features ]</code></pre>
+[ reached max_ndoc ... 53 more documents, reached max_nfeat ... 9,431 more features ]</code></pre>
 </div>
 </div>
 <p><code>data_corpus_inaugural</code> is a collection all US presidential inaugural address texts, and metadata (for the corpus), from 1789 to present, and we just created a document-term matrix from them. You can tell from the meta-data, which lists 59 documents (rows) and 9,439 features (columns).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">textstat_frequency</span>(d)[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">9000</span>), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            feature frequency rank docfreq group
-1               the     10183    1      59   all
-10               we      1827   10      58   all
-100        national       158  100      46   all
-1000         suffer        15  973      13   all
-9000 schoolchildren         1 5507       1   all</code></pre>
+<pre><code>        feature frequency rank docfreq group
+1           the     10183    1      59   all
+10           we      1827   10      58   all
+100    national       158  100      46   all
+1000     suffer        15  973      13   all
+9000 physicists         1 5509       1   all</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -653,8 +659,8 @@ Note
 <p>Lemmatization takes more time as compared to stemming because it finds meaningful word/ representation. Stemming just needs to get a base word and therefore takes less time.</p>
 <table class="table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 52%">
+<col style="width: 47%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -889,8 +895,8 @@ text1 :
 </div>
 </section>
 </section>
-<section id="trumps-tweet" class="level1">
-<h1>Trump’s tweet</h1>
+<section id="trumps-tweets" class="level1">
+<h1>Trump’s tweets</h1>
 <p>In the example(s) above, we have been working with the presidential inaugural address texts. However, it is important to note the differences when compared to social media data, which can be considerably messier and noisier due to the presence of abbreviations, internet slang, emojis, and etc. Now, let’s play with some social media data. The dataset we’ll be using is from the <a href="https://www.thetrumparchive.com/">Trump Twitter Archive</a>, which compiles Donald Trump’s tweets dating back to 2016 (until before his account was suspended).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>trump <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">sprintf</span>(<span class="st">"https://docs.google.com/uc?id=%s&amp;export=download"</span>, <span class="st">"1xRKHaP-QwACMydlDnyFPEaFdtskJuBa6"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

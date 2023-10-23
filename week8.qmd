@@ -235,7 +235,7 @@ Last, we need to consider *stemming* and *lemmatization* in the pre-processing. 
 Lemmatization takes more time as compared to stemming because it finds meaningful word/ representation. Stemming just needs to get a base word and therefore takes less time.
 
 | *Stemming*                                                                                                                     | *Lemmatization*                                                                                               |
-|------------------------------------|------------------------------------|
+|--------------------------------------|----------------------------------|
 | Stemming is a process that stems or removes last few characters from a word, often leading to incorrect meanings and spelling. | Lemmatization considers the context and converts the word to its meaningful base form, which is called Lemma. |
 | Example: stemming the word 'Caring' would return 'Car'.                                                                        | Example: lemmatizing the word 'Caring' would return 'Care'.                                                   |
 | Stemming is used in case of large dataset where performance is an issue.                                                       | Lemmatization is computationally expensive since it involves look-up tables and what not.                     |
@@ -374,10 +374,11 @@ col
 
 ```
 
+# Trump's tweets
 
-# Trump's tweet
 In the example(s) above, we have been working with the presidential inaugural address texts. However, it is important to note the differences when compared to social media data, which can be considerably messier and noisier due to the presence of abbreviations, internet slang, emojis, and etc. Now, let's play with some social media data. The dataset we'll be using is from the [Trump Twitter Archive](https://www.thetrumparchive.com/), which compiles Donald Trump's tweets dating back to 2016 (until before his account was suspended).
 
 ```{r}
 trump <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", "1xRKHaP-QwACMydlDnyFPEaFdtskJuBa6"))
 ```
+

@@ -1,0 +1,484 @@
+---
+title: "Week 9 Lab"
+subtitle: "Sentiment analysis"
+execute: 
+  eval: true
+---
+
+```{r results='hide'}
+#| label: load-package
+#| warning: false
+library(tidyverse)
+library(quanteda)
+library(tidytext)
+library(quanteda.textstats)
+library(quanteda.textplots)
+library(vader) #install.packages("vader")
+library(wordcloud) #install.packages("wordcloud")
+```
+
+# Trump's tweets
+
+In the example(s) above, we have been working with the presidential inaugural address texts. However, it is important to note the differences when compared to social media data, which can be considerably messier and noisier due to the presence of abbreviations, internet slang, emojis, and etc. Now, let's play with some social media data. The dataset we'll be using is from the [Trump Twitter Archive](https://www.thetrumparchive.com/), which compiles Donald Trump's tweets dating back to 2016 (until before his account was suspended).
+
+```{r}
+trump <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", "1xRKHaP-QwACMydlDnyFPEaFdtskJuBa6"))
+trump$date <- as.Date(trump$date)
+ggplot(data = trump, aes(x = date)) +
+  geom_line(stat = "count") +
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year") +
+  geom_vline(xintercept = as.Date("2016-11-9"), linetype = 4, color = "red") +
+  annotate("text", x=as.Date("2016-11-9"), y=120, label="When Trump won the 2016 election", color = "red") +
+  labs(x = "Date", y = "Number of tweets") +
+  theme_bw()
+```
+
+## Pre-processing
+
+```{r}
+trump_clean <- trump
+trump_clean <- trump %>% mutate(
+  ### Extract mentions, hashtags, and url
+  mention = str_extract_all(text, "(^|\\s)@\\w+"),
+  hashtag = str_extract_all(text, "#\\w+"),
+  url = str_extract_all(text, "https?://\\S+"), 
+  ### Remove all the mentions, hashtags, and url for text cleaning
+  clean_text = str_replace_all(text, "RT\\s*@|@\\w+", " ") %>% ### remove mentions
+               str_replace_all(., "#\\w+", " ") %>% ### remove hashtags
+               str_replace_all(., "https?://\\S+", " ") %>% ### remove URL
+               str_replace_all("\\W+", " ") %>% ### remove all the non-words
+               tolower() %>% ### lowercase
+               trimws() ### trim the white space
+)
+
+clean_dfm <- corpus(trump_clean$clean_text) %>% 
+  tokens(remove_punct = T, remove_numbers = T, remove_symbols = T) %>%
+  dfm(tolower = T) %>%
+  dfm_remove(stopwords("english"))
+textstat_frequency(clean_dfm, n = 100)
+```
+
+```{r}
+mystopwords = stopwords("english", source="snowball")
+mystopwords = c("s", "t", "amp", "u", "m", mystopwords)
+clean_dfm2 <- corpus(trump_clean$clean_text) %>% 
+  tokens(remove_punct = T, remove_numbers = T, remove_symbols = T) %>%
+  dfm(tolower = T) %>%
+  dfm_remove(mystopwords)
+
+textplot_wordcloud(clean_dfm2, max_words=200)
+```
+
+## Simple frequency
+
+```{r}
+# Sort by reverse frequency order
+features_trump <- textstat_frequency(clean_dfm2, n = 100)
+features_trump$feature <- with(features_trump, reorder(feature, -frequency))
+
+features_trump %>%
+  top_n(30, wt = frequency) %>%
+  ggplot(aes(x = feature, y = frequency)) +
+  geom_bar(stat = "identity", fill = "steelblue") + 
+  labs(y = "Frequency", x = NULL) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.position = "none")
+```
+
+## Hashtags
+
+```{r}
+tag_dfm <- corpus(trump_clean$text) %>% 
+  tokens(remove_punct = T) %>%
+  dfm(tolower = T) %>%
+  dfm_select(pattern = "#*")
+toptag <- names(topfeatures(tag_dfm, 50))
+toptag
+```
+
+```{r}
+tag_fcm <- fcm(tag_dfm)
+head(tag_fcm)
+```
+
+```{r}
+topgat_fcm <- fcm_select(tag_fcm, pattern = toptag)
+set.seed(123)
+textplot_network(topgat_fcm, min_freq = 0.5, edge_alpha = 0.8, edge_size = 1, vertex_labelsize = 3.5)
+```
+
+## Users
+
+```{r}
+user_dfm <- corpus(trump_clean$text) %>% 
+  tokens(remove_punct = T) %>%
+  dfm(tolower = T) %>%
+  dfm_select(pattern = "@*")
+topuser <- names(topfeatures(user_dfm, 50))
+head(topuser)
+```
+
+```{r}
+user_fcm <- fcm(user_dfm)
+head(user_fcm)
+```
+
+```{r}
+user_fcm <- fcm_select(user_fcm, pattern = topuser)
+set.seed(123)
+textplot_network(user_fcm, min_freq = 0.1, edge_color = "orange", edge_alpha = 0.8, edge_size = 1, vertex_labelsize = 3.5)
+```
+
+
+# Dictionaries/Lexicon-based sentiment/emotion analysis
+
+Once more, it's important to emphasize that this tutorial exclusively concentrates on dictionary-based sentiment analysis. In other words, we won't delve into topics such as supervised machine learning or deep learning. Additionally, there are numerous alternative packages capable of achieving the same objectives, inlcuding but not limited to [quanteda.sentiment](https://github.com/quanteda/quanteda.sentiment), [`tidytext`](https://www.tidytextmining.com/sentiment), [`sentimentr`](https://github.com/trinker/sentimentr), [`syuzhet`](https://github.com/mjockers/syuzhet), among others. However, they essentially operate on the same underlying principles.
+
+Sentiment analysis is the task of automatically classifying texts according to the sentiments/emotions they express. In the most simple scenario, we want to classify a text as positive, negative, or neutral. In more complex situations, we could identify specific emotions or compute the sentiment with respect to a specific entity. In general there are two types of approaches when measuring sentiment:
+
+-   Polarity-based setniment:a polarity is normally a categorical attribute: positive or negative. This can be implemented by computing a sentiment based on keys set as "poles" of positive versus negative sentiment. Polar values are converted into sentiment scores using a flexible function, such as $log(pos-neg)$, or $(pos-neg)/(pos+neg)$.
+-   Valence-based sentiment: a valence is in the form of a continuous value indicating a degree of sentiment. This can be implemented by computing sentiment as the average valence of a document's words, based on a dictionary whose values have numeric valence scores. Each key in a dictionary may have values with difference valences.
+
+
+
+```{r}
+x1 <- get_sentiments(lexicon = "nrc") %>%
+  count(sentiment) %>%
+  mutate(lexicon = "nrc")
+x2 <- get_sentiments(lexicon = "bing") %>%
+  count(sentiment) %>%
+  mutate(lexicon = "bing")
+x3 <- get_sentiments(lexicon = "afinn") %>%
+  count(value) %>%
+  mutate(lexicon = "afinn") %>%
+  mutate(sentiment = as.character(value)) %>%
+  select(-value)
+x4 <- get_sentiments(lexicon = "loughran") %>%
+  count(sentiment) %>%
+  mutate(lexicon = "loughran")
+x <- bind_rows(x1, x2, x3, x4)
+
+ggplot(x, aes(x = fct_reorder(sentiment, n), y = n, fill = lexicon)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(title = "Sentiment Counts from four dictionaries: AFINN, BING, Loughran, NRC", x = "", y = "") +
+  theme_bw() +
+  facet_wrap(~ lexicon, scales = "free")
+```
+
+```{r}
+trump_clean$id <- NULL
+trump_clean <- rowid_to_column(trump_clean, var = "ID")
+trump_tidy <- trump_clean %>%
+  select(c("ID", "clean_text")) %>%
+  unnest_tokens(word, clean_text)
+```
+
+### [AFINN lexicon](https://www2.imm.dtu.dk/pubdb/pubs/6010-full.html) measures sentiment with a numeric score between -5 and 5.
+
+```{r}
+afinn <- trump_tidy %>% 
+  inner_join(get_sentiments("afinn"), by = "word") %>% 
+  group_by(ID) %>% 
+  summarise(sentiment = sum(value)) %>% 
+  mutate(dict = "AFINN")
+
+trump_afinn <- trump_clean %>%
+  select(c("ID","date", "clean_text")) %>%
+  merge(afinn, by = "ID", all.x = T) %>%
+  mutate(
+    wordcount = str_count(clean_text, "\\w+"),
+    sen_ave = sentiment / wordcount
+   )
+
+trump_afinn_ts <- trump_afinn %>%
+  group_by(date) %>%
+  summarise(sen_daily = mean(sen_ave))
+
+ggplot(data = trump_afinn_ts, aes(x = date, y = sen_daily)) +
+  geom_point() +
+  geom_smooth(method = "loess") +
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year") +
+  geom_vline(xintercept = as.Date("2016-11-9"), linetype = 4, color = "red") +
+  annotate("text", x=as.Date("2016-11-9"), y=1, label="When Trump won the 2016 election", color = "red") +
+  labs(x = "Date", y = "Number of tweets") +
+  theme_bw()
+```
+
+### [Bing lexicon](https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html) measures sentiment with a binary category (positive and negative)
+
+```{r}
+bing <- trump_tidy %>% 
+  inner_join(get_sentiments("bing"), by = "word") %>% 
+  count(ID, sentiment) %>%
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %>% 
+  mutate(dict = "BING")
+
+trump_bing <- trump_clean %>%
+  select(c("ID","date", "clean_text")) %>%
+  merge(bing, by = "ID", all.x = T) %>%
+  mutate(
+    wordcount = str_count(clean_text, "\\w+"),
+    pos_ave = positive / wordcount,
+    neg_ave = negative / wordcount,
+    sen_ave = (positive - negative)/(positive + negative)
+   )
+
+trump_bing %>%
+  select(c("ID", "positive", "negative")) %>%
+  pivot_longer(!ID, names_to = "sentiment", values_to = "value") %>%
+  ggplot(aes(x = sentiment, y = value, color = sentiment)) +
+  geom_boxplot() +
+  theme_bw()
+
+
+trump_bing %>%
+  select(c("ID", "pos_ave", "neg_ave")) %>%
+  pivot_longer(!ID, names_to = "sentiment", values_to = "value") %>%
+  ggplot(aes(x = sentiment, y = value, color = sentiment)) +
+  geom_boxplot() +
+  theme_bw()
+
+
+trump_bing_ts <- trump_bing %>%
+  group_by(date) %>%
+  summarise(
+    pos_total = sum(positive),
+    neg_total = sum(negative),
+    pos_daily = mean(pos_ave),
+    neg_daily = mean(neg_ave),
+    sen_daily = mean(sen_ave))
+
+trump_bing_ts %>%
+  select(c("date", "pos_daily", "neg_daily")) %>%
+  pivot_longer(!date, names_to = "sentiment", values_to = "value") %>%
+  ggplot(aes(x = date, y = value, color = sentiment)) +
+  geom_point() +
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year") +
+  geom_vline(xintercept = as.Date("2016-11-9"), linetype = 4, color = "red") +
+  annotate("text", x=as.Date("2016-11-9"), y=0.4, label="When Trump won the 2016 election", color = "red") +
+  labs(x = "Date", y = "Daily average sentiment") +
+  theme_bw() +
+  theme(legend.position = "none") +
+  facet_grid(sentiment~.)
+
+
+trump_bing_ts %>%
+  ggplot(aes(x = date, y = sen_daily)) +
+  geom_point() +
+  geom_smooth(method = "loess") +
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year") +
+  geom_vline(xintercept = as.Date("2016-11-9"), linetype = 4, color = "red") +
+  annotate("text", x=as.Date("2016-11-9"), y=1.2, label="When Trump won the 2016 election", color = "red") +
+  labs(x = "Date", y = "Daily average sentiment") +
+  theme_bw() +
+  theme(legend.position = "none")
+
+
+```
+
+#### Everyone loves wordcloud!
+
+```{r}
+wordcloud_bing <- trump_tidy %>% 
+  anti_join(stop_words) %>%
+  inner_join(get_sentiments("bing"), by = "word") %>% 
+  count(sentiment, word, sort = T) %>%
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %>%
+  column_to_rownames("word")
+
+set.seed(123)
+comparison.cloud(term.matrix = wordcloud_bing,scale = c(4,0.5),max.words = 200, rot.per=0)
+```
+
+### [NRC](https://saifmohammad.com/WebPages/AccessResource.htm) categorize words in a binary fashion, either positive or negative as well as eight different types of emotion.
+
+```{r}
+nrc_word <- trump_tidy %>% 
+  inner_join(get_sentiments("nrc"), by = "word")
+
+nrc <- trump_tidy %>% 
+  inner_join(get_sentiments("nrc"), by = "word") %>% 
+  count(ID = ID, sentiment) %>%
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %>% 
+  mutate(dict = "NRC")
+
+str(nrc)
+trump_nrc <- trump_clean %>%
+  select(c("ID","date", "clean_text")) %>%
+  merge(nrc, by = "ID", all.x = T) %>%
+  mutate(
+    wordcount = str_count(clean_text, "\\w+"),
+    anticipation_ave = anticipation / wordcount,
+    joy_ave = joy / wordcount,
+    surprise_ave = surprise / wordcount,
+    trust_ave = trust / wordcount,
+    anger_ave = anger / wordcount,
+    fear_ave = fear / wordcount,
+    disgust_ave = disgust / wordcount,
+    sadness_ave = sadness / wordcount,
+    sen_ave = (positive - negative)/(positive + negative)
+   )
+
+
+
+trump_nrc %>%
+  select(c("ID", "anticipation", "joy", "surprise", "trust", "anger", "fear",
+           "disgust", "sadness")) %>%
+  pivot_longer(!ID, names_to = "emotion", values_to = "value") %>%
+  ggplot(aes(x = emotion, y = value, color = emotion)) +
+  geom_bar(stat = "identity", na.rm = T) +
+  theme_bw() +
+  theme(legend.position = "none")
+
+
+trump_nrc %>%
+  select(c("date", "anticipation_ave", "joy_ave", "surprise_ave", "trust_ave", "anger_ave", "fear_ave", "disgust_ave", "sadness_ave")) %>%
+  pivot_longer(!date, names_to = "emotion", values_to = "value") %>%
+  ggplot(aes(x = date, y = value, color = emotion)) +
+  geom_point() +
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year") +
+  geom_vline(xintercept = as.Date("2016-11-9"), linetype = 4, color = "red") +
+  labs(x = "Date", y = "Daily average emotion") +
+  theme_bw() +
+  theme(legend.position = "none") +
+  facet_grid(emotion~.)
+
+```
+
+#### (AGAIN) Everyone loves wordcloud!
+
+```{r}
+wordcloud_nrc <- trump_tidy %>% 
+  anti_join(stop_words) %>%
+  inner_join(get_sentiments("nrc"), by = "word") %>% 
+  count(sentiment, word, sort = T) %>%
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %>%
+  select(-c("positive", "negative")) %>%
+  column_to_rownames("word")
+
+set.seed(123)
+comparison.cloud(term.matrix = wordcloud_nrc,scale = c(2,0.5),max.words = 300, rot.per=0,
+                 title.size = 1)
+```
+
+### VADER
+
+[Valence Aware Dictionary and sEntiment Reasoner (VADER)](https://github.com/cjhutto/vaderSentiment) is a lexical database and rule-based sentiment analysis tool that is optimized for social media sentiments. Normally, it will give you four different scores:
+
+- The `compound` score is computed by summing the valence scores of each word in the lexicon, adjusted according to the rules, and then normalized to be between -1 (most extreme negative) and +1 (most extreme positive). This is the most useful metric if you want a single unidimensional measure of sentiment for a given sentence. You can consider it is a 'normalized, weighted composite score.' It is also useful if you would like to set standardized thresholds for classifying sentences as either positive, neutral, or negative. Typical threshold values are:
+  - positive sentiment: compound score >= 0.05
+  - neutral sentiment: (compound score > -0.05) and (compound score < 0.05)
+  - negative sentiment: compound score <= -0.05
+- The `pos`, `neu`, and `neg` scores are ratios for proportions of text that fall in each category (so these should all add up to be 1... or close to it with float operation). These are the most useful metrics if you want to analyze the context & presentation of how sentiment is conveyed or embedded in rhetoric for a given sentence. 
+- The `but_count` is a negation function.
+- Additionally, it can deal with emoji/emoticon as well. As [stated](https://github.com/cjhutto/vaderSentiment/issues/94), VADER's ability to score the sentiment of each emoji is accomplished by converting the emoji to it's official [textual description](https://github.com/cjhutto/vaderSentiment/blob/master/vaderSentiment/emoji_utf8_lexicon.txt), and then just processing that text as normal. If you are interested in that, please let me know and I can pull up some resources for you.
+
+![[VADER](https://t-redactyl.io/blog/2017/04/using-vader-to-handle-sentiment-analysis-with-social-media-text.html)](image/vader.jpeg)
+
+```{r}
+get_vader("This book is horrible, but I love it.")
+get_vader("This book is horrible, but I love it!")
+```
+
+```{r}
+#| eval: false
+vader_sen <- vader_df(trump_clean$clean_text)
+```
+
+```{r}
+#| eval: false
+vader_sen_ts <- trump_clean %>%
+  select("clean_text", "date") %>%
+  cbind(vader_sen) %>%
+  group_by(date) %>%
+  summarise(sen_ave = mean(compound))
+
+vader_sen_ts %>%
+  ggplot(aes(x = date, y = sen_ave)) +
+  geom_point() +
+  geom_smooth() +
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year") +
+  geom_vline(xintercept = as.Date("2016-11-9"), linetype = 4, color = "red") +
+  annotate("text", x=as.Date("2016-11-9"), y=1.2, label="When Trump won the 2016 election", color = "red") +
+  labs(x = "Date", y = "Daily average emotion") +
+  theme_bw() +
+  theme(legend.position = "none")
+
+```
+
+# Toxicity detection
+[Perspective](https://www.perspectiveapi.com/) is an API that uses machine learning models to score the perceived impact a comment might have on a conversation. [`peRspective` ](https://github.com/favstats/peRspective) provides access to the API using the R programming language. For an excellent documentation of the Perspective API see [here](https://github.com/conversationai/perspectiveapi/tree/master/2-api).
+
+It is not a dictionary/lexicon-based approach like what we have conducted above. Instead, it is a zero-shot machine learning model. And we should always be cautious about the [training data](https://developers.perspectiveapi.com/s/about-the-api-training-data?language=en_US), and their [model cards](https://developers.perspectiveapi.com/s/about-the-api-model-cards?language=en_US)(including how do they define the different categories).
+
+```{r}
+#| warning: false
+#| eval: false
+
+library(peRspective) # devtools::install_github("favstats/peRspective")
+usethis::edit_r_environ() # save perspective_api_key="YOUR_API_KEY" in the environment file
+```
+```{r}
+#| eval: false
+
+trump_tweet <- "The Fake News Media has NEVER been more Dishonest or Corrupt than it is right now. There has never been a time like this in American History. Very exciting but also, very sad! Fake News is the absolute Enemy of the People and our Country itself!"
+text_scores <- prsp_score(
+           text = trump_tweet, 
+           languages = "en",
+           score_model = prsp_models
+           )
+text_scores %>% 
+  gather() %>% 
+  mutate(key = forcats::fct_reorder(key, value)) %>% 
+  ggplot(ggplot2::aes(key, value)) +
+  geom_col() +
+  coord_flip() +
+  ylim(0, 1) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  labs(x = "Model", y = "Probability", title = "Perspective API Results") +
+  theme_bw()
+
+```
+```{r}
+#| eval: false
+
+my_text <- "You wrote this? Wow. This is dumb and childish, please go f**** yourself."
+
+my_text_scores <- prsp_score(
+           text = my_text, 
+           languages = "en",
+           score_model = peRspective::prsp_models
+           )
+
+my_text_scores %>% 
+  gather() %>% 
+  mutate(key = forcats::fct_reorder(key, value)) %>% 
+  ggplot(ggplot2::aes(key, value)) +
+  geom_col() +
+  coord_flip() +
+  ylim(0, 1) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  labs(x = "Model", y = "Probability", title = "Perspective API Results") +
+  theme_bw()
+```
+
+```{r}
+#| eval: false
+
+trump_toxicity <- trump_clean %>%
+  select(c("ID", "clean_text")) %>%
+  mutate(across(where(is.character), ~ na_if(.,""))) %>%
+  drop_na() %>%
+  sample_n(100)
+  
+
+toxicity <- trump_toxicity %>%
+  prsp_stream(text = clean_text,
+              text_id = ID,
+              score_model = c("TOXICITY", "SEVERE_TOXICITY", "INSULT", "PROFANITY"),
+              safe_output = T)
+
+```
+

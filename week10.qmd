@@ -1,0 +1,43 @@
+---
+title: "Week 10 Lab"
+subtitle: "Topic modeling"
+execute: 
+  eval: true
+---
+
+```{r}
+#| warning: false
+library(tidyverse)
+library(quanteda)
+```
+
+
+# Weighting: "Bag-of-words" and tf-idf
+
+As you may recall, we previously discussed the "bag-of-words" approach, which involves converting a corpus into a document-term matrix (DTM) where each value represents a count. In many cases, it is beneficial to convert count data into logged count data. This transformation can be accomplished using the `dfm_weight` command here. The most commonly used weighting scheme is **term frequency-inverse document frequency** (tf-idf). The general idea is to take a term frequency or logged term frequency and *downweight* that according to (logged) document frequency. The intuition is that the most important words are those that are used a lot in a given document but relatively rare in the corpus overall. Mathematically, the tf-idf is:
+
+![[The mathematical expression of tf-idf](https://filotechnologia.blogspot.com/2014/01/a-simple-java-class-for-tfidf-scoring.html)](image/tfidf.png)
+
+If we would like to translate into layman language:
+
+$$
+term\; frequency = \frac{number\; of\; times\; the\; term\; appears\; in\; the\; document}{total\; number\; of\; terms\; in\; the\; document}
+$$ 
+$$
+inverse\; document\; frequency = \log(\frac{number\; of\; the\; documents\; in\; the\; corpus}{number\; of\; documents\; in\; the\; corpus\; contain\; the\; term})
+$$ 
+$$
+TF-IDF = TF * IDF
+$$ 
+With tf-idf, the importance of a term is high when it occurs a lot in a given document and rarely in others. In short, commonality within a document measured by TF is balanced by rarity between documents measured by IDF. The resulting TF-IDF score reflects the importance of a term for a document in the corpus. Let's use Maya Angelou's [*Caged Bird*](https://www.poetryfoundation.org/poems/48989/caged-bird)as an illustration again:
+
+```{r}
+texts <- c(
+    "The caged bird sings with a fearful trill", 
+    "for the caged bird sings of freedom",
+    "The free bird thinks of another breeze")
+dtm <- tokens(texts) %>% dfm()
+dtm_tfidf <- dfm_tfidf(dtm)
+convert(dtm, "matrix")
+convert(dtm_tfidf, "matrix")
+```

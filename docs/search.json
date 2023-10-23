@@ -754,5 +754,40 @@
     "title": "Week 10 Lab",
     "section": "",
     "text": "library(tidyverse)\nlibrary(quanteda)\n\n\nWeighting: “Bag-of-words” and tf-idf\nAs you may recall, we previously discussed the “bag-of-words” approach, which involves converting a corpus into a document-term matrix (DTM) where each value represents a count. In many cases, it is beneficial to convert count data into logged count data. This transformation can be accomplished using the dfm_weight command here. The most commonly used weighting scheme is term frequency-inverse document frequency (tf-idf). The general idea is to take a term frequency or logged term frequency and downweight that according to (logged) document frequency. The intuition is that the most important words are those that are used a lot in a given document but relatively rare in the corpus overall. Mathematically, the tf-idf is:\n\n\n\nThe mathematical expression of tf-idf\n\n\nIf we would like to translate into layman language:\n\\[\nterm\\; frequency = \\frac{number\\; of\\; times\\; the\\; term\\; appears\\; in\\; the\\; document}{total\\; number\\; of\\; terms\\; in\\; the\\; document}\n\\] \\[\ninverse\\; document\\; frequency = \\log(\\frac{number\\; of\\; the\\; documents\\; in\\; the\\; corpus}{number\\; of\\; documents\\; in\\; the\\; corpus\\; contain\\; the\\; term})\n\\] \\[\nTF-IDF = TF * IDF\n\\] With tf-idf, the importance of a term is high when it occurs a lot in a given document and rarely in others. In short, commonality within a document measured by TF is balanced by rarity between documents measured by IDF. The resulting TF-IDF score reflects the importance of a term for a document in the corpus. Let’s use Maya Angelou’s Caged Birdas an illustration again:\n\ntexts &lt;- c(\n    \"The caged bird sings with a fearful trill\", \n    \"for the caged bird sings of freedom\",\n    \"The free bird thinks of another breeze\")\ndtm &lt;- tokens(texts) %&gt;% dfm()\ndtm_tfidf &lt;- dfm_tfidf(dtm)\nconvert(dtm, \"matrix\")\n\n       features\ndocs    the caged bird sings with a fearful trill for of freedom free thinks\n  text1   1     1    1     1    1 1       1     1   0  0       0    0      0\n  text2   1     1    1     1    0 0       0     0   1  1       1    0      0\n  text3   1     0    1     0    0 0       0     0   0  1       0    1      1\n       features\ndocs    another breeze\n  text1       0      0\n  text2       0      0\n  text3       1      1\n\nconvert(dtm_tfidf, \"matrix\")\n\n       features\ndocs    the     caged bird     sings      with         a   fearful     trill\n  text1   0 0.1760913    0 0.1760913 0.4771213 0.4771213 0.4771213 0.4771213\n  text2   0 0.1760913    0 0.1760913 0.0000000 0.0000000 0.0000000 0.0000000\n  text3   0 0.0000000    0 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000\n       features\ndocs          for        of   freedom      free    thinks   another    breeze\n  text1 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000\n  text2 0.4771213 0.1760913 0.4771213 0.0000000 0.0000000 0.0000000 0.0000000\n  text3 0.0000000 0.1760913 0.0000000 0.4771213 0.4771213 0.4771213 0.4771213"
+  },
+  {
+    "objectID": "slides/week9_slides.html#what-is-sentiment-analysis",
+    "href": "slides/week9_slides.html#what-is-sentiment-analysis",
+    "title": "COMM 605",
+    "section": "What is sentiment analysis?",
+    "text": "What is sentiment analysis?\nSentiment analysis measures the polarity or tonality of texts by identifying and assessing expressions people use to evaluate or appraise persons, entities (e.g., products, services) or events (Pang and Lee 2008; Soroka 2014).\nSentiment on social media: people use social media to express their feelings, attitude, views, arguments, opinions on wide range of topic:\n\nBusiness: Users reviews, customers attitude and trends, sales performance\nHealth: Depression, public health\nPolitics: election prediction, polarization, public opinion or media tone\nEngagement in Advertising/Strategic communication: “if it bleeds, it leads.”\n\n\nBusiness: many users give feedbacks and reviews various products and services on various e-commerce sites. User’s ratings and reviews on multiple platforms encourage vendors and service providers to enhance their current systems, goods, or services.\nPeople have been sharing their thoughts, opinions, and feelings on the Covid-19 pandemic on social media. To save patients from mental health issues like depression, health practitioners might use automated sentiment and emotion analysis\nIn politics, a prominent example is media negativity, a concept that captures the over-selection of negative over positive news, the tonality of media stories, and the degree of conflict or confrontation in the news. Or identify issue positions or public opinion in online debates; for studying negative campaigning.\nSensational stories whose subject is grim and menacing are likely to get more attention, as expressed in a decades-old mantra, “if it bleeds, it leads”."
+  },
+  {
+    "objectID": "slides/week9_slides.html#measurement-of-sentiment-analysis",
+    "href": "slides/week9_slides.html#measurement-of-sentiment-analysis",
+    "title": "COMM 605",
+    "section": "Measurement of sentiment analysis",
+    "text": "Measurement of sentiment analysis\nLevel of analysis:\n\nword-level, sentence-level, document-level, aspect-level, concept-level\n\nMeasurement:\n\nPolarity-based setniment:a polarity is normally a categorical attribute: positive or negative.\nValence-based sentiment: a valence is in the form of a continuous value indicating a degree of sentiment."
+  },
+  {
+    "objectID": "slides/week9_slides.html#what-about-emotions",
+    "href": "slides/week9_slides.html#what-about-emotions",
+    "title": "COMM 605",
+    "section": "What about emotions?",
+    "text": "What about emotions?\nEmotions: complex states of feeling lead to a change in thoughts, actions, behavior, and personality.\n\nDimensional emotion model (Russel, 1980)\nDiscrete emotion model (Plutchik, 2003)"
+  },
+  {
+    "objectID": "slides/week9_slides.html#dimensional-emotion-model",
+    "href": "slides/week9_slides.html#dimensional-emotion-model",
+    "title": "COMM 605",
+    "section": "Dimensional emotion model",
+    "text": "Dimensional emotion model\n\nValence-arousal Plane\nTwo-dimensional plane commonly called the valence-arousal plane: The arousal dimension may vary from “not-aroused” to “excited” while the valence dimension can be negative or positive.\nThis figure illustrates the four-class model by Russell that has been widely adopted by various researchers for their research. The model consists of four quadrants with each quadrant represents high or low arousal, with negative or positive valence. The first quadrant shows high arousal with positive valence which is associated with happy emotion, the second quadrant shows high arousal with a negative valence usually associated with angry emotions, the third quadrant shows low arousal with negative valence that represents a sad emotion and the fourth quadrant with low arousal with positive valence that associates with calm emotion."
+  },
+  {
+    "objectID": "slides/week9_slides.html#discrete-emotion-model",
+    "href": "slides/week9_slides.html#discrete-emotion-model",
+    "title": "COMM 605",
+    "section": "Discrete emotion model",
+    "text": "Discrete emotion model\n\n\n\nWheel of Emotions\n\n\n\nPlutchik proposed a wheel model consisting of eight basic emotions which include joy, trust, fear, surprise, sadness, disgust, anger, and anticipation\nThe wheel model describes emotions respective to the intensity, whereby strong emotions are placed in the center and weaker emotions are placed towards the edge of the flower bloom-like model\n\n\n\n\nCOMM 605: Week 6"
   }
 ]

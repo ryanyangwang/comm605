@@ -1,0 +1,131 @@
+---
+title: "COMM 605"
+subtitle: "Week 9: Dictionary/Lexicon-based Sentiment Analysis"
+date: 2023-10-23
+date-format: long
+author: 
+    - name: "Ryan Y. Wang, Ph.D."
+      email: ryanwang@rit.mail.edu
+      affiliation: School of Communication
+
+format:
+   revealjs:
+    theme: rit.scss
+    logo: /image/rit.png
+    footer: "COMM 605: Week 6"
+    date-format: long
+    slide-number: true
+    scrollable: true
+    chalkboard: true
+    src: drawings.json
+    #embed-resources: true
+    include-in-header:
+      - text: |
+          <style>
+          #title-slide .title {
+            font-size: 2em;
+          }
+          </style>
+    title-slide-attributes: 
+      data-background-image: /image/paw.png
+      data-background-size: 20%
+      data-background-position: 50% 5%
+---
+
+## What is sentiment analysis?
+
+Sentiment analysis measures the polarity or tonality of texts by identifying and assessing expressions people use to evaluate or appraise persons, entities (e.g., products, services) or events ([Pang and Lee 2008](http://dx.doi.org/10.1561/1500000011); [Soroka 2014](https://doi.org/10.1017/CBO9781107477971)).
+
+Sentiment on social media: people use social media to express their feelings, attitude, views, arguments, opinions on wide range of topic:
+
+-   Business: Users reviews, customers attitude and trends, sales performance
+-   Health: Depression, public health
+-   Politics: election prediction, polarization, public opinion or media tone
+-   Engagement in Advertising/Strategic communication: "if it bleeds, it leads."
+
+::: notes
+Business: many users give feedbacks and reviews various products and services on various e-commerce sites. User's ratings and reviews on multiple platforms encourage vendors and service providers to enhance their current systems, goods, or services.
+
+People have been sharing their thoughts, opinions, and feelings on the Covid-19 pandemic on social media. To save patients from mental health issues like depression, health practitioners might use automated sentiment and emotion analysis
+
+In politics, a prominent example is media negativity, a concept that captures the over-selection of negative over positive news, the tonality of media stories, and the degree of conflict or confrontation in the news. Or identify issue positions or public opinion in online debates; for studying negative campaigning.
+
+Sensational stories whose subject is grim and menacing are likely to get more attention, as expressed in a decades-old mantra, "if it bleeds, it leads".
+:::
+
+## Measurement of sentiment analysis
+
+Level of analysis:
+
+-   word-level, sentence-level, document-level, aspect-level, concept-level
+
+Measurement:
+
+-   Polarity-based setniment:a polarity is normally a categorical attribute: positive or negative.
+-   Valence-based sentiment: a valence is in the form of a continuous value indicating a degree of sentiment.
+
+## What about emotions?
+
+Emotions: complex states of feeling lead to a change in thoughts, actions, behavior, and personality.
+
+-   Dimensional emotion model ([Russel, 1980](https://doi.org/10.1037/h0077714))
+-   Discrete emotion model ([Plutchik, 2003](https://www.amazon.com/Emotions-Life-Perspectives-Psychology-Evolution/dp/1557989494))
+
+## Dimensional emotion model
+
+![Valence-arousal Plane](/image/valence_arousal.jpeg)
+
+::: notes
+Two-dimensional plane commonly called the valence-arousal plane: The arousal dimension may vary from "not-aroused" to "excited" while the valence dimension can be negative or positive.
+
+This figure illustrates the four-class model by Russell that has been widely adopted by various researchers for their research. The model consists of four quadrants with each quadrant represents high or low arousal, with negative or positive valence. The first quadrant shows high arousal with positive valence which is associated with happy emotion, the second quadrant shows high arousal with a negative valence usually associated with angry emotions, the third quadrant shows low arousal with negative valence that represents a sad emotion and the fourth quadrant with low arousal with positive valence that associates with calm emotion.
+:::
+
+## Discrete emotion model
+
+![Wheel of Emotions](/image/plutchik.png){width=50%}
+
+::: notes
+Plutchik proposed a wheel model consisting of eight basic emotions which include joy, trust, fear, surprise, sadness, disgust, anger, and anticipation
+
+The wheel model describes emotions respective to the intensity, whereby strong emotions are placed in the center and weaker emotions are placed towards the edge of the flower bloom-like model
+:::
+
+
+## Methods in sentiment analysis
+
+- Dictionary-based (this tutorial): [Linguistic Inquiry and Word Count(LIWC)](https://www.liwc.app/static/documents/LIWC-22%20Manual%20-%20Development%20and%20Psychometrics.pdf)
+  - It makes use of a predefined list of words, where each word is associated with a specific sentiment.
+  - A basic assumption of using a dictionary is that it contains the most important words required for rating a text.
+- Supervise machine learning and Deep learning (pre-trained model, large language model)
+  - It relies on supervised classification approaches based on training data, where sentiment detection is framed as a binary (i.e., positive/negative/neutral).
+
+
+Questions: are they able to produce the same sentiment rating of texts as a human coder?
+- van Atteveldt (2003):
+  * The best performance is still attained with trained human or crowd coding
+  * None of the used dictionaries come close to acceptable levels of validity
+  * Machine learning, especially deep learning, substantially outperforms dictionary-based methods but falls short of human performance
+
+::: notes
+LIWC (Linguistic Inquiry and Word Count) is a text analysis tool that evaluates emotional, cognitive, and struc- tural components of a given text based on the use of a dictionary containing words and their classified categories.
+
+A recent comparison of English language dictionaries and machine learning approaches found that “dictionaries had exceptional precision, but very low recall, suggesting that the method can be accurate, but that current lexicons are lacking scope. Machine learning systems worked in the opposite manner, exhibiting greater coverage but more error” (Soroka et al. 2015a, p. 112).
+
+:::
+
+
+## Empirical examples
+
+- Dubovi and Tabk (2021): public engagement with science on YouTube
+  - Detect emotion via lexicon-based sentiment analysis based on `syuzhet `package
+  - Statistical analysis on cognitive engagement (argumentative expression) with emotional and behavioral engagement
+  
+- Harris and Krishnan (2023): Suicide Prevention Public Service Announcements and User Comments on YouTube
+  - (Human) Content analysis on 72 videos: gain-loss frame; argument-narrative format
+  - (Computational) Textual analysis on users' comments
+    - Sentiment analysis: negative and positive
+    - Latent semantic analysis: help seeking or avoidant
+    
+# Thank you!
+

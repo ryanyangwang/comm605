@@ -5,7 +5,7 @@ execute:
   eval: true
 ---
 
-```{r results='hide'}
+```{r}
 #| label: load-package
 #| warning: false
 library(tidyverse)
@@ -43,7 +43,7 @@ trump_clean <- trump %>% mutate(
   hashtag = str_extract_all(text, "#\\w+"),
   url = str_extract_all(text, "https?://\\S+"), 
   ### Remove all the mentions, hashtags, and url for text cleaning
-  clean_text = str_replace_all(text, "RT\\s*@|@\\w+", " ") %>% ### remove mentions
+  clean_text = str_replace_all(text, "RT\\s*@\\w+|@\\S+", " ") %>% ### remove mentions
                str_replace_all(., "#\\w+", " ") %>% ### remove hashtags
                str_replace_all(., "https?://\\S+", " ") %>% ### remove URL
                str_replace_all("\\W+", " ") %>% ### remove all the non-words
@@ -130,7 +130,6 @@ set.seed(123)
 textplot_network(user_fcm, min_freq = 0.1, edge_color = "orange", edge_alpha = 0.8, edge_size = 1, vertex_labelsize = 3.5)
 ```
 
-
 # Dictionaries/Lexicon-based sentiment/emotion analysis
 
 Once more, it's important to emphasize that this tutorial exclusively concentrates on dictionary-based sentiment analysis. In other words, we won't delve into topics such as supervised machine learning or deep learning. Additionally, there are numerous alternative packages capable of achieving the same objectives, inlcuding but not limited to [quanteda.sentiment](https://github.com/quanteda/quanteda.sentiment), [`tidytext`](https://www.tidytextmining.com/sentiment), [`sentimentr`](https://github.com/trinker/sentimentr), [`syuzhet`](https://github.com/mjockers/syuzhet), among others. However, they essentially operate on the same underlying principles.
@@ -139,8 +138,6 @@ Sentiment analysis is the task of automatically classifying texts according to t
 
 -   Polarity-based setniment:a polarity is normally a categorical attribute: positive or negative. This can be implemented by computing a sentiment based on keys set as "poles" of positive versus negative sentiment. Polar values are converted into sentiment scores using a flexible function, such as $log(pos-neg)$, or $(pos-neg)/(pos+neg)$.
 -   Valence-based sentiment: a valence is in the form of a continuous value indicating a degree of sentiment. This can be implemented by computing sentiment as the average valence of a document's words, based on a dictionary whose values have numeric valence scores. Each key in a dictionary may have values with difference valences.
-
-
 
 ```{r}
 x1 <- get_sentiments(lexicon = "nrc") %>%
@@ -367,13 +364,13 @@ comparison.cloud(term.matrix = wordcloud_nrc,scale = c(2,0.5),max.words = 300, r
 
 [Valence Aware Dictionary and sEntiment Reasoner (VADER)](https://github.com/cjhutto/vaderSentiment) is a lexical database and rule-based sentiment analysis tool that is optimized for social media sentiments. Normally, it will give you four different scores:
 
-- The `compound` score is computed by summing the valence scores of each word in the lexicon, adjusted according to the rules, and then normalized to be between -1 (most extreme negative) and +1 (most extreme positive). This is the most useful metric if you want a single unidimensional measure of sentiment for a given sentence. You can consider it is a 'normalized, weighted composite score.' It is also useful if you would like to set standardized thresholds for classifying sentences as either positive, neutral, or negative. Typical threshold values are:
-  - positive sentiment: compound score >= 0.05
-  - neutral sentiment: (compound score > -0.05) and (compound score < 0.05)
-  - negative sentiment: compound score <= -0.05
-- The `pos`, `neu`, and `neg` scores are ratios for proportions of text that fall in each category (so these should all add up to be 1... or close to it with float operation). These are the most useful metrics if you want to analyze the context & presentation of how sentiment is conveyed or embedded in rhetoric for a given sentence. 
-- The `but_count` is a negation function.
-- Additionally, it can deal with emoji/emoticon as well. As [stated](https://github.com/cjhutto/vaderSentiment/issues/94), VADER's ability to score the sentiment of each emoji is accomplished by converting the emoji to it's official [textual description](https://github.com/cjhutto/vaderSentiment/blob/master/vaderSentiment/emoji_utf8_lexicon.txt), and then just processing that text as normal. If you are interested in that, please let me know and I can pull up some resources for you.
+-   The `compound` score is computed by summing the valence scores of each word in the lexicon, adjusted according to the rules, and then normalized to be between -1 (most extreme negative) and +1 (most extreme positive). This is the most useful metric if you want a single unidimensional measure of sentiment for a given sentence. You can consider it is a 'normalized, weighted composite score.' It is also useful if you would like to set standardized thresholds for classifying sentences as either positive, neutral, or negative. Typical threshold values are:
+    -   positive sentiment: compound score \>= 0.05
+    -   neutral sentiment: (compound score \> -0.05) and (compound score \< 0.05)
+    -   negative sentiment: compound score \<= -0.05
+-   The `pos`, `neu`, and `neg` scores are ratios for proportions of text that fall in each category (so these should all add up to be 1... or close to it with float operation). These are the most useful metrics if you want to analyze the context & presentation of how sentiment is conveyed or embedded in rhetoric for a given sentence.
+-   The `but_count` is a negation function.
+-   Additionally, it can deal with emoji/emoticon as well. As [stated](https://github.com/cjhutto/vaderSentiment/issues/94), VADER's ability to score the sentiment of each emoji is accomplished by converting the emoji to it's official [textual description](https://github.com/cjhutto/vaderSentiment/blob/master/vaderSentiment/emoji_utf8_lexicon.txt), and then just processing that text as normal. If you are interested in that, please let me know and I can pull up some resources for you.
 
 ![[VADER](https://t-redactyl.io/blog/2017/04/using-vader-to-handle-sentiment-analysis-with-social-media-text.html)](image/vader.jpeg)
 
@@ -409,7 +406,8 @@ vader_sen_ts %>%
 ```
 
 # Toxicity detection
-[Perspective](https://www.perspectiveapi.com/) is an API that uses machine learning models to score the perceived impact a comment might have on a conversation. [`peRspective` ](https://github.com/favstats/peRspective) provides access to the API using the R programming language. For an excellent documentation of the Perspective API see [here](https://github.com/conversationai/perspectiveapi/tree/master/2-api).
+
+[Perspective](https://www.perspectiveapi.com/) is an API that uses machine learning models to score the perceived impact a comment might have on a conversation. [`peRspective`](https://github.com/favstats/peRspective) provides access to the API using the R programming language. For an excellent documentation of the Perspective API see [here](https://github.com/conversationai/perspectiveapi/tree/master/2-api).
 
 It is not a dictionary/lexicon-based approach like what we have conducted above. Instead, it is a zero-shot machine learning model. And we should always be cautious about the [training data](https://developers.perspectiveapi.com/s/about-the-api-training-data?language=en_US), and their [model cards](https://developers.perspectiveapi.com/s/about-the-api-model-cards?language=en_US)(including how do they define the different categories).
 
@@ -420,6 +418,7 @@ It is not a dictionary/lexicon-based approach like what we have conducted above.
 library(peRspective) # devtools::install_github("favstats/peRspective")
 usethis::edit_r_environ() # save perspective_api_key="YOUR_API_KEY" in the environment file
 ```
+
 ```{r}
 #| eval: false
 
@@ -441,6 +440,7 @@ text_scores %>%
   theme_bw()
 
 ```
+
 ```{r}
 #| eval: false
 
@@ -481,4 +481,3 @@ toxicity <- trump_toxicity %>%
               safe_output = T)
 
 ```
-

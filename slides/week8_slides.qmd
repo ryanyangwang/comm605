@@ -43,7 +43,7 @@ A few different jargons:
 -   Text-as-data
     -   Political science: political speech, newspaper
     -   What are the differences?
-    
+
 ::: notes
 Long articles, which might less messy (comparatively speaking)
 :::
@@ -70,21 +70,11 @@ An approach in which the analysis of text is, to some extent, automatically cond
 -   Inductive: exploring unknown categories in text
     -   Unsupervised machine learning
         -   i.e., topic modeling to identify topics based on word co-occurences.
-- Large language model: GPT, LLaMA, PaLM, etc.
+-   Large language model: GPT, LLaMA, PaLM, etc.
 
 ## What questions we can ask (in communication)?
- ,
-- Actors: Name entities recognition (NER) for persons, organizations, or location
-  - simple count (mention)
-  - measure how different entities relate to each other (who talks about whom)
-  - sentiment concerning specific actors (how an entity is evaluated)
-- Sentiment or Tone (not **stance**)
-  - The general sentiment or tone of news in economics or political coverage
-  - Machine learning approaches in general might be better suited to analyze sentiment than dictionaries, and they might still fall short of human coding ([van Atteveldt et al. 2021](https://doi.org/10.1080/19312458.2020.1869198)).
-- Topics: what is being talked about in texts
-- Frames: How issues are being talked about, in particular framing as the selection and salience of specific aspects
-  - [OpenFraming](http://www.openframing.org/home.html)
 
+, - Actors: Name entities recognition (NER) for persons, organizations, or location - simple count (mention) - measure how different entities relate to each other (who talks about whom) - sentiment concerning specific actors (how an entity is evaluated) - Sentiment or Tone (not **stance**) - The general sentiment or tone of news in economics or political coverage - Machine learning approaches in general might be better suited to analyze sentiment than dictionaries, and they might still fall short of human coding ([van Atteveldt et al. 2021](https://doi.org/10.1080/19312458.2020.1869198)). - Topics: what is being talked about in texts - Frames: How issues are being talked about, in particular framing as the selection and salience of specific aspects - [OpenFraming](http://www.openframing.org/home.html)
 
 ## What is missing?
 
@@ -110,12 +100,13 @@ The validation of unsupervised models is less direct. While studies argue that t
 ## Next steps?
 
 ### What we will cover in this class?
-- Dictionaries and rule-based approach in sentiment analysis
-- Unsupervised machine learning in topic modeling
-- (maybe) Zero-shot machine learning in toxcicity detection
-  - Google's Perspective API (no training dataset is needed)
-  
-### What we will **NOT** cover in this class?
-- Supervised machine learning: train your own model for classification/regression
-- Deep learning (neural network) 
 
+-   Dictionaries and rule-based approach in sentiment analysis
+-   Unsupervised machine learning in topic modeling
+-   (maybe) Zero-shot machine learning in toxcicity detection
+    -   Google's Perspective API (no training dataset is needed)
+
+### What we will **NOT** cover in this class?
+
+-   Supervised machine learning: train your own model for classification/regression
+-   Deep learning (neural network)

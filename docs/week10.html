@@ -109,9 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      Social Media Analytics and Research
-      </li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./week3.html">Tutorials</a></li><li class="breadcrumb-item"><a href="./week10.html">Week 10 Lab</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -193,6 +191,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Week 9 Lab</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week10.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 10 Lab</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -223,6 +227,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#weighting-bag-of-words-and-tf-idf" id="toc-weighting-bag-of-words-and-tf-idf" class="nav-link active" data-scroll-target="#weighting-bag-of-words-and-tf-idf">Weighting: “Bag-of-words” and tf-idf</a></li>
+  <li><a href="#topic-modeling" id="toc-topic-modeling" class="nav-link" data-scroll-target="#topic-modeling">Topic modeling</a></li>
+  <li><a href="#structual-topic-modeling" id="toc-structual-topic-modeling" class="nav-link" data-scroll-target="#structual-topic-modeling">Structual topic modeling</a></li>
+  <li><a href="#pre-processing" id="toc-pre-processing" class="nav-link" data-scroll-target="#pre-processing">Pre-processing</a>
+  <ul class="collapse">
+  <li><a href="#fit-a-10-topic-model" id="toc-fit-a-10-topic-model" class="nav-link" data-scroll-target="#fit-a-10-topic-model">Fit a 10-topic model</a></li>
+  <li><a href="#examining-the-10-topics-model" id="toc-examining-the-10-topics-model" class="nav-link" data-scroll-target="#examining-the-10-topics-model">Examining the 10-topics model</a></li>
+  <li><a href="#topic-proportion" id="toc-topic-proportion" class="nav-link" data-scroll-target="#topic-proportion">Topic proportion</a></li>
+  <li><a href="#topic-network-and-correlation" id="toc-topic-network-and-correlation" class="nav-link" data-scroll-target="#topic-network-and-correlation">Topic network and correlation</a></li>
+  <li><a href="#word-distribution" id="toc-word-distribution" class="nav-link" data-scroll-target="#word-distribution">Word distribution</a></li>
+  </ul></li>
+  <li><a href="#docuemnt-level-the-meta-data" id="toc-docuemnt-level-the-meta-data" class="nav-link" data-scroll-target="#docuemnt-level-the-meta-data">Docuemnt-level The meta-data</a>
+  <ul class="collapse">
+  <li><a href="#comparing-the-topic-proportion-before-and-after-trump-won-the-election" id="toc-comparing-the-topic-proportion-before-and-after-trump-won-the-election" class="nav-link" data-scroll-target="#comparing-the-topic-proportion-before-and-after-trump-won-the-election">Comparing the topic proportion before and after Trump won the election</a></li>
+  <li><a href="#comparing-the-topic-proportion-of-trumps-tweets-across-the-time" id="toc-comparing-the-topic-proportion-of-trumps-tweets-across-the-time" class="nav-link" data-scroll-target="#comparing-the-topic-proportion-of-trumps-tweets-across-the-time">Comparing the topic proportion of Trump’s tweets across the time</a></li>
+  </ul></li>
+  <li><a href="#topic-and-sentiment" id="toc-topic-and-sentiment" class="nav-link" data-scroll-target="#topic-and-sentiment">Topic and sentiment</a></li>
+  <li><a href="#searching-for-the-optimal-number-of-k" id="toc-searching-for-the-optimal-number-of-k" class="nav-link" data-scroll-target="#searching-for-the-optimal-number-of-k">Searching for the optimal number of <em>K</em></a></li>
+  <li><a href="#other-topic-modelings" id="toc-other-topic-modelings" class="nav-link" data-scroll-target="#other-topic-modelings">Other topic modelings</a></li>
   </ul>
 </nav>
     </div>
@@ -249,7 +271,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stm)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stminsights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="weighting-bag-of-words-and-tf-idf" class="level1">
 <h1>Weighting: “Bag-of-words” and tf-idf</h1>
@@ -302,6 +327,703 @@ docs          for        of   freedom      free    thinks   another    breeze
   text3 0.0000000 0.1760913 0.0000000 0.4771213 0.4771213 0.4771213 0.4771213</code></pre>
 </div>
 </div>
+</section>
+<section id="topic-modeling" class="level1">
+<h1>Topic modeling</h1>
+<p>Topic modeling essentially is a cluster technique which is used to identify patterns in data. In other words, the idea here is similar to k-means clustering or principal component analysis (for non-textual data): by understanding the regularities in the data (which cases or variables behave similarly), we can describe the relevant information in the data with fewer data points. Moreover, assuming that the regularities capture interesting information and the deviations from these regularities are mostly uninteresting noise, these clusters of cases or variables can actually be substantively informative.</p>
+<p>As we discuss in week 7, since a document-term matrix (DTM) is a matrix, we can also apply these clustering techniques to the DTM to find groups of words or documents. In recent years, a set of models called <em>topic models</em> have become especially popular for the unsupervised analysis of texts. Similarily, we are going to group words and documents into <em>topics</em>, which consisting of words and documents that co-vary. If you see the word <em>agriculture</em> in a news article, there is a good chance you might find words such as <em>farm</em> or <em>cattle</em>, and there is a lower chance you will find a word like <em>soldier</em>. In other words, the words <em>agriculture</em> and <em>farm</em> generally occur in the same kind of documents, so they can be said to be part of the same topic. Similarly, two documents that share a lot of words are probably about the same topic, and if you know what topic a document is on (e.g., an agricultural topic), you are better able to guess what words might occur in that document (e.g., <em>cattle</em>).</p>
+<p>In short, the goal of topic modeling could be summarized as: given a corpus, find a set of <span class="math inline">\(K\)</span> topics, consisting of specific words and/or documents, that minimize the mistakes we would make if we try to reconstruct the corpus from the topics. There are tons of different algorithm you can use for topic modeling. One of the most widely used techniques is Latent Dirichlet Allocation (LDA, <a href="https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf">Blei et al., 2003</a>). LDA renders <span class="math inline">\(K\)</span> clusters of co-occurring terms (or the topics) with a bag-of-words approach, which assumes the order of terms and the document in the corpus is neglected in the process. Meanwhile, topics are uncorrelated with each other. The LDA makes two key assumptions:</p>
+<ul>
+<li>Documents are a mixture of topics (theta <span class="math inline">\(\theta\)</span>)</li>
+<li>Topics are a mixture of tokens or words (beta <span class="math inline">\(\beta\)</span>)</li>
+</ul>
+<p>And, these topics using the probability distribution generate the words. In statistical language, the documents are known as the probability density (or distribution) of topics and the topics are the probability density (or distribution) of words. The following flow chart might help you with understanding the process better:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image/LDA.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption"><a href="https://doi.org/10.1109/ACCESS.2020.2974983">Schema of a LDA model</a></figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image/LDA_vis.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Illustration of how LDA is implemented in textual data</figcaption>
+</figure>
+</div>
+</section>
+<section id="structual-topic-modeling" class="level1">
+<h1>Structual topic modeling</h1>
+<p>We will be mainly using <code>stm</code> package (<a href="https://doi.org/10.18637/jss.v091.i02">Roberts et al., 2019</a>) for topic modeling in this tutorial (see more explanation and application on their <a href="https://www.structuraltopicmodel.com/">website</a>). The Structural Topic Model allows researchers to flexibly estimate a topic model that includes document-level metadata. Estimation is accomplished through a fast variational approximation. The <code>stm</code> package provides many useful features, including rich ways to explore topics, estimate uncertainty, and visualize quantities of interest. Meanwhile, its flexible <code>searchK</code> function and the model diagnostic metrics (i.e.&nbsp;semantic coherence, exclusivity, residuals, lower bound, and held-out likelihood), helps us greatly to identify the optimal <span class="math inline">\(K\)</span> of the topic modeling. The following flow chart is a demonstration of the typical process of conducting a STM.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image/stm.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">The process of conducting a STM</figcaption>
+</figure>
+</div>
+<p>Again we will be using Trump’s tweets for demonstration in the following tutoiral again.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>trump <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">sprintf</span>(<span class="st">"https://docs.google.com/uc?id=%s&amp;export=download"</span>, <span class="st">"1xRKHaP-QwACMydlDnyFPEaFdtskJuBa6"</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>trump_clean <span class="ot">&lt;-</span> trump <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ID =</span> <span class="fu">row_number</span>(),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">day =</span> <span class="fu">as.numeric</span>(<span class="fu">as.Date</span>(date) <span class="sc">-</span> <span class="fu">as.Date</span>(<span class="st">"2009-05-04"</span>)),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">time =</span> <span class="fu">case_when</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    date <span class="sc">&lt;</span> <span class="st">"2016-11-9"</span> <span class="sc">~</span> <span class="st">"before"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    date <span class="sc">&gt;=</span> <span class="st">"2016-11-9"</span> <span class="sc">~</span> <span class="st">"after"</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">time =</span> <span class="fu">as.factor</span>(time),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Remove all the mentions, hashtags, and url for text cleaning</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">clean_text =</span> <span class="fu">str_replace_all</span>(text, <span class="st">"RT</span><span class="sc">\\</span><span class="st">s*@</span><span class="sc">\\</span><span class="st">w+|@</span><span class="sc">\\</span><span class="st">S+"</span>, <span class="st">" "</span>) <span class="sc">%&gt;%</span> <span class="do">### remove mentions</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>               <span class="fu">str_replace_all</span>(., <span class="st">"#</span><span class="sc">\\</span><span class="st">w+"</span>, <span class="st">" "</span>) <span class="sc">%&gt;%</span> <span class="do">### remove hashtags</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>               <span class="fu">str_replace_all</span>(., <span class="st">"https?://</span><span class="sc">\\</span><span class="st">S+"</span>, <span class="st">" "</span>) <span class="sc">%&gt;%</span> <span class="do">### remove URL</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>               <span class="fu">str_replace_all</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">W+"</span>, <span class="st">" "</span>) <span class="sc">%&gt;%</span> <span class="do">### remove all the non-words</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>               <span class="fu">str_replace_all</span>(<span class="st">"amp"</span>, <span class="st">" "</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>               <span class="fu">tolower</span>() <span class="sc">%&gt;%</span> <span class="do">### lowercase</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>               <span class="fu">str_squish</span>() <span class="do">## trim the white space</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(<span class="st">"ID"</span>,<span class="st">"text"</span>, <span class="st">"clean_text"</span>, <span class="st">"day"</span>,<span class="st">"date"</span>, <span class="st">"time"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(clean_text <span class="sc">!=</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>trump_clean <span class="ot">&lt;-</span> trump_clean <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">clean_text =</span> <span class="fu">gsub</span>(<span class="st">"[^a-zA-Z0-9 ]"</span>, <span class="st">""</span>, clean_text) <span class="sc">%&gt;%</span> <span class="co"># the regular expression [^a-zA-Z0-9 ] matches any character that is not a letter (a-z or A-Z), a digit (0-9), or a space.</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">str_squish</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(clean_text <span class="sc">!=</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="pre-processing" class="level1">
+<h1>Pre-processing</h1>
+<p>First you will need to preprocess and convert your corpus into a format that <code>stm</code> can better recognize before analysis. Although using <code>textProcessor</code> function essentially is also a cleaning process, I would prefer to perform some clean-up using regular expression beforehand.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>processed_trump <span class="ot">&lt;-</span> <span class="fu">textProcessor</span>(trump_clean<span class="sc">$</span>clean_text, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">metadata=</span>trump_clean,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">lowercase =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">removestopwords =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">removenumbers =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">removepunctuation =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">stem =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">wordLengths =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="cn">Inf</span>),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">sparselevel =</span> <span class="dv">1</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">language =</span> <span class="st">"en"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">verbose =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">striphtml =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">v1 =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Building corpus... 
+Converting to Lower Case... 
+Removing punctuation... 
+Removing stopwords... 
+Removing numbers... 
+Stemming... 
+Creating Output... </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   user  system elapsed 
+ 39.153   0.595  39.909 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>trump_output <span class="ot">&lt;-</span> <span class="fu">prepDocuments</span>(processed_trump<span class="sc">$</span>documents, processed_trump<span class="sc">$</span>vocab, processed_trump<span class="sc">$</span>meta)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Removing 6102 of 15667 terms (6102 of 538995 tokens) due to frequency 
+Removing 39 Documents with No Words 
+Your corpus now has 54496 documents, 9565 terms and 532893 tokens.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   user  system elapsed 
+ 31.876   3.388  35.364 </code></pre>
+</div>
+</div>
+<p>From the output above, you probably notice that a lot of tokens (words) are remove due to frequency; and a few documents are removed due to empty value.</p>
+<section id="fit-a-10-topic-model" class="level2">
+<h2 class="anchored" data-anchor-id="fit-a-10-topic-model">Fit a 10-topic model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>trump_10 <span class="ot">&lt;-</span><span class="fu">stm</span>(trump_output<span class="sc">$</span>documents, trump_output<span class="sc">$</span>vocab, <span class="at">data=</span>trump_output<span class="sc">$</span>meta, </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">K =</span> <span class="dv">10</span>, <span class="at">prevalence=</span><span class="sc">~</span>time <span class="sc">+</span> <span class="fu">s</span>(day),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">seed =</span> <span class="dv">123</span>, <span class="at">verbose =</span> T,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">max.em.its =</span> <span class="dv">50</span>, <span class="at">init.type =</span> <span class="st">"Spectral"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="examining-the-10-topics-model" class="level2">
+<h2 class="anchored" data-anchor-id="examining-the-10-topics-model">Examining the 10-topics model</h2>
+<p>Now let’s take a look at these topics! <code>stm</code> uses four different metrics:</p>
+<ul>
+<li>Highest Probability: These are the words within each topic with the highest probability (inferred directly from topic-word distribution parameter ).</li>
+<li>FREX (<strong>FR</strong>equency and <strong>EX</strong>clusivity): Theseare the words that are both frequent and exclusive, identifying words that distinguish topics..(see <code>?calcfrex()</code>)</li>
+<li>Lift: Lift is the calculated by dividing the topic-word distribution by the empirical word count probability distribution.</li>
+<li>Score: Score is a metric that is used effectively in the <code>lda</code> package.</li>
+</ul>
+<p>In practice, we can use the words based on Highest Probability or FREX.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">labelTopics</span>(trump_10, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Topic 1 Top Words:
+     Highest Prob: never, love, know, much, call, take, support, parti, long, left 
+     FREX: love, never, problem, knew, washington, jame, aid, spent, everybodi, fbi 
+     Lift: boll, nessel, winger, cantor, filipino, insubordin, moreland, salaci, spade, stopthest 
+     Score: never, love, know, much, support, take, call, russia, parti, read 
+Topic 2 Top Words:
+     Highest Prob: like, need, don, republican, world, hillari, help, give, well, aign 
+     FREX: open, help, hillari, minist, promis, past, mail, everyth, gang, credit 
+     Lift: alexi, empress, flatten, grucci, manor, tsipra, gump, fairest, shabaab, candi 
+     Score: like, need, don, republican, hillari, world, help, give, well, open 
+Topic 3 Top Words:
+     Highest Prob: can, news, today, biden, done, said, made, strong, joe, use 
+     FREX: biden, joe, court, said, use, defund, sleepi, radic, hunter, choic 
+     Lift: affh, carney, communit, feckless, gibberish, padraig, reje, suburbia, syst, trojan 
+     Score: can, biden, today, news, joe, said, use, made, done, won 
+Topic 4 Top Words:
+     Highest Prob: trump, just, countri, donald, watch, bad, media, report, true, poll 
+     FREX: trump, donald, true, cruz, poll, smart, reagan, ami, got, brand 
+     Lift: drip, beatabl, bedminist, bout, brodi, ghost, iluvamericatrump, ipso, mustard, oreo 
+     Score: trump, donald, just, countri, watch, poll, true, media, via, bad 
+Topic 5 Top Words:
+     Highest Prob: will, great, new, even, think, show, fake, come, hous, realli 
+     FREX: book, offic, new, hear, follow, cnn, keep, player, melania, debat 
+     Lift: qvc, fled, aetna, foreperson, plateau, bethpag, weed, vick, unambigu, shaker 
+     Score: great, will, new, show, think, even, tonight, interview, realli, come 
+Topic 6 Top Words:
+     Highest Prob: vote, time, big, obama, work, elect, day, best, deal, way 
+     FREX: day, obama, turbin, florida, tweet, hope, wast, find, march, night 
+     Lift: bread, darnel, napl, niro, warhol, gabriela, dockett, brenda, ineffici, equador 
+     Score: vote, obama, time, work, big, elect, day, deal, best, way 
+Topic 7 Top Words:
+     Highest Prob: peopl, job, year, good, back, total, last, impeach, hard, start 
+     FREX: economi, year, endors, congressman, enemi, berni, lower, total, consum, feder 
+     Lift: buddhist, depo, diya, gohmert, jain, otto, rothfus, scatter, sikh, smucker 
+     Score: peopl, year, job, good, total, back, last, economi, impeach, endors 
+Topic 8 Top Words:
+     Highest Prob: now, make, say, must, border, thing, first, ever, senat, unit 
+     FREX: secur, border, week, general, tri, happen, sourc, global, host, attorney 
+     Lift: cerneke, rima, episcop, warmer, apprehens, fakih, ryder, overheard, poway, colder 
+     Score: now, make, border, say, must, first, unit, thing, secur, senat 
+Topic 9 Top Words:
+     Highest Prob: presid, one, run, win, nation, right, better, record, polit, money 
+     FREX: run, nation, anoth, game, cont, team, agre, compani, nyc, right 
+     Lift: businesspeopl, gag, vendetta, agata, brew, grandson, hudson, souza, aircrew, lasker 
+     Score: presid, run, one, win, nation, right, better, polit, anoth, put 
+Topic 10 Top Words:
+     Highest Prob: thank, get, democrat, america, state, american, want, look, mani, see 
+     FREX: china, america, american, safe, allow, yes, democrat, end, season, tax 
+     Lift: ipad, indiscrimin, idlib, kerr, favourit, provinc, underpin, coatesvill, powerless, recep 
+     Score: thank, get, america, democrat, american, state, want, look, mani, china </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(trump_10, <span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>You can also dig into the top documents associated with a topic with the <code>findThoughts</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">findThoughts</span>(trump_10, <span class="at">texts =</span> trump_output<span class="sc">$</span>meta<span class="sc">$</span>text, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">topics =</span> <span class="fu">c</span>(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Topic 10: 
+     A very good sign is that empty hospital beds are becoming more and more prevalent. We deployed 418 Doctors, Nurses and Respiratory Therapists from the hospital ship Comfort and the Javits Convention Center to hospitals in NYC &amp;amp; State. Have more bed capacity than was needed. Good!
+    China court: Apple pays $60M to settle iPad case. China is getting away with murder. http://t.co/L4FVnlof
+    RT @RepAndyBiggsAZ: “To summarize: Many Democrats wanted to impeach @realDonaldTrump from the get-go. Frustrated at their inability to get...
+    For years you had a President who apologized for America – now you have a President who is standing up for America, and standing up for Pennsylvania. So get your friends, get your family, get your neighbors, and GET OUT AND VOTE! https://t.co/gsFSgh2KPc https://t.co/xfZtBixRkk
+    For years you had a President who apologized for America—now you have a President who is standing up for America! Get your friends, get your family, get your neighbors and GET OUT &amp;amp; VOTE! On 11/3 we must finish the job and Drain the Swamp once and for all! https://t.co/RZzSuwLUSP
+    So many people at the higher ends of intelligence loved my press conference performance in Helsinki. Putin and I discussed many important subjects at our earlier meeting. We got along well which truly bothered many haters who wanted to see a boxing match. Big results will come!
+    For years you had a President who apologized for America - now you have a President who is standing up for America, and standing up for Pennsylvania. So get your friends, get your family, get your neighbors &amp;amp; co-workers, and GET OUT &amp;amp; VOTE! Early voting has already begun — VOTE! https://t.co/9LtXuWWCRV
+    Will be looking into the Scott Hapgood case, and the Island of Anguilla. Something looks and sounds very wrong. I know Anguilla will want to see this case be properly and justly resolved! @foxandfriends @SteveDucey  @ainsleyearhardt
+    The Arab League stated that it wants nothing to do with an attack on Syria, but they want us to attack.Are our leaders insane or just stupid
+    RT @TheCounter: First, there is no shortage of meat destined for the grocery store shelf. 
+
+It might take stores longer than usual to resto…</code></pre>
+</div>
+</div>
+<p>And again, everyone loves wordcloud!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cloud</span>(trump_10, <span class="at">topic =</span> <span class="dv">3</span>, <span class="at">scale =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(trump_10, <span class="at">type=</span><span class="st">"perspectives"</span>, <span class="at">topics=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>After going through the top words of each topic (based on the metrics you choose) as well as the top documents, you may find it beneficial to assign labels to the topics using a qualitative approach. However, exercise caution when crafting these labels, as they have the potential to significantly impact the interpretation of your analysis. Here are what I might label the 10 topics above:</p>
+<ul>
+<li>Topic 1: Accusations of political deception</li>
+<li>Topic 2: Border conflicts and security</li>
+<li>Topic 3: Critique of Joe Biden (on “Defund the police”)</li>
+<li>Topic 4: Media coverage on Donald Trump</li>
+<li>Topic 5: Publicity of Donald Trump (and Melania)</li>
+<li>Topic 6: Voters fraud and election concern</li>
+<li>Topic 7: Political endorsement (toward other politicians)</li>
+<li>Topic 8: Border security and immigration</li>
+<li>Topic 9: International relations and foreign diplomacy (???)</li>
+<li>Topic 10: Trump’s political discourse and various current affairs (???)</li>
+</ul>
+<p>We can also have better visualization for the results above.</p>
+</section>
+<section id="topic-proportion" class="level2">
+<h2 class="anchored" data-anchor-id="topic-proportion">Topic proportion</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>frequency10 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">colMeans</span>(trump_10<span class="sc">$</span>theta))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>frequency10<span class="sc">$</span>topic <span class="ot">&lt;-</span> <span class="fu">seq.int</span>(<span class="fu">nrow</span>(frequency10))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>frequency10<span class="sc">$</span>topic <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Topic"</span>, frequency10<span class="sc">$</span>topic)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(frequency10) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Proportions"</span>, <span class="st">"Topic"</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>frequency10 <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Topic, Proportions), <span class="at">y =</span> Proportions, <span class="at">fill =</span> Topic)) <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Topics"</span>, <span class="at">y =</span> <span class="st">"Expected Topic Proportions"</span>) <span class="sc">+</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="topic-network-and-correlation" class="level2">
+<h2 class="anchored" data-anchor-id="topic-network-and-correlation">Topic network and correlation</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>topic10_corr <span class="ot">&lt;-</span> <span class="fu">topicCorr</span>(trump_10)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topic10_corr, <span class="at">vertex.label.cex =</span> <span class="dv">1</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.color =</span> <span class="st">"lightblue"</span>, <span class="at">vertex.size =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>corrplot 0.92 loaded</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(topic10_corr[[<span class="st">"cor"</span>]])</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(corr_matrix) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Topic 1"</span>, <span class="st">"Topic 2"</span>, <span class="st">"Topic 3"</span>, <span class="st">"Topic 4"</span>, <span class="st">"Topic 5"</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Topic 6"</span>, <span class="st">"Topic 7"</span>, <span class="st">"Topic 8"</span>, <span class="st">"Topic 9"</span>, <span class="st">"Topic 10"</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(corr_matrix) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Topic 1"</span>, <span class="st">"Topic 2"</span>, <span class="st">"Topic 3"</span>, <span class="st">"Topic 4"</span>, <span class="st">"Topic 5"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Topic 6"</span>, <span class="st">"Topic 7"</span>, <span class="st">"Topic 8"</span>, <span class="st">"Topic 9"</span>, <span class="st">"Topic 10"</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(corr_matrix)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(corr_matrix, <span class="at">method =</span> <span class="st">"color"</span>, <span class="at">addCoef.col =</span> <span class="st">"black"</span>, <span class="at">number.cex =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="word-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="word-distribution">Word distribution</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>td_10 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(trump_10)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>td_10<span class="sc">$</span>topic_factor <span class="ot">&lt;-</span> <span class="fu">factor</span>(td_10<span class="sc">$</span>topic, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>td_10 <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic_factor) <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">10</span>, beta) <span class="sc">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">term =</span> <span class="fu">reorder_within</span>(term, beta, topic_factor)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(term, beta, <span class="at">fill =</span> <span class="fu">as.factor</span>(topic_factor))) <span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span><span class="fu">factor</span>(topic_factor, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)), <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reordered</span>() <span class="sc">+</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="fu">expression</span>(beta))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="docuemnt-level-the-meta-data" class="level1">
+<h1>Docuemnt-level The meta-data</h1>
+<p>What really stand outs for <code>stm</code> is the capability of incorporation of document-level metadata. For instance, we have incorporate two variables here:</p>
+<ul>
+<li>time: <code>before</code> or <code>after</code> Trump won the 2016 Presidential election in the U.S.</li>
+<li>day: the day away from the starting date of the first tweet in the dataset (2009-05-04)</li>
+</ul>
+<section id="comparing-the-topic-proportion-before-and-after-trump-won-the-election" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-the-topic-proportion-before-and-after-trump-won-the-election">Comparing the topic proportion before and after Trump won the election</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>predicted_topic10 <span class="ot">&lt;-</span> <span class="fu">estimateEffect</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">~</span> time <span class="sc">+</span> <span class="fu">s</span>(day), <span class="at">stmobj =</span> trump_10, <span class="at">metadata =</span> trump_output<span class="sc">$</span>meta, <span class="at">uncertainty =</span> <span class="st">"Global"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(predicted_topic10, <span class="at">covariate =</span> <span class="st">"time"</span>, <span class="at">topics =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="at">method =</span> <span class="st">"difference"</span>,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">cov.value1 =</span> <span class="st">"after"</span>, <span class="at">cov.value2 =</span> <span class="st">"before"</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Differences before/after Trump won 2016 election on Topic Proportion"</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Before           After"</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">labeltype =</span> <span class="st">"custom"</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">custom.labels =</span> <span class="fu">c</span>(<span class="st">"Topic 1"</span>, <span class="st">"Topic 2"</span>, <span class="st">"Topic 3"</span>, <span class="st">"Topic 4"</span>, <span class="st">"Topic 5"</span>,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Topic 6"</span>, <span class="st">"Topic 7"</span>, <span class="st">"Topic 8"</span>, <span class="st">"Topic 9"</span>, <span class="st">"Topic 10"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let’s make a better visualization by extracting the effect of <em>time</em> using <code>stminsights</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>election_effect <span class="ot">&lt;-</span> <span class="fu">get_effects</span>(<span class="at">estimates =</span> predicted_topic10,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">variable =</span> <span class="st">"time"</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">type =</span> <span class="st">"pointestimate"</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>election_effect<span class="sc">$</span>topic <span class="ot">&lt;-</span> <span class="fu">factor</span>(election_effect<span class="sc">$</span>topic, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>election_effect<span class="sc">$</span>value <span class="ot">&lt;-</span> <span class="fu">factor</span>(election_effect<span class="sc">$</span>value , <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"before"</span>, <span class="st">"after"</span>))</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>election_effect <span class="sc">%&gt;%</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> topic, <span class="at">y =</span> proportion, <span class="at">color =</span> value, <span class="at">shape =</span> value, <span class="at">group =</span> topic)) <span class="sc">+</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper), <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length=</span><span class="fu">unit</span>(<span class="fl">0.3</span>,<span class="st">"cm"</span>), <span class="at">ends=</span><span class="st">"first"</span>, <span class="at">type =</span> <span class="st">"closed"</span>), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">name =</span> <span class="st">"Topics"</span>,</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>                   <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Accusations"</span>, <span class="st">"Border conflicts"</span>, <span class="st">"Critique of Joe Biden"</span>, <span class="st">"Media coverage"</span>, <span class="st">"Publicity"</span>, <span class="st">"Voters fraud"</span>, <span class="st">"Political endorsement"</span>, <span class="st">"Border security"</span>, <span class="st">"foreign diplomacy"</span>, <span class="st">"Current affair"</span>),</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>                   <span class="at">position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Topics"</span>,</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Topic proportion"</span>,</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"The topic proportion change of Trump's tweets before/after 2016 election"</span>) <span class="sc">+</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Before 2016 election"</span>, <span class="st">"After 2016 election"</span>)) <span class="sc">+</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Before 2016 election"</span>, <span class="st">"After 2016 election"</span>)) <span class="sc">+</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(), <span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="comparing-the-topic-proportion-of-trumps-tweets-across-the-time" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-the-topic-proportion-of-trumps-tweets-across-the-time">Comparing the topic proportion of Trump’s tweets across the time</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(predicted_topic10, <span class="at">covariate =</span> <span class="st">"day"</span>, <span class="at">topics =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="at">method =</span> <span class="st">"continuous"</span>,</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Topic Proportion across time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Again, let’s make a better visualization by extracting the effect of <em>day</em> using <code>stminsights</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>day_effect <span class="ot">&lt;-</span> <span class="fu">get_effects</span>(<span class="at">estimates =</span> predicted_topic10,</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">variable =</span> <span class="st">"day"</span>,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">type =</span> <span class="st">"continuous"</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>day_effect<span class="sc">$</span>topic <span class="ot">&lt;-</span> <span class="fu">factor</span>(day_effect<span class="sc">$</span>topic, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>day_effect <span class="sc">%&gt;%</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">y =</span> proportion, <span class="at">color =</span> topic,<span class="at">group =</span> topic)) <span class="sc">+</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Days"</span>,</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Topic proportion"</span>,</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Topics"</span>,</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"The topic proportion change of Trump's tweets across the time"</span>) <span class="sc">+</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="topic-and-sentiment" class="level1">
+<h1>Topic and sentiment</h1>
+<p>Also, combining with what we learnt from last lab, we can also examine the relationship between the topics and sentiment or emotion.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>vader_sen_df <span class="ot">&lt;-</span> vader_sen <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">mutate</span>(<span class="at">ID =</span> <span class="fu">row_number</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">select</span>(<span class="fu">c</span>(<span class="st">"ID"</span>, <span class="st">"compound"</span>))</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>trump_emotion_df <span class="ot">&lt;-</span> trump_nrc <span class="sc">%&gt;%</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">select</span>(<span class="fu">c</span>(<span class="st">"ID"</span>, <span class="st">"anticipation_ave"</span>, <span class="st">"joy_ave"</span>, <span class="st">"surprise_ave"</span>, <span class="st">"trust_ave"</span>, </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"anger_ave"</span>, <span class="st">"fear_ave"</span>, <span class="st">"disgust_ave"</span>, <span class="st">"sadness_ave"</span>))</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>dt10 <span class="ot">&lt;-</span> <span class="fu">make.dt</span>(trump_10, <span class="at">meta =</span> trump_output<span class="sc">$</span>meta)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>topic_sen <span class="ot">&lt;-</span> <span class="fu">merge</span>(dt10, vader_sen_df, <span class="at">by =</span> <span class="st">"ID"</span>, <span class="at">all.x =</span> T)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>topic_sen <span class="ot">&lt;-</span> <span class="fu">merge</span>(topic_sen, trump_emotion_df, <span class="at">by =</span> <span class="st">"ID"</span>, <span class="at">all.x =</span> T)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>topic_sen_matrix <span class="ot">&lt;-</span> topic_sen <span class="sc">%&gt;%</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">select</span>(<span class="fu">c</span>(<span class="st">"Topic1"</span>, <span class="st">"Topic2"</span>, <span class="st">"Topic3"</span>, <span class="st">"Topic4"</span>, <span class="st">"Topic5"</span>,</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Topic6"</span>, <span class="st">"Topic7"</span>, <span class="st">"Topic8"</span>, <span class="st">"Topic9"</span>, <span class="st">"Topic10"</span>,</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"compound"</span>, <span class="st">"anticipation_ave"</span>, <span class="st">"joy_ave"</span>, <span class="st">"surprise_ave"</span>, <span class="st">"trust_ave"</span>, </span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"anger_ave"</span>, <span class="st">"fear_ave"</span>, <span class="st">"disgust_ave"</span>, <span class="st">"sadness_ave"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">cor</span>(<span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>topic_sen_matrix <span class="ot">&lt;-</span> topic_sen_matrix <span class="sc">%&gt;%</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">slice</span>(<span class="dv">11</span><span class="sc">:</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">as.matrix</span>()</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(topic_sen_matrix, <span class="at">method =</span> <span class="st">"color"</span>, <span class="at">addCoef.col =</span> <span class="st">"black"</span>, <span class="at">number.cex =</span> <span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="searching-for-the-optimal-number-of-k" class="level1">
+<h1>Searching for the optimal number of <em>K</em></h1>
+<p>However, now let’s get back to the original question - why 10 topics?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>findingK <span class="ot">&lt;-</span> <span class="fu">searchK</span>(trump_output<span class="sc">$</span>documents, trump_output<span class="sc">$</span>vocab, <span class="at">K =</span> <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">20</span>),</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">data =</span> trump_output<span class="sc">$</span>meta,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">prevalence=</span><span class="sc">~</span>time <span class="sc">+</span> <span class="fu">s</span>(day), </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">cores =</span> <span class="dv">5</span>,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>                                <span class="at">heldout.seed =</span> <span class="dv">123</span>,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">max.em.its =</span> <span class="dv">50</span>,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>                                <span class="at">init.type =</span> <span class="st">"Spectral"</span>,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>                                <span class="at">verbose=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(findingK)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>k_results <span class="ot">&lt;-</span> <span class="fu">map_df</span>(findingK<span class="sc">$</span>results, unlist)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>k_results_df <span class="ot">&lt;-</span> k_results <span class="sc">%&gt;%</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>             <span class="fu">rename</span>(<span class="st">'Lower bound'</span> <span class="ot">=</span> lbound,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'Bound'</span> <span class="ot">=</span> bound,</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'Residuals'</span> <span class="ot">=</span> residual,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'Semantic coherence'</span> <span class="ot">=</span> semcoh,</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'Exclusivity'</span> <span class="ot">=</span> exclus,</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'Held-out likelihood'</span> <span class="ot">=</span> heldout) <span class="sc">%&gt;%</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>             <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>             <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span>K,</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>                          <span class="at">names_to =</span> <span class="st">"metric"</span>,</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>                          <span class="at">values_to =</span> <span class="st">"value"</span>)</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>k_results_df<span class="sc">$</span>metric <span class="ot">&lt;-</span> <span class="fu">factor</span>(k_results_df<span class="sc">$</span>metric, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Held-out likelihood"</span>,</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">"Lower bound"</span>,</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">"Bound"</span>,</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">"Residuals"</span>,</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">"Semantic coherence"</span>,</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">"Exclusivity"</span>))</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>k_results_df <span class="sc">%&gt;%</span></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> K, <span class="at">y =</span> value, <span class="at">color =</span> metric)) <span class="sc">+</span></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>metric, <span class="at">scales =</span> <span class="st">'free_y'</span>) <span class="sc">+</span></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"K (number of topics)"</span>,</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-27-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>k_results <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">K =</span> <span class="fu">as.factor</span>(K)) <span class="sc">%&gt;%</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> semcoh, <span class="at">y =</span> exclus, <span class="at">color =</span> K)) <span class="sc">+</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> K), <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">vjust =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Semantic coherence"</span>,</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Exclusivity"</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Number of topics"</span>) <span class="sc">+</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week10_files/figure-html/unnamed-chunk-27-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The optimal number of <span class="math inline">\(K\)</span> is usually subjective. Therefore, we always need a validation process. There are a few metrics we can use to provide a “objective” measurement. For instnace, <em>semantic coherence</em> is a diagnostic metric measuring the topic quality. When it is maximized when most probable terms in a specific topic frequently co-occur (Mimno, 2011). And <em>exclusivity</em> is a diagnostic metric measuring the level of distinction for the topics. Normally, if a model contains fewer topics, the semantic coherence would be higher, but the exclusivity would be lower. The <em>residual dispersion</em> is a diagnostic metric measuring whether the model correctly specified the multinomial likelihood (Taddy, 2012). Normally, we would like a topic model that minimizes the residual dispersion.</p>
+</section>
+<section id="other-topic-modelings" class="level1">
+<h1>Other topic modelings</h1>
+<p>There are a lot of different algorithms of topic modelings (especially when dealing with short test). For instance:</p>
+<ul>
+<li>Non-negative matrix factorization (NMF)</li>
+<li><a href="https://maartengr.github.io/BERTopic/index.html">BERTopic</a></li>
+<li>and more models refer to <a href="https://arxiv.org/abs/2106.09533">Tierney et al.&nbsp;(2021)</a> and <a href="https://doi.org/10.3389/fsoc.2022.886498">Egger &amp; Yu (2022)</a></li>
+</ul>
+<p>However, a lot of algorithms and packages are only available in Python now. I am showcasing the <strong>Biterm topic modeling</strong> as below, which is a word co-occurrence based topic model that learns topics by modeling word-word co-occurrences patterns (e.g., biterms). A bigram (or 2-gram), where each feature is a pair of adjacent words. The downside of using n-grams is that there are many more unique word pairs than unique words, so the resulting DTM will have many more columns. Moreover, there is a bigger data scarcity problem, as each of those pairs will be less frequent, making it more difficult to find sufficient examples of each to generalize over. Although bigrams are the most frequent use case, trigrams (3-grams) and (rarely) higher-order n-grams can also be used. As you can imagine, this will create even bigger DTMs and worse data scarcity problems, so even more attention must be paid to feature selection and/or trimming.</p>
+<p>Back to biterm topic modeling, first, we need to use <code>udpipe</code> package to perform Parts of Speech tagging, and extract cooccurrences of nouns, adjectives and verbs within 3 words distance.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BTM)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(udpipe)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'data.table'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:lubridate':
+
+    hour, isoweek, mday, minute, month, quarter, second, wday, week,
+    yday, year</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:dplyr':
+
+    between, first, last</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:purrr':
+
+    transpose</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(textplot)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>tweets <span class="ot">&lt;-</span> <span class="fu">udpipe</span>(trump_clean<span class="sc">$</span>clean_text, <span class="st">"english"</span>, <span class="at">trace =</span> <span class="dv">10</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>biterms <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(tweets)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>biterms <span class="ot">&lt;-</span> biterms[, <span class="fu">cooccurrence</span>(<span class="at">x =</span> lemma,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">relevant =</span> upos <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"NOUN"</span>, <span class="st">"ADJ"</span>, <span class="st">"VERB"</span>) <span class="sc">&amp;</span> </span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>                                             <span class="fu">nchar</span>(lemma) <span class="sc">&gt;</span> <span class="dv">2</span> <span class="sc">&amp;</span> <span class="sc">!</span>lemma <span class="sc">%in%</span> <span class="fu">stopwords</span>(<span class="st">"en"</span>),</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">skipgram =</span> <span class="dv">3</span>),</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>                   by <span class="ot">=</span> <span class="fu">list</span>(doc_id)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we need to building the biterm topic model based on <span class="math inline">\(K\)</span>=10.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>traindata <span class="ot">&lt;-</span> <span class="fu">subset</span>(tweets, upos <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"NOUN"</span>, <span class="st">"ADJ"</span>, <span class="st">"VERB"</span>) <span class="sc">&amp;</span> <span class="sc">!</span>lemma <span class="sc">%in%</span> <span class="fu">stopwords</span>(<span class="st">"en"</span>) <span class="sc">&amp;</span> <span class="fu">nchar</span>(lemma) <span class="sc">&gt;</span> <span class="dv">2</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>traindata <span class="ot">&lt;-</span> traindata[, <span class="fu">c</span>(<span class="st">"doc_id"</span>, <span class="st">"lemma"</span>)]</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">BTM</span>(traindata, <span class="at">biterms =</span> biterms, <span class="at">k =</span> <span class="dv">10</span>, <span class="at">iter =</span> <span class="dv">100</span>, <span class="at">background =</span> <span class="cn">TRUE</span>, <span class="at">trace =</span> <span class="dv">100</span>)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model, <span class="at">top_n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image/btm.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Biterm topic modeling</figcaption>
+</figure>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>topicterms <span class="ot">&lt;-</span> <span class="fu">terms</span>(model, <span class="at">top_n =</span> <span class="dv">10</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>topicterms</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+       token probability
+1      great 0.014993430
+2      trump 0.014692983
+3        get 0.009130321
+4     people 0.008020303
+5       make 0.007727399
+6      thank 0.006056714
+7        say 0.005590331
+8    country 0.005565189
+9  president 0.005512391
+10      time 0.005499820
+
+[[2]]
+        token probability
+1       trump  0.09612051
+2        care  0.03020831
+3      donald  0.02983269
+4        aign  0.02823134
+5        vote  0.02425763
+6   president  0.02067931
+7  republican  0.01427393
+8    election  0.01403669
+9         run  0.01399715
+10       poll  0.01326567
+
+[[3]]
+         token probability
+1         news  0.02705371
+2         fake  0.02580873
+3        media  0.02146118
+4     democrat  0.02003835
+5      hillary  0.01324036
+6        biden  0.01182741
+7          say  0.01182741
+8          joe  0.01139265
+9       report  0.01064171
+10 impeachment  0.01051326
+
+[[4]]
+     token probability
+1    great  0.04438740
+2    night  0.02708993
+3     last  0.02376191
+4  tonight  0.01920129
+5      big  0.01576371
+6    watch  0.01313417
+7      new  0.01206591
+8    today  0.01176461
+9    state  0.01140853
+10     day  0.01132635
+
+[[5]]
+    token probability
+1   great  0.05607745
+2    make  0.03770125
+3  people  0.02079334
+4    good  0.01902010
+5     get  0.01533808
+6     new  0.01417475
+7    time  0.01409569
+8    work  0.01322601
+9     job  0.01229986
+10    man  0.01197231
+
+[[6]]
+     token probability
+1      tax  0.03394340
+2      job  0.02912139
+3   record  0.02191673
+4      cut  0.02106578
+5  economy  0.01391785
+6   number  0.01378548
+7     wall  0.01318037
+8     rate  0.01310473
+9     year  0.01306691
+10    high  0.01302909
+
+[[7]]
+      token probability
+1  american 0.017290780
+2    people 0.014817585
+3   country 0.013722002
+4     china 0.012398626
+5      take 0.010836608
+6      many 0.010077294
+7     money 0.009014254
+8     trade 0.008732223
+9       get 0.008667139
+10     help 0.008385108
+
+[[8]]
+      token probability
+1     trump  0.06559784
+2      golf  0.03143098
+3       new  0.03014340
+4    course  0.02018765
+5     hotel  0.01981977
+6     house  0.01878510
+7     white  0.01855518
+8      york  0.01540521
+9  national  0.01443952
+10    tower  0.01381872
+
+[[9]]
+         token probability
+1       border  0.07513436
+2        crime  0.03672473
+3     complete  0.03314358
+4        total  0.03177431
+5     military  0.02966775
+6    amendment  0.02945710
+7  endorsement  0.02598127
+8       strong  0.02534930
+9          vet  0.02499821
+10      second  0.02169793
+
+[[10]]
+         token probability
+1          law 0.019376262
+2        state 0.014159626
+3     national 0.013004514
+4      federal 0.012054341
+5        force 0.010601135
+6      general 0.010507981
+7  enforcement 0.009688224
+8       police 0.008775313
+9        order 0.007992817
+10 coronavirus 0.007620201</code></pre>
+</div>
+</div>
+<p>The visual results of the BTM with K set to 10 topics depicts a few unique features:</p>
+<ul>
+<li>None of the grouped topics repeat. They are all fairly unique in terminology.</li>
+<li>Word size is a product of how important (or common) that word is in that particular topic. Words in smaller font indicate their probability (theta) of appearing in that topic was less.</li>
+<li>The line weights within the topics are indicative of tie strength between words. Thicker lines indicate stronger relationships between terms. While this visualization resembles word clouds, the algorithm behind the graphic is much more complex than simple term frequencies and is a product of the co-occurrence of terms.</li>
+</ul>
 
 
 </section>

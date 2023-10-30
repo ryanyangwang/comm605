@@ -191,6 +191,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Week 9 Lab</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 10 Lab</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -295,7 +301,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">hashtag =</span> <span class="fu">str_extract_all</span>(text, <span class="st">"#</span><span class="sc">\\</span><span class="st">w+"</span>),</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">url =</span> <span class="fu">str_extract_all</span>(text, <span class="st">"https?://</span><span class="sc">\\</span><span class="st">S+"</span>), </span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Remove all the mentions, hashtags, and url for text cleaning</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">clean_text =</span> <span class="fu">str_replace_all</span>(text, <span class="st">"RT</span><span class="sc">\\</span><span class="st">s*@|@</span><span class="sc">\\</span><span class="st">w+"</span>, <span class="st">" "</span>) <span class="sc">%&gt;%</span> <span class="do">### remove mentions</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">clean_text =</span> <span class="fu">str_replace_all</span>(text, <span class="st">"RT</span><span class="sc">\\</span><span class="st">s*@</span><span class="sc">\\</span><span class="st">w+|@</span><span class="sc">\\</span><span class="st">S+"</span>, <span class="st">" "</span>) <span class="sc">%&gt;%</span> <span class="do">### remove mentions</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>               <span class="fu">str_replace_all</span>(., <span class="st">"#</span><span class="sc">\\</span><span class="st">w+"</span>, <span class="st">" "</span>) <span class="sc">%&gt;%</span> <span class="do">### remove hashtags</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>               <span class="fu">str_replace_all</span>(., <span class="st">"https?://</span><span class="sc">\\</span><span class="st">S+"</span>, <span class="st">" "</span>) <span class="sc">%&gt;%</span> <span class="do">### remove URL</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>               <span class="fu">str_replace_all</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">W+"</span>, <span class="st">" "</span>) <span class="sc">%&gt;%</span> <span class="do">### remove all the non-words</span></span>
@@ -309,107 +315,107 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dfm_remove</span>(<span class="fu">stopwords</span>(<span class="st">"english"</span>))</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="fu">textstat_frequency</span>(clean_dfm, <span class="at">n =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            feature frequency rank docfreq group
-1                 s      9925    1    8704   all
-2             great      7678    2    7139   all
-3             trump      6856    3    6460   all
-4                 t      5904    4    5399   all
-5               amp      5682    5    4707   all
-6         president      4768    6    4520   all
-7             thank      3622    7    3582   all
-8            people      3534    8    3330   all
-9              just      3412    9    3310   all
-10              can      2876   10    2708   all
-11              now      2716   11    2662   all
-12              new      2517   12    2398   all
-13          america      2453   13    2322   all
-14          country      2433   14    2361   all
-15              get      2425   15    2276   all
-16           thanks      2309   16    2296   all
-17              big      2154   17    2006   all
-18              one      2062   18    1963   all
-19             like      2059   19    1982   all
-20             time      2035   20    1960   all
-21            obama      2004   21    1921   all
-22           donald      1931   22    1894   all
-23            never      1893   23    1776   all
-24             good      1880   24    1807   all
-25             make      1871   25    1811   all
-26             news      1862   26    1759   all
-27              don      1859   27    1766   all
-28            today      1852   28    1815   all
-29        democrats      1831   29    1775   all
-30                u      1790   30    1646   all
-31             many      1755   31    1691   all
-32             vote      1732   32    1550   all
-33               us      1562   33    1477   all
-34            going      1554   34    1476   all
-35             back      1517   35    1441   all
-36         american      1480   36    1373   all
-37             want      1443   37    1321   all
-38                m      1441   38    1368   all
-39             much      1434   39    1360   all
-40              see      1364   40    1336   all
-41             even      1309   41    1269   all
-42            years      1302   42    1251   all
-43              job      1300   43    1273   all
-44             fake      1294   44    1214   all
-45              run      1284   45    1200   all
-46             best      1276   46    1234   all
-47             must      1275   47    1225   all
-48            china      1247   48    1021   all
-49             need      1225   49    1164   all
-50         election      1219   50    1149   all
-51            media      1205   51    1142   all
-52             love      1190   52    1139   all
-53               re      1183   53    1119   all
-54              win      1177   54    1097   all
-55               go      1172   55    1127   all
-56            think      1152   56    1093   all
-57            biden      1144   57    1007   all
-58              way      1140   58    1107   all
-59           really      1128   59    1091   all
-60              day      1127   60    1083   all
-61             last      1116   61    1100   all
-62             know      1114   62    1057   all
-63            house      1087   63    1050   all
-64             done      1082   64    1035   all
-65           states      1070   65    1027   all
-66            world      1068   66    1035   all
-67            state      1067   67    1012   all
-68             ever      1065   68    1033   all
-69            first      1064   69    1037   all
-70             jobs      1058   70     902   all
-71             work      1048   71    1003   all
-72             true      1041   72    1028   all
-73              bad      1039   73     997   all
-74  realdonaldtrump      1033   74    1033   all
-75             said      1024   75     969   all
-76          tonight      1010   76     997   all
-77          nothing       985   77     930   all
-78            right       984   78     952   all
-79           border       980   79     852   all
-80             deal       979   80     884   all
-81             show       974   81     938   all
-82          hillary       970   82     935   all
-83              via       966   83     963   all
-84            watch       951   84     938   all
-85             made       937   85     913   all
-86           united       892   86     866   all
-87            night       886   87     869   all
-88           better       879   88     850   all
-89              got       867   89     840   all
-90              joe       862   90     785   all
-91              let       845   91     827   all
-92             look       843   92     819   all
-93            total       837   93     832   all
-94             well       826   94     805   all
-95           always       818   95     793   all
-96       republican       817   96     792   all
-97             year       815   97     768   all
-98              won       809   98     784   all
-99         national       808   99     773   all
-100            keep       801  100     774   all</code></pre>
+<pre><code>       feature frequency rank docfreq group
+1            s      9113    1    8053   all
+2        great      7675    2    7136   all
+3        trump      6839    3    6445   all
+4            t      5893    4    5388   all
+5          amp      5681    5    4706   all
+6    president      4768    6    4520   all
+7        thank      3612    7    3572   all
+8       people      3533    8    3329   all
+9         just      3408    9    3306   all
+10         can      2873   10    2706   all
+11         now      2716   11    2662   all
+12         new      2517   12    2398   all
+13     america      2451   13    2320   all
+14     country      2433   14    2361   all
+15         get      2425   15    2276   all
+16      thanks      2308   16    2295   all
+17         big      2153   17    2005   all
+18         one      2061   18    1962   all
+19        like      2059   19    1982   all
+20        time      2031   20    1956   all
+21       obama      2003   21    1920   all
+22      donald      1918   22    1882   all
+23       never      1893   23    1776   all
+24        good      1880   24    1807   all
+25        make      1871   25    1811   all
+26        news      1862   26    1759   all
+27         don      1856   27    1763   all
+28       today      1852   28    1815   all
+29   democrats      1831   29    1775   all
+30           u      1790   30    1646   all
+31        many      1755   31    1691   all
+32        vote      1731   32    1549   all
+33          us      1562   33    1477   all
+34       going      1554   34    1476   all
+35        back      1517   35    1441   all
+36    american      1480   36    1373   all
+37        want      1443   37    1321   all
+38           m      1440   38    1367   all
+39        much      1434   39    1360   all
+40         see      1364   40    1336   all
+41        even      1308   41    1268   all
+42       years      1302   42    1251   all
+43         job      1300   43    1273   all
+44        fake      1294   44    1214   all
+45         run      1284   45    1200   all
+46        best      1276   46    1234   all
+47        must      1275   47    1225   all
+48       china      1247   48    1021   all
+49        need      1225   49    1164   all
+50    election      1219   50    1149   all
+51       media      1204   51    1142   all
+52        love      1190   52    1139   all
+53          re      1183   53    1119   all
+54         win      1177   54    1097   all
+55          go      1172   55    1127   all
+56       think      1152   56    1093   all
+57       biden      1144   57    1007   all
+58         way      1140   58    1107   all
+59         day      1127   59    1083   all
+60      really      1127   59    1090   all
+61        last      1116   61    1100   all
+62        know      1114   62    1057   all
+63       house      1087   63    1050   all
+64        done      1082   64    1035   all
+65      states      1070   65    1027   all
+66       world      1068   66    1035   all
+67       state      1067   67    1012   all
+68        ever      1065   68    1033   all
+69       first      1064   69    1037   all
+70        jobs      1058   70     902   all
+71        work      1048   71    1003   all
+72        true      1041   72    1028   all
+73         bad      1039   73     997   all
+74        said      1024   74     969   all
+75     tonight      1010   75     997   all
+76     nothing       985   76     930   all
+77       right       984   77     952   all
+78      border       980   78     852   all
+79        deal       979   79     884   all
+80        show       974   80     938   all
+81     hillary       970   81     935   all
+82         via       966   82     963   all
+83       watch       951   83     938   all
+84        made       937   84     913   all
+85      united       892   85     866   all
+86       night       886   86     869   all
+87      better       879   87     850   all
+88         got       867   88     840   all
+89         joe       862   89     785   all
+90         let       845   90     827   all
+91        look       842   91     818   all
+92       total       837   92     832   all
+93        well       826   93     805   all
+94      always       818   94     793   all
+95  republican       817   95     792   all
+96        year       815   96     768   all
+97         won       809   97     784   all
+98    national       808   98     773   all
+99        keep       799   99     772   all
+100       hard       791  100     778   all</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -675,7 +681,7 @@ features           @realrlimbaugh @therightmelissa
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dict =</span> <span class="st">"BING"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in inner_join(., get_sentiments("bing"), by = "word"): Each row in `x` is expected to match at most 1 row in `y`.
-ℹ Row 502553 of `x` matches multiple rows.
+ℹ Row 495376 of `x` matches multiple rows.
 ℹ If multiple matches are expected, set `multiple = "all"` to silence this
   warning.</code></pre>
 </div>
@@ -696,7 +702,7 @@ features           @realrlimbaugh @therightmelissa
 <span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 24724 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 24736 rows containing non-finite values (`stat_boxplot()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="week9_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
@@ -708,7 +714,7 @@ features           @realrlimbaugh @therightmelissa
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 24724 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 24736 rows containing non-finite values (`stat_boxplot()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="week9_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid" width="672"></p>
@@ -777,7 +783,7 @@ features           @realrlimbaugh @therightmelissa
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in inner_join(., get_sentiments("bing"), by = "word"): Each row in `x` is expected to match at most 1 row in `y`.
-ℹ Row 219698 of `x` matches multiple rows.
+ℹ Row 213270 of `x` matches multiple rows.
 ℹ If multiple matches are expected, set `multiple = "all"` to silence this
   warning.</code></pre>
 </div>
@@ -813,19 +819,19 @@ features           @realrlimbaugh @therightmelissa
 </div>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(nrc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>tibble [46,768 × 12] (S3: tbl_df/tbl/data.frame)
- $ ID          : int [1:46768] 2 3 4 5 6 14 17 18 21 22 ...
- $ anticipation: int [1:46768] 2 2 2 1 2 0 0 3 1 2 ...
- $ joy         : int [1:46768] 4 0 0 1 1 0 1 3 1 2 ...
- $ positive    : int [1:46768] 4 1 5 2 5 1 2 3 1 6 ...
- $ surprise    : int [1:46768] 2 0 1 0 1 0 1 3 0 0 ...
- $ trust       : int [1:46768] 3 0 3 1 3 0 1 3 3 6 ...
- $ anger       : int [1:46768] 0 1 3 0 0 0 1 0 0 0 ...
- $ fear        : int [1:46768] 0 2 3 0 1 1 0 0 1 0 ...
- $ disgust     : int [1:46768] 0 0 1 0 0 0 1 3 0 0 ...
- $ negative    : int [1:46768] 0 0 4 0 0 2 2 0 1 0 ...
- $ sadness     : int [1:46768] 0 0 2 0 0 0 1 3 1 0 ...
- $ dict        : chr [1:46768] "NRC" "NRC" "NRC" "NRC" ...</code></pre>
+<pre><code>tibble [46,760 × 12] (S3: tbl_df/tbl/data.frame)
+ $ ID          : int [1:46760] 2 3 4 5 6 14 17 18 21 22 ...
+ $ anticipation: int [1:46760] 2 2 2 1 2 0 0 3 1 2 ...
+ $ joy         : int [1:46760] 4 0 0 1 1 0 1 3 1 2 ...
+ $ positive    : int [1:46760] 4 1 5 2 5 1 2 3 1 6 ...
+ $ surprise    : int [1:46760] 2 0 1 0 1 0 1 3 0 0 ...
+ $ trust       : int [1:46760] 3 0 3 1 3 0 1 3 3 6 ...
+ $ anger       : int [1:46760] 0 1 3 0 0 0 1 0 0 0 ...
+ $ fear        : int [1:46760] 0 2 3 0 1 1 0 0 1 0 ...
+ $ disgust     : int [1:46760] 0 0 1 0 0 0 1 3 0 0 ...
+ $ negative    : int [1:46760] 0 0 4 0 0 2 2 0 1 0 ...
+ $ sadness     : int [1:46760] 0 0 2 0 0 0 1 3 1 0 ...
+ $ dict        : chr [1:46760] "NRC" "NRC" "NRC" "NRC" ...</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>trump_nrc <span class="ot">&lt;-</span> trump_clean <span class="sc">%&gt;%</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(<span class="st">"ID"</span>,<span class="st">"date"</span>, <span class="st">"clean_text"</span>)) <span class="sc">%&gt;%</span></span>
@@ -854,7 +860,7 @@ features           @realrlimbaugh @therightmelissa
 <span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 78424 rows containing missing values (`position_stack()`).</code></pre>
+<pre><code>Warning: Removed 78488 rows containing missing values (`position_stack()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="week9_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
@@ -871,7 +877,7 @@ features           @realrlimbaugh @therightmelissa
 <span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
 <span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(emotion<span class="sc">~</span>.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 78424 rows containing missing values (`geom_point()`).</code></pre>
+<pre><code>Warning: Removed 78488 rows containing missing values (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="week9_files/figure-html/unnamed-chunk-17-2.png" class="img-fluid" width="672"></p>

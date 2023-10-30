@@ -21,6 +21,7 @@ website:
          - week6.qmd
          - week8.qmd
          - week9.qmd
+         - week10.qmd
       - section: "Practices" 
         contents:
          - practice1.qmd

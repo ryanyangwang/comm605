@@ -1,0 +1,108 @@
+---
+title: "COMM 605"
+subtitle: "Week 10: Unsupervised machine learning: Topic modeling"
+date: 2023-10-30
+date-format: long
+author: 
+    - name: "Ryan Y. Wang, Ph.D."
+      email: ryanwang@rit.mail.edu
+      affiliation: School of Communication
+
+format:
+   revealjs:
+    theme: rit.scss
+    logo: /image/rit.png
+    footer: "COMM 605: Week 10"
+    date-format: long
+    slide-number: true
+    scrollable: true
+    chalkboard: true
+    src: drawings.json
+    #embed-resources: true
+    include-in-header:
+      - text: |
+          <style>
+          #title-slide .title {
+            font-size: 2em;
+          }
+          </style>
+    title-slide-attributes: 
+      data-background-image: /image/paw.png
+      data-background-size: 20%
+      data-background-position: 50% 5%
+---
+
+## Unsupervised machine learning
+
+![](/image/unsupervised.jpeg)
+
+## Unsupervised machine learning
+
+In the case of input data of images of different shapes:
+
+-   Clustering (Unsupervised classification): The goal is to find homogeneous subgroups within the data. The grouping is based on similiarities (or distance) between observations. The result of a clustering algorithm is to group the observations (features) into distinct (generally non-overlapping) groups.
+
+    -   Hierarchical clustering
+    
+    ![](/image/dendrogram.png)
+
+    -   K-means clustering 
+    
+    ![](/image/kmeans.png)
+
+::: notes
+(Unsupervised) Machine learning algorithms try to find the similarity among other images based on the color pixel values, size, and shapes and form the groups as outputs in which similar input instances lie.
+:::
+
+## Unsupervised machine learning
+
+In the case of input data of images of different shapes:
+
+- Dimensionality Reduction: Dimensionality could be understand the number of variables, characteristics or features present in the dataset (e.g., color pixel values, size, and shapes). The goal is to summarize the data in a reduced number of dimensions, i.e. using a reduced number of variables.
+
+  - PCA (Principal Component Analysis)
+  - t-SNE (t-distributed Stochastic Neighbor Embedding)
+
+::: notes
+The information in these images is very detailed, but it can also be overwhelming for a computer to process. Dimensionality reduction is like simplifying this detailed information while trying to keep the most important parts.
+:::
+
+
+## Unsupervised machine learning in textual data
+
+Since a document-term matrix (DTM) is a matrix, you can also apply these unsupervised machine learning techniques to the DTM to find groups of words or documents.
+
+- Topic modeling: We group words and documents into *topics*, consisting of words and documents that co-vary
+- Goal: Given a corpus, find a set of topics, consisting of specific words and/or documents, that minimize the mistakes we would make if we try to reconstruct the corpus from the topics
+
+::: notes
+If you see the word “agriculture” in a news article, there is a good chance you might find words such as “farm” or “cattle”, and there is a lower chance you will find a word like “soldier”. In other words, the words “agriculture” and “farm” generally occur in the same kind of documents, so they can be said to be part of the same topic. Similarly, two documents that share a lot of words are probably about the same topic, and if you know what topic a document is on (e.g., an agricultural topic), you are better able to guess what words might occur in that document (e.g., “cattle”).
+:::
+
+
+## Empirical examples
+
+#### Murashka, Liu & Peng (2021)
+
+- Topics: Fitspiration on Instagram
+- RQ: topics (in comments) to posts (objectification features)
+  - Posts: human coding (N = 2000)
+  - Comments: topic modeling (N = 35263) -> K = 3 ((p. 1543)
+  - Multilevel analysis
+
+
+## Empirical examples
+
+#### Yang, Sun & Taylor (2022)
+
+- Topic: CSR on Facebook
+- RQ: public response to Fortune 500 companies's discussion on their COVID-19 pandemic CSR actions
+  - Post: topic modeling (N = 9977 posts from 469 companies)
+    - K = 20 (p.6)
+    - Classifying into three themes:community information update, organizational crisis response and organizational contribution (network)
+  - Public response:
+    - Behavioral engagement outcome: comment and share
+    - Emotional engagement outcome: like, love, sad, angry
+  
+
+# Thank you!

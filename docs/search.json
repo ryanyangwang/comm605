@@ -859,5 +859,47 @@
     "title": "COMM 605",
     "section": "Empirical examples",
     "text": "Empirical examples\n\nDubovi and Tabk (2021): public engagement with science on YouTube\n\nDetect emotion via lexicon-based sentiment analysis based on syuzhetpackage\nStatistical analysis on cognitive engagement (argumentative expression) with emotional and behavioral engagement\n\nHarris and Krishnan (2023): Suicide Prevention Public Service Announcements and User Comments on YouTube\n\n(Human) Content analysis on 72 videos: gain-loss frame; argument-narrative format\n(Computational) Textual analysis on users’ comments\n\nSentiment analysis: negative and positive\nLatent semantic analysis: help seeking or avoidant"
+  },
+  {
+    "objectID": "slides/week10_slides.html#unsupervised-machine-learning",
+    "href": "slides/week10_slides.html#unsupervised-machine-learning",
+    "title": "COMM 605",
+    "section": "Unsupervised machine learning",
+    "text": "Unsupervised machine learning"
+  },
+  {
+    "objectID": "slides/week10_slides.html#unsupervised-machine-learning-1",
+    "href": "slides/week10_slides.html#unsupervised-machine-learning-1",
+    "title": "COMM 605",
+    "section": "Unsupervised machine learning",
+    "text": "Unsupervised machine learning\nIn the case of input data of images of different shapes:\n\nClustering (Unsupervised classification): The goal is to find homogeneous subgroups within the data. The grouping is based on similiarities (or distance) between observations. The result of a clustering algorithm is to group the observations (features) into distinct (generally non-overlapping) groups.\n\nHierarchical clustering \nK-means clustering \n\n\n\n(Unsupervised) Machine learning algorithms try to find the similarity among other images based on the color pixel values, size, and shapes and form the groups as outputs in which similar input instances lie."
+  },
+  {
+    "objectID": "slides/week10_slides.html#unsupervised-machine-learning-2",
+    "href": "slides/week10_slides.html#unsupervised-machine-learning-2",
+    "title": "COMM 605",
+    "section": "Unsupervised machine learning",
+    "text": "Unsupervised machine learning\nIn the case of input data of images of different shapes:\n\nDimensionality Reduction: Dimensionality could be understand the number of variables, characteristics or features present in the dataset (e.g., color pixel values, size, and shapes). The goal is to summarize the data in a reduced number of dimensions, i.e. using a reduced number of variables.\n\nPCA (Principal Component Analysis)\nt-SNE (t-distributed Stochastic Neighbor Embedding)\n\n\n\nThe information in these images is very detailed, but it can also be overwhelming for a computer to process. Dimensionality reduction is like simplifying this detailed information while trying to keep the most important parts."
+  },
+  {
+    "objectID": "slides/week10_slides.html#unsupervised-machine-learning-in-textual-data",
+    "href": "slides/week10_slides.html#unsupervised-machine-learning-in-textual-data",
+    "title": "COMM 605",
+    "section": "Unsupervised machine learning in textual data",
+    "text": "Unsupervised machine learning in textual data\nSince a document-term matrix (DTM) is a matrix, you can also apply these unsupervised machine learning techniques to the DTM to find groups of words or documents.\n\nTopic modeling: We group words and documents into topics, consisting of words and documents that co-vary\nGoal: Given a corpus, find a set of topics, consisting of specific words and/or documents, that minimize the mistakes we would make if we try to reconstruct the corpus from the topics\n\n\nIf you see the word “agriculture” in a news article, there is a good chance you might find words such as “farm” or “cattle”, and there is a lower chance you will find a word like “soldier”. In other words, the words “agriculture” and “farm” generally occur in the same kind of documents, so they can be said to be part of the same topic. Similarly, two documents that share a lot of words are probably about the same topic, and if you know what topic a document is on (e.g., an agricultural topic), you are better able to guess what words might occur in that document (e.g., “cattle”)."
+  },
+  {
+    "objectID": "slides/week10_slides.html#empirical-examples",
+    "href": "slides/week10_slides.html#empirical-examples",
+    "title": "COMM 605",
+    "section": "Empirical examples",
+    "text": "Empirical examples\nMurashka, Liu & Peng (2021)\n\nTopics: Fitspiration on Instagram\nRQ: topics (in comments) to posts (objectification features)\n\nPosts: human coding (N = 2000)\nComments: topic modeling (N = 35263) -&gt; K = 3 ((p. 1543)\nMultilevel analysis"
+  },
+  {
+    "objectID": "slides/week10_slides.html#empirical-examples-1",
+    "href": "slides/week10_slides.html#empirical-examples-1",
+    "title": "COMM 605",
+    "section": "Empirical examples",
+    "text": "Empirical examples\nYang, Sun & Taylor (2022)\n\nTopic: CSR on Facebook\nRQ: public response to Fortune 500 companies’s discussion on their COVID-19 pandemic CSR actions\n\nPost: topic modeling (N = 9977 posts from 469 companies)\n\nK = 20 (p.6)\nClassifying into three themes:community information update, organizational crisis response and organizational contribution (network)\n\nPublic response:\n\nBehavioral engagement outcome: comment and share\nEmotional engagement outcome: like, love, sad, angry\n\n\n\n\n\n\nCOMM 605: Week 10"
   }
 ]

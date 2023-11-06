@@ -34,20 +34,18 @@ tbl-colwidths: [25,50]
 +-----------------+------------------------------------------------------+
 | Week 10: Oct 30 | Case study: Text-as-data III\                        |
 |                 | Lab: Sentiment analysis\                             |
-|                 | [Practice 2 due on Nov 5]{style="color:orange;"}     |
 +-----------------+------------------------------------------------------+
-| Week 11: Nov 6  | Case study: Network I\                               |
+| Week 11: Nov 6  | Case study: Network\                                 |
 |                 | Lab: Network analysis                                |
 +-----------------+------------------------------------------------------+
-| Week 12: Nov 13 | Case study: Network II\                              |
-|                 | Lab: Network analysis & visualization                |
+| Week 12: Nov 13 | Course wrap-up and more (Q&A)\                       |
 +-----------------+------------------------------------------------------+
-| Week 13: Nov 20 | Course wrap-up\                                      |
-|                 | [Practice 3 due on Nov 26]{style="color:orange;"}    |
+| Week 13: Nov 20 | Individual meetings & consultant                     |
+|                 | [Practice 2 due on Nov 26]{style="color:orange;"}    |
 +-----------------+------------------------------------------------------+
 | Week 14: Nov 27 | Individual meetings & consultant                     |
 +-----------------+------------------------------------------------------+
 | Week 15: Dec 4  | Project presentation                                 |
 +-----------------+------------------------------------------------------+
-| Week 16: Dec 11 | Final paper due                                      |
+| Week 16: Dec 15 | Final paper due                                      |
 +-----------------+------------------------------------------------------+

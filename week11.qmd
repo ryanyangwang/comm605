@@ -1,0 +1,535 @@
+---
+title: "Week 11 Lab"
+subtitle: "Network analysis"
+execute: 
+  eval: true
+---
+Many types of data, especially social media data, can often be represented as networks. There are a few packages in R Universe that can help with handling and visualizing network (and they could be rather confusing), including:
+
+- [`igraph`](https://r.igraph.org/)
+- [`sna`](https://cran.r-project.org/web/packages/sna/index.html)
+- [`tidygraph`](https://tidygraph.data-imaginist.com/) for network objects manipulation
+- [`ggraph`](https://ggraph.data-imaginist.com/) for network visualization
+- [`statnet`](https://statnet.org/) for network (inferential) statistical analysis
+
+Network data format:
+
+- Matrix
+- Edge list
+
+Network metrics:
+
+- Individual level: characteristic of nodes
+- Global level: characteristics of overall network
+- Local level: characteristics of components
+
+Types of network:
+
+- Directed network
+- Undirected network
+- Weighted network
+- Bipartite network
+- Multilevel/Multiplex network
+- Ego network
+
+```{r}
+# | warning: false
+library(tidyverse)
+library(igraph)
+library(tidygraph)
+library(ggraph)
+#set_graph_style(size = 12, plot_margin = margin(1, 1, 1, 1, "cm")) #set up the default graph style here
+```
+
+# Creating a network
+
+- Edgelist
+```{r}
+retweet_edge <- data.frame(
+                "from" = c("Joe Biden", "Nikki Haley","Joe Biden", "Mike Pence", "Kamala Harris", "Kamala Harris", "Donald Trump", "Donald Trump"), 
+                "to" = c("Donald Trump", "Donald Trump", "Kamala Harris", "Donald Trump", "Nikki Haley", "Donald Trump", "Joe Biden", "Joe Biden"))
+
+retweet_edge <- retweet_edge %>%
+  group_by(from, to) %>%
+  summarize(weight = n())
+
+retweet_node <- data.frame(
+                "Name" = c("Joe Biden", "Donald Trump", "Nikki Haley", "Kamala Harris", "Mike Pence"),
+                "Gender" = c("M", "M", "F", "F", "M"),
+                "Party" = c("D", "R", "R", "D", "R"),
+                "Age" = c(80, 77, 51, 59, 64))
+
+g <- tbl_graph(edges = retweet_edge, nodes = retweet_node, directed = T)
+plot(g)
+g
+```
+
+- Matrix
+
+```{r}
+retweet_edge <- data.frame(
+                "from" = c("Joe Biden", "Nikki Haley","Joe Biden", "Mike Pence", "Kamala Harris", "Kamala Harris", "Donald Trump", "Donald Trump"), 
+                "to" = c("Donald Trump", "Donald Trump", "Kamala Harris", "Donald Trump", "Nikki Haley", "Donald Trump", "Joe Biden", "Joe Biden"))
+graph <- graph_from_data_frame(retweet_edge, directed = TRUE)
+
+as_adjacency_matrix(graph, sparse = FALSE)
+```
+
+# Visualizing a network
+
+We will be using `ggraph` to visualize the network in this tutorial, though `igraph` did a pretty decent work (and you can check out more tutorials from Dr.Katya Ognyanova's [blog](https://kateto.net/networks-r-igraph). `ggraph` is a set of tools based on `ggplot2`, and you can build a plot by adding layers according to a *grammar of graphics* we mentioend before. As there are so many cool tools, here is just going to focus on standard plots that show nodes as circles and edges as lines. There are three key components that should be part of any of these plots:
+
+- edges
+- nodes
+- layout
+
+## Edges
+
+To be noted, the following code is only showing the *edges* but not the *nodes*. All of the different edge options start with `geom_edge_`, so if you start typing that then R's autocomplete will show you the options, and you can play around by changing them around.
+
+```{r}
+g %>%
+  ggraph() +
+  geom_edge_fan() +
+  theme_void()
+```
+## Nodes
+
+Next, we'll add the nodes. As what we have learned in `ggplot`, we can also treat the nodes like just another layer of the plot.
+
+```{r}
+g %>%
+  ggraph() +
+  geom_edge_fan() +
+  geom_node_point() +
+  theme_void()
+```
+### Aesthetic parameters
+The plot above looks boring...and we can certainly change that! For example, maybe we think that the edges are too thick, and that they should be RIT orange instead! Additionally, since it is a directed network, we can use arrow to represent the direction. Lastly, we can also change the color, size and shape of the nodes as well!
+
+```{r}
+g %>%
+  ggraph() +
+  geom_edge_fan(width = 0.5, color = "#F76902", 
+                arrow = arrow(length = unit(4, 'mm')),
+                end_cap = circle(2, 'mm')) +
+  geom_node_point(shape = "triangle", size = 5, color = "steelblue") +
+  theme_void()
+```
+But usually, you would also like to know who do these nodes represent for - here comes with the information in the nodelist dataframe.
+
+```{r}
+g %>%
+  ggraph() +
+  geom_edge_fan(width = 0.5, color = "#F76902", 
+                arrow = arrow(length = unit(4, 'mm')),
+                end_cap = circle(2, 'mm')) +
+  geom_node_point(size = 5, color = "steelblue") +
+  geom_node_text(aes(label = Name)) +
+  coord_cartesian(xlim=c(-1,1.5), ylim = c(-1,1))
+```
+Or you probably wanna remove those nodes too.
+```{r}
+g %>%
+  ggraph() +
+  geom_edge_fan(width = 0.5, color = "#F76902", 
+                  aes(start_cap = label_rect(node1.Name),
+                      end_cap = label_rect(node2.Name)),
+                  arrow = arrow(length = unit(4, 'mm'))) +
+  geom_node_text(aes(label = Name)) +
+  coord_cartesian(xlim=c(-1,1.5), ylim = c(-1,1))
+```
+## Layout
+
+The layout is where nodes appear on a graph. There are lots of different algorithms that can be used; some of them are very basic -- like putting the nodes in a circle or just scattering them randomly. Most of the layouts we will use are based on algorithms that try to keep nodes which are connected to each other close together and unconnected nodes far apart from each other.
+
+You can let ggraph choose a layout for you or you can look through some [here](https://igraph.org/c/doc/igraph-Layout.html) and [here](https://ggraph.data-imaginist.com/articles/Layouts.html). For instance, let's take a look at all available layouts in `igraph`:
+
+```{r}
+net_example <- sample_pa(100) 
+V(net_example)$size <- 8
+V(net_example)$frame.color <- "white"
+V(net_example)$color <- "orange"
+V(net_example)$label <- "" 
+E(net_example)$arrow.mode <- 0
+
+set.seed(123)
+
+layouts <- grep("^layout_", ls("package:igraph"), value=TRUE)[-1] 
+# Remove layouts that do not apply to our graph.
+layouts <- layouts[!grepl("bipartite|merge|norm|sugiyama|tree", layouts)]
+
+par(mfrow=c(3,3), mar=c(1,1,1,1))
+for (layout in layouts) {
+  print(layout)
+  l <- do.call(layout, list(net_example)) 
+  plot(net_example, edge.arrow.mode=0, layout=l, main=layout) }
+
+```
+Now, let's come back to `ggraph` and our politician retweet network. 
+
+```{r}
+g %>%
+  ggraph(layout = "kk") +
+  geom_edge_fan(width = 0.5,
+                arrow = arrow(length = unit(4, 'mm')),
+                end_cap = circle(4, 'mm')) +
+  geom_node_point(size = 5, color = "steelblue") +
+  geom_node_text(aes(label = Name)) +
+  coord_cartesian(xlim=c(-1.5,1.5), ylim = c(-1.5,1.5))
+```
+## *Mapping* aesthetics (from nodal or dydic attributes)
+
+Firstly, you can modify the size of the edges based on the *weight*. And if you are visualize the a multiplex network, you can also specify the color for different types of edge. 
+```{r}
+g %>%
+  ggraph(layout = "kk") +
+  geom_edge_fan(aes(width = weight),
+                arrow = arrow(length = unit(5, 'mm')),
+                end_cap = circle(5, 'mm')) +
+  scale_edge_width(range = c(1, 2))+
+  geom_node_point(size = 5, color = "steelblue") +
+  geom_node_text(aes(label = Name)) +
+  coord_cartesian(xlim=c(-1.5,1.5), ylim = c(-1.5,1.5)) +
+  theme(legend.position = "none")
+```
+
+Second, you can also change the size, shape and color of the nodes based on the nodal attributes. 
+
+```{r}
+g %>%
+  ggraph(layout = "kk") +
+  geom_edge_fan(aes(width = weight),
+                arrow = arrow(length = unit(5, 'mm')),
+                end_cap = circle(5, 'mm')) +
+  scale_edge_width(range = c(1, 2))+
+  geom_node_point(aes(size = Age), color = "steelblue") +
+  scale_size(range = c(5,10)) +
+  geom_node_text(aes(label = Name)) +
+  coord_cartesian(xlim=c(-1.5,1.5), ylim = c(-1.5,1.5))
+```
+```{r}
+g %>%
+  ggraph(layout = "kk") +
+  geom_edge_fan(aes(width = weight),
+                arrow = arrow(length = unit(5, 'mm')),
+                end_cap = circle(5, 'mm')) +
+  scale_edge_width(range = c(1, 2))+
+  geom_node_point(aes(size = Age, color = Party, shape = Gender)) +
+  scale_size(range = c(5,10)) +
+  scale_color_manual(values = c("steelblue", "darkred")) +
+  geom_node_text(aes(label = Name)) +
+  coord_cartesian(xlim=c(-1.5,1.5), ylim = c(-1.5,1.5))
+```
+```{r}
+g %>%
+  ggraph(layout = "kk") +
+  geom_edge_parallel(aes(width = weight),
+                arrow = arrow(length = unit(4, 'mm')),
+                end_cap = circle(5, 'mm')) +
+  scale_edge_width(range = c(1, 2))+
+  geom_node_point(aes(size = Age, color = Party)) +
+  scale_size(range = c(5,10)) +
+  scale_color_manual(values = c("steelblue", "darkred")) +
+  geom_node_text(aes(label = Name)) +
+  coord_cartesian(xlim=c(-2,2), ylim = c(-2,2)) +
+  facet_nodes(~Gender)
+```
+```{r}
+g %>%
+  ggraph(layout = "kk") +
+  geom_edge_parallel(aes(width = weight, start_cap = label_rect(node1.Name),
+                      end_cap = label_rect(node2.Name)),
+                  arrow = arrow(length = unit(3, 'mm'), type = "closed")) +
+  scale_edge_width(range = c(1, 2))+
+  geom_node_text(aes(label = Name, size = Age, color = Party)) +
+  scale_size(range = c(3,6)) +
+  scale_color_manual(values = c("steelblue", "darkred")) +
+  coord_cartesian(xlim=c(-1.5,1.5), ylim = c(-1.5,1.5)) +
+  theme(legend.position = "none")
+```
+# Network statistics 
+
+Let's play with some real-world data! We have collected the tweets from 100 anti-vaxxers and 100 pro-vaxxers on X (formly Twitter) during the COVID-19 outbreak. We have examined the linguistic regularities (in terms of sentiment analysis and topic modeling) and audience engagement of vaccine debate in this [paper](https://doi.org/10.1108/OIR-03-2022-0186). But we will be focusing on the anti-vaxxer following network here.
+
+
+```{r}
+anti_edge <- read.csv("Data/Anti_follow_edgelist.csv")
+anti_node <- read.csv("Data/Anti attribute.csv")
+
+vax_g <- tbl_graph(edges = anti_edge, nodes = anti_node, directed = T)
+plot(vax_g)
+vax_g
+```
+
+```{r}
+vax_g %>%
+  activate(nodes) %>%
+  mutate(degree = centrality_degree(mode = 'in')) %>% 
+  ggraph(layout = "kk", maxiter = 500) +
+  geom_edge_fan(width = 0.1, alpha = 0.3,
+                arrow = arrow(length = unit(1, 'mm'), type = "closed"),
+                end_cap = circle(1, 'mm')) +
+  geom_node_point(aes(color = type, size = degree)) +
+  geom_node_text(aes(label = name, size = degree), repel = TRUE) +
+  scale_size(range = c(1,5)) +
+  theme_void() +
+  theme(legend.position = "bottom",
+        legend.box = "vertical")
+
+```
+
+## Global level: characteristics of overall network
+
+#### Numbers of nodes:
+```{r}
+vax_g %>% gorder()
+```
+#### Number of edges:
+```{r}
+vax_g %>% gsize()
+```
+
+#### Number of mutual edges:
+```{r}
+vax_g %>% activate(edges) %>% filter(edge_is_mutual()) %>% gsize()
+```
+
+#### Centralization:
+```{r}
+vax_g %>% centralization.degree()
+vax_g %>% centralization.betweenness()
+vax_g %>% centralization.closeness()
+vax_g %>% centralization.evcent()
+```
+## Individual level: Identifying the most central nodes
+
+We can also show the most central nodes in a table. We already know how to calculate centrality measures. After we calculate them, we have to take a step that's a bit more complicated---basically, we take our node spreadsheet and temporarily convert it back to a "normal" R spreadsheet (a.k.a., `tibble`), and then manipulate the spreadsheet. That's what the `as_tibble()` line below does.
+
+After it's in a spreadsheet, the `select` command is the list of columns we want to keep for our table, the `arrange` command sorts the table (the `-` before `bw_centrality` sorts it in reverse order, from highest to lowest). Finally, the `head` command shows the top N nodes.
+
+#### Betweeness centrality
+
+```{r}
+vax_g %>%
+      activate(nodes) %>%
+      mutate(bw_centrality = centrality_betweenness()) %>%
+      as_tibble() %>%
+      select(name, bw_centrality) %>%
+      arrange(-bw_centrality) %>%
+      head(10)
+
+```
+
+#### Degree centrality
+Simiarily, we can also calculate the top 10 accounts which receive the most follows:
+
+```{r}
+vax_g %>%
+      activate(nodes) %>%
+      mutate(dg_centrality = centrality_degree(mode = "in")) %>%
+      as_tibble() %>%
+      select(name, dg_centrality) %>%
+      arrange(-dg_centrality) %>%
+      head(10)
+
+```
+
+#### Closeness centrality
+Simiarily, we can also calcuate the top 10 accounts with the highest closeness centrality:
+
+```{r}
+vax_g %>%
+      activate(nodes) %>%
+      mutate(cl_centrality = centrality_closeness()) %>%
+      as_tibble() %>%
+      select(name, cl_centrality) %>%
+      arrange(-cl_centrality) %>%
+      head(10)
+
+
+```
+
+#### Eigenvector centrality
+Simiarily, we can also calcuate the top 10 accounts with the highest eigenvector centrality:
+
+```{r}
+vax_g %>%
+      activate(nodes) %>%
+      mutate(eg_centrality = centrality_eigen()) %>%
+      as_tibble() %>%
+      select(name, eg_centrality) %>%
+      arrange(-eg_centrality) %>%
+      head(10)
+```
+
+
+And you might want to visualize how centralized the network is, such as showing the distribution of degree (or betweenness or another centrality measure).
+
+```{r}
+vax_g %>%
+      activate(nodes) %>%
+      mutate(degree = centrality_degree(mode='in')) %>% 
+      as_tibble() %>%
+      ggplot(aes(x=degree, fill = type)) +
+      geom_histogram(aes(y = after_stat(density))) +
+      geom_density() +
+      theme_minimal()
+
+```
+
+## Local level: characteristics of components
+
+### Components
+
+#### Understanding density
+The simplest version of a group in a social network is all of the people who are connected to each other. This is called a component. Most real-world social or communication networks include almost everyone in a single, "giant component". This seems strange at first, but an example can help to show why it works this way. Let's say you had a network of 50 people with two large components of 25 people each. If any one of the 25 people in one component adds an edge to any one of the 25 people in the other component, then the components merge. In other words, there are so many possible edges that would combine the components that one of them is bound to occur unless there is something separating the groups.
+
+The following visualizations show random graphs as they go from 2% density to 10% density. Even at only 8% or 10% density almost any random graph will be a single, large component (with maybe a few isolates).
+
+This attribute of networks means that components are rarely very interesting as a way of grouping nodes.
+```{r}
+# Don't worry about understanding this code - it's basically just plotting 
+# different densities of random graphs
+set.seed(12)
+for(p in c(.02, .05, .10, .50)){
+  G = random.graph.game(50, p) %>% as_tbl_graph()
+  plot <- G %>%
+    ggraph(layout='fr') +
+    geom_edge_fan(alpha = .5) +
+    geom_node_point() +
+    labs(title=paste0("Random graph with ", p*100, "% of edges")) +
+    theme_void()
+  print(plot)
+}
+```
+```{r}
+vax_g %>% transitivity(type = "global")
+```
+
+```{r}
+vax_g %>% reciprocity()
+```
+
+
+### Cliques
+The next simplest idea is a clique---this identifies groups of nodes where everyone is connected to everyone else in the group.
+
+Let's find the largest cliques in this network, using the `largest_cliques` function
+
+```{r}
+# Find the largest clique(s)
+vax_g %>% 
+  largest_cliques()
+```
+This network has a bunch of cliques of size 28 -- that means that each person in the clique is connected to each of the other 27 accounts.
+
+Let's visualize this by coloring the first of these cliques.
+
+```{r}
+clique_nodes <- largest_cliques(vax_g)[[1]]
+vax_g %>%
+  activate(nodes) %>%
+  mutate(idx = 1:nrow(.N())) %>% # Create an index for the nodes
+  mutate(in_clique = idx %in% clique_nodes) %>% # If the index is one of the clique nodes
+  ggraph(layout = 'stress') +
+  geom_edge_fan(alpha=.1) +
+  geom_node_point(aes(color=in_clique)) + # Color by whether the node is in the clique
+  scale_color_discrete(name='In largest clique') +
+  theme_void()
+```
+### Community detection
+
+There are a number of more complicated algorithms for finding communities in networks, often called "community detection" or "clustering" algorithms. The very bottom of [this page](https://tidygraph.data-imaginist.com/reference/index.html) shows those which have been implemented in `ggraph`.
+
+Many of them are based on one of two ideas — the first is [**modularity**](https://en.wikipedia.org/wiki/Modularity_(networks)). These approaches attempt to find partitions of a network which maximize the number of edges within groups and minimize the number of edges between them.
+
+The second approach is based on "**random walks**." The idea is that if you start at a random place in a network and move along a random edge, and keep doing this over and over, then walks should generally stay within groups and rarely go between them.
+
+There are a few common algorithms in `ggraph` such as *fast greedy* or *louvain* (or the modularity approach), but they only work for undirected network. So we are using the random walks approach for community detection in a directed network here.
+
+```{r}
+vax_g %>%
+  activate(nodes) %>%
+  mutate(community = as.factor(group_walktrap())) %>%
+  ggraph(layout = 'stress') +
+  geom_edge_fan(alpha=.1) +
+  geom_node_point(aes(color=community)) +
+  scale_color_viridis_d(name='Walktrap Communities')
+```
+```{r}
+vax_g %>%
+  activate(nodes) %>%
+  mutate(community = as.factor(group_walktrap())) %>%
+  as_tibble() %>%
+  filter(community == 1) %>%
+  select(name, community)
+```
+
+
+
+
+
+```{r}
+vax_g %>%
+  activate(nodes) %>%
+  mutate(community = as.factor(group_spinglass())) %>%
+  ggraph(layout = 'stress') +
+  geom_edge_fan(alpha=.1) +
+  geom_node_point(aes(color=community)) +
+  scale_color_viridis_d(name='Springclass Communities')
+```
+
+### K-cores
+
+Finally, it's worth mentioning a related concept, called *coreness*. This isn't quite the same as identifying the group a node is in; the idea is to identify "central" and "peripheral" parts of a network. Each node gets a "coreness" number, which is the largest k for which it exists in a subgraph where all nodes are connected with at least k edges. This sounds super confusing, but it makes a bit more sense when plotted. Here is some sample code for visualizing coreness. Basically, nodes with a high coreness number are connected to lots of others who are themselves well-connected. This is a great measure for identifying groups that hold important, central positions.
+
+```{r}
+
+vax_g %>%
+  activate(nodes) %>%
+  mutate(coreness = node_coreness()) %>%
+  ggraph(layout='stress') +
+  geom_edge_fan(alpha=.1) +
+  geom_node_point(aes(color=coreness)) +
+  scale_color_viridis(name='Coreness')
+
+```
+```{r}
+vax_g %>%
+  activate(nodes) %>%
+  mutate(coreness = node_coreness()) %>%
+  as_tibble() %>%
+  filter(coreness == 20) %>%
+  select(name, coreness)
+```
+
+
+```{r}
+anti_rt_edge <- read.csv("Data/Anti_retweet_edgelist.csv")
+
+vax_rt_g <- tbl_graph(edges = anti_rt_edge, nodes = anti_node, directed = T)
+plot(vax_rt_g)
+vax_rt_g
+```
+```{r}
+vax_rt_g %>%
+  activate(nodes) %>%
+  mutate(degree = centrality_degree(mode = 'all')) %>% 
+  ggraph(layout = "kk", maxiter = 500) +
+  geom_edge_fan(width = 0.1, alpha = 0.3,
+                arrow = arrow(length = unit(1, 'mm'), type = "closed"),
+                end_cap = circle(1, 'mm')) +
+  geom_node_point(aes(color = type, size = degree)) +
+  geom_node_text(aes(label = name, size = degree), repel = TRUE) +
+  scale_size(range = c(1,5)) +
+  theme_void() +
+  theme(legend.position = "bottom",
+        legend.box = "vertical")
+
+```
+
+```{r}
+transitivity(vax_rt_g, type = "global")
+```
+

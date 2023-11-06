@@ -12,7 +12,7 @@ format:
    revealjs:
     theme: rit.scss
     logo: /image/rit.png
-    footer: "COMM 605: Week 6"
+    footer: "COMM 605: Week 9"
     date-format: long
     slide-number: true
     scrollable: true
@@ -32,7 +32,7 @@ format:
       data-background-position: 50% 5%
 ---
 
-## What is sentiment analysis?
+## What is sentiment analysis? {.smaller}
 
 Sentiment analysis measures the polarity or tonality of texts by identifying and assessing expressions people use to evaluate or appraise persons, entities (e.g., products, services) or events ([Pang and Lee 2008](http://dx.doi.org/10.1561/1500000011); [Soroka 2014](https://doi.org/10.1017/CBO9781107477971)).
 
@@ -91,7 +91,7 @@ Plutchik proposed a wheel model consisting of eight basic emotions which include
 The wheel model describes emotions respective to the intensity, whereby strong emotions are placed in the center and weaker emotions are placed towards the edge of the flower bloom-like model
 :::
 
-## Methods in sentiment analysis
+## Methods in sentiment analysis {.smaller}
 
 -   Dictionary-based (this tutorial): [Linguistic Inquiry and Word Count(LIWC)](https://www.liwc.app/static/documents/LIWC-22%20Manual%20-%20Development%20and%20Psychometrics.pdf)
     -   It makes use of a predefined list of words, where each word is associated with a specific sentiment.
@@ -99,7 +99,11 @@ The wheel model describes emotions respective to the intensity, whereby strong e
 -   Supervise machine learning and Deep learning (pre-trained model, large language model)
     -   It relies on supervised classification approaches based on training data, where sentiment detection is framed as a binary (i.e., positive/negative/neutral).
 
-Questions: are they able to produce the same sentiment rating of texts as a human coder? - van Atteveldt (2003): \* The best performance is still attained with trained human or crowd coding \* None of the used dictionaries come close to acceptable levels of validity \* Machine learning, especially deep learning, substantially outperforms dictionary-based methods but falls short of human performance
+Questions: are they able to produce the same sentiment rating of texts as a human coder? - van Atteveldt (2021):
+
+-   The best performance is still attained with trained human or crowd coding
+-   None of the used dictionaries come close to acceptable levels of validity
+-   Machine learning, especially deep learning, substantially outperforms dictionary-based methods but falls short of human performance
 
 ::: notes
 LIWC (Linguistic Inquiry and Word Count) is a text analysis tool that evaluates emotional, cognitive, and struc- tural components of a given text based on the use of a dictionary containing words and their classified categories.
@@ -107,7 +111,7 @@ LIWC (Linguistic Inquiry and Word Count) is a text analysis tool that evaluates 
 A recent comparison of English language dictionaries and machine learning approaches found that "dictionaries had exceptional precision, but very low recall, suggesting that the method can be accurate, but that current lexicons are lacking scope. Machine learning systems worked in the opposite manner, exhibiting greater coverage but more error" (Soroka et al. 2015a, p. 112).
 :::
 
-## Empirical examples
+## Empirical examples {.smaller}
 
 -   Dubovi and Tabk (2021): public engagement with science on YouTube
     -   Detect emotion via lexicon-based sentiment analysis based on `syuzhet`package

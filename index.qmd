@@ -7,7 +7,7 @@ affiliation: "Rochester Institute of Technology"
 [![Source: xkcd.com](image/social_media.png)](https://xkcd.com/1239/)
 
 |             |                                                                                                                                           |
-|:-----------:|:---------------------------------------------------------:|
+|:------------------:|:--------------------------------------------------:|
 |   ⏰ Time   |                                                          Monday 5:00 -- 7:50 PM                                                           |
 | 📍 Location |                                                    Liberal Arts Hall (LBR)- Room 3201                                                     |
 |  📭 Email   |                                      [ryanwang\@mail.rit.edu](mailto:ryanwang@mail.rit.edu){.email}                                       |
@@ -20,6 +20,8 @@ This is the tutorial website for COMM 605 *Social media analytics and research* 
 -   Wickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). [*R for data science (2nd version)*](https://r4ds.hadley.nz/).
 -   Liang, H. [*COMM3650: Social Media Analytics for Communication Professionals*](https://drhailiang.com/teaching/COMM3650).
 -   van Atteveldt, W., Trilling, D. & Calderón, C. A. (2022). [*Computational Analysis of Communication*](https://v2.cssbook.net/)
+-   The [blog](https://kateto.net/blog/) of Dr. Katya Ognyanova
+-   The [lab](https://github.com/jdfoote/com_and_social_networks_labs) of Dr. Jeremy Foote
 
 This course focuses on social media research with various methodological approaches to study public data, users and messages. Students will be introduced to a variety of techniques and concepts used to obtain, monitor and evaluate social media content with a focus on how the analytics could inform communication strategies. During the course, students will also learn how to design and evaluate social media-based research studies.
 

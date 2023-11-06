@@ -13,6 +13,7 @@ library(tidytext)
 library(stm)
 library(stminsights)
 ```
+
 ```{r}
 #| include: false
 load("~/Documents/Ryan/RIT/Fall 2023/COMM 605/Tutorial/lab/week10.RData")
@@ -481,6 +482,7 @@ traindata <- traindata[, c("doc_id", "lemma")]
 model <- BTM(traindata, biterms = biterms, k = 10, iter = 100, background = TRUE, trace = 100)
 plot(model, top_n = 10)
 ```
+
 ![Biterm topic modeling](image/btm.png)
 
 ```{r}

@@ -33,12 +33,12 @@ Types of network:
 - Ego network
 
 ```{r}
-# | warning: false
+#| warning: false
 library(tidyverse)
 library(igraph)
 library(tidygraph)
 library(ggraph)
-#set_graph_style(size = 12, plot_margin = margin(1, 1, 1, 1, "cm")) #set up the default graph style here
+
 ```
 
 # Creating a network

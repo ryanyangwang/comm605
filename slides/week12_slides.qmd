@@ -1,0 +1,58 @@
+---
+title: "COMM 605"
+subtitle: "Week 12: Social media and beyond"
+date: 2023-11-13
+date-format: long
+author: 
+    - name: "Ryan Y. Wang, Ph.D."
+      email: ryanwang@rit.mail.edu
+      affiliation: School of Communication
+
+format:
+   revealjs:
+    theme: rit.scss
+    logo: /image/rit.png
+    footer: "COMM 605: Week 12"
+    date-format: long
+    slide-number: true
+    scrollable: true
+    chalkboard: true
+    src: drawings.json
+    #embed-resources: true
+    include-in-header:
+      - text: |
+          <style>
+          #title-slide .title {
+            font-size: 2em;
+          }
+          </style>
+    title-slide-attributes: 
+      data-background-image: /image/paw.png
+      data-background-size: 20%
+      data-background-position: 50% 5%
+---
+
+## My takeaways
+
+Personal observations:
+- Multimodality is the trend (text, image/video, audio, network and more)
+- Large Language Models are important!
+- Get a deeper understanding of deep learning (especially BERT)
+- Learn more about statistical models
+
+
+- Practice makes better (never perfect)
+- Learn how to write function and libraries
+- Reproducibility crisis, Transparent and Open sicence
+- Other ethical challenges in computational analyses
+
+
+::: notes
+In the wake of the so-called reproducibility crisis, the call for transparent and open science has become louder and louder in the last years. The public, funders, and journals increasingly ask for access to data and analysis scripts that underly published research. Of course, publishing your data and code is not a panacea for all problems, but it is a step towards better science from at least two perspectives (Van Atteveldt et al. 2019): first, it allows others to reproduce your work, enhancing its credibility (and the credibility of the field as a whole). Second, it allows others to build on your work without reinventing the wheel.
+
+:::
+
+## Next
+
+- Hands-on coding
+- A research paper

@@ -4,33 +4,34 @@ subtitle: "Network analysis"
 execute: 
   eval: true
 ---
+
 Many types of data, especially social media data, can often be represented as networks. There are a few packages in R Universe that can help with handling and visualizing network (and they could be rather confusing), including:
 
-- [`igraph`](https://r.igraph.org/)
-- [`sna`](https://cran.r-project.org/web/packages/sna/index.html)
-- [`tidygraph`](https://tidygraph.data-imaginist.com/) for network objects manipulation
-- [`ggraph`](https://ggraph.data-imaginist.com/) for network visualization
-- [`statnet`](https://statnet.org/) for network (inferential) statistical analysis
+-   [`igraph`](https://r.igraph.org/)
+-   [`sna`](https://cran.r-project.org/web/packages/sna/index.html)
+-   [`tidygraph`](https://tidygraph.data-imaginist.com/) for network objects manipulation
+-   [`ggraph`](https://ggraph.data-imaginist.com/) for network visualization
+-   [`statnet`](https://statnet.org/) for network (inferential) statistical analysis
 
 Network data format:
 
-- Matrix
-- Edge list
+-   Matrix
+-   Edge list
 
 Network metrics:
 
-- Individual level: characteristic of nodes
-- Global level: characteristics of overall network
-- Local level: characteristics of components
+-   Individual level: characteristic of nodes
+-   Global level: characteristics of overall network
+-   Local level: characteristics of components
 
 Types of network:
 
-- Directed network
-- Undirected network
-- Weighted network
-- Bipartite network
-- Multilevel/Multiplex network
-- Ego network
+-   Directed network
+-   Undirected network
+-   Weighted network
+-   Bipartite network
+-   Multilevel/Multiplex network
+-   Ego network
 
 ```{r}
 #| warning: false
@@ -43,7 +44,8 @@ library(ggraph)
 
 # Creating a network
 
-- Edgelist
+-   Edgelist
+
 ```{r}
 retweet_edge <- data.frame(
                 "from" = c("Joe Biden", "Nikki Haley","Joe Biden", "Mike Pence", "Kamala Harris", "Kamala Harris", "Donald Trump", "Donald Trump"), 
@@ -64,7 +66,7 @@ plot(g)
 g
 ```
 
-- Matrix
+-   Matrix
 
 ```{r}
 retweet_edge <- data.frame(
@@ -79,9 +81,9 @@ as_adjacency_matrix(graph, sparse = FALSE)
 
 We will be using `ggraph` to visualize the network in this tutorial, though `igraph` did a pretty decent work (and you can check out more tutorials from Dr.Katya Ognyanova's [blog](https://kateto.net/networks-r-igraph). `ggraph` is a set of tools based on `ggplot2`, and you can build a plot by adding layers according to a *grammar of graphics* we mentioend before. As there are so many cool tools, here is just going to focus on standard plots that show nodes as circles and edges as lines. There are three key components that should be part of any of these plots:
 
-- edges
-- nodes
-- layout
+-   edges
+-   nodes
+-   layout
 
 ## Edges
 
@@ -93,6 +95,7 @@ g %>%
   geom_edge_fan() +
   theme_void()
 ```
+
 ## Nodes
 
 Next, we'll add the nodes. As what we have learned in `ggplot`, we can also treat the nodes like just another layer of the plot.
@@ -104,7 +107,9 @@ g %>%
   geom_node_point() +
   theme_void()
 ```
+
 ### Aesthetic parameters
+
 The plot above looks boring...and we can certainly change that! For example, maybe we think that the edges are too thick, and that they should be RIT orange instead! Additionally, since it is a directed network, we can use arrow to represent the direction. Lastly, we can also change the color, size and shape of the nodes as well!
 
 ```{r}
@@ -116,6 +121,7 @@ g %>%
   geom_node_point(shape = "triangle", size = 5, color = "steelblue") +
   theme_void()
 ```
+
 But usually, you would also like to know who do these nodes represent for - here comes with the information in the nodelist dataframe.
 
 ```{r}
@@ -128,7 +134,9 @@ g %>%
   geom_node_text(aes(label = Name)) +
   coord_cartesian(xlim=c(-1,1.5), ylim = c(-1,1))
 ```
+
 Or you probably wanna remove those nodes too.
+
 ```{r}
 g %>%
   ggraph() +
@@ -139,6 +147,7 @@ g %>%
   geom_node_text(aes(label = Name)) +
   coord_cartesian(xlim=c(-1,1.5), ylim = c(-1,1))
 ```
+
 ## Layout
 
 The layout is where nodes appear on a graph. There are lots of different algorithms that can be used; some of them are very basic -- like putting the nodes in a circle or just scattering them randomly. Most of the layouts we will use are based on algorithms that try to keep nodes which are connected to each other close together and unconnected nodes far apart from each other.
@@ -166,7 +175,8 @@ for (layout in layouts) {
   plot(net_example, edge.arrow.mode=0, layout=l, main=layout) }
 
 ```
-Now, let's come back to `ggraph` and our politician retweet network. 
+
+Now, let's come back to `ggraph` and our politician retweet network.
 
 ```{r}
 g %>%
@@ -178,9 +188,11 @@ g %>%
   geom_node_text(aes(label = Name)) +
   coord_cartesian(xlim=c(-1.5,1.5), ylim = c(-1.5,1.5))
 ```
+
 ## *Mapping* aesthetics (from nodal or dydic attributes)
 
-Firstly, you can modify the size of the edges based on the *weight*. And if you are visualize the a multiplex network, you can also specify the color for different types of edge. 
+Firstly, you can modify the size of the edges based on the *weight*. And if you are visualize the a multiplex network, you can also specify the color for different types of edge.
+
 ```{r}
 g %>%
   ggraph(layout = "kk") +
@@ -194,7 +206,7 @@ g %>%
   theme(legend.position = "none")
 ```
 
-Second, you can also change the size, shape and color of the nodes based on the nodal attributes. 
+Second, you can also change the size, shape and color of the nodes based on the nodal attributes.
 
 ```{r}
 g %>%
@@ -208,6 +220,7 @@ g %>%
   geom_node_text(aes(label = Name)) +
   coord_cartesian(xlim=c(-1.5,1.5), ylim = c(-1.5,1.5))
 ```
+
 ```{r}
 g %>%
   ggraph(layout = "kk") +
@@ -221,6 +234,7 @@ g %>%
   geom_node_text(aes(label = Name)) +
   coord_cartesian(xlim=c(-1.5,1.5), ylim = c(-1.5,1.5))
 ```
+
 ```{r}
 g %>%
   ggraph(layout = "kk") +
@@ -235,6 +249,7 @@ g %>%
   coord_cartesian(xlim=c(-2,2), ylim = c(-2,2)) +
   facet_nodes(~Gender)
 ```
+
 ```{r}
 g %>%
   ggraph(layout = "kk") +
@@ -248,10 +263,10 @@ g %>%
   coord_cartesian(xlim=c(-1.5,1.5), ylim = c(-1.5,1.5)) +
   theme(legend.position = "none")
 ```
-# Network statistics 
+
+# Network statistics
 
 Let's play with some real-world data! We have collected the tweets from 100 anti-vaxxers and 100 pro-vaxxers on X (formly Twitter) during the COVID-19 outbreak. We have examined the linguistic regularities (in terms of sentiment analysis and topic modeling) and audience engagement of vaccine debate in this [paper](https://doi.org/10.1108/OIR-03-2022-0186). But we will be focusing on the anti-vaxxer following network here.
-
 
 ```{r}
 anti_edge <- read.csv("Data/Anti_follow_edgelist.csv")
@@ -282,26 +297,32 @@ vax_g %>%
 ## Global level: characteristics of overall network
 
 #### Numbers of nodes:
+
 ```{r}
 vax_g %>% gorder()
 ```
+
 #### Number of edges:
+
 ```{r}
 vax_g %>% gsize()
 ```
 
 #### Number of mutual edges:
+
 ```{r}
 vax_g %>% activate(edges) %>% filter(edge_is_mutual()) %>% gsize()
 ```
 
 #### Centralization:
+
 ```{r}
 vax_g %>% centralization.degree()
 vax_g %>% centralization.betweenness()
 vax_g %>% centralization.closeness()
 vax_g %>% centralization.evcent()
 ```
+
 ## Individual level: Identifying the most central nodes
 
 We can also show the most central nodes in a table. We already know how to calculate centrality measures. After we calculate them, we have to take a step that's a bit more complicated---basically, we take our node spreadsheet and temporarily convert it back to a "normal" R spreadsheet (a.k.a., `tibble`), and then manipulate the spreadsheet. That's what the `as_tibble()` line below does.
@@ -322,6 +343,7 @@ vax_g %>%
 ```
 
 #### Degree centrality
+
 Simiarily, we can also calculate the top 10 accounts which receive the most follows:
 
 ```{r}
@@ -336,6 +358,7 @@ vax_g %>%
 ```
 
 #### Closeness centrality
+
 Simiarily, we can also calcuate the top 10 accounts with the highest closeness centrality:
 
 ```{r}
@@ -351,6 +374,7 @@ vax_g %>%
 ```
 
 #### Eigenvector centrality
+
 Simiarily, we can also calcuate the top 10 accounts with the highest eigenvector centrality:
 
 ```{r}
@@ -362,7 +386,6 @@ vax_g %>%
       arrange(-eg_centrality) %>%
       head(10)
 ```
-
 
 And you might want to visualize how centralized the network is, such as showing the distribution of degree (or betweenness or another centrality measure).
 
@@ -383,11 +406,13 @@ vax_g %>%
 ### Components
 
 #### Understanding density
+
 The simplest version of a group in a social network is all of the people who are connected to each other. This is called a component. Most real-world social or communication networks include almost everyone in a single, "giant component". This seems strange at first, but an example can help to show why it works this way. Let's say you had a network of 50 people with two large components of 25 people each. If any one of the 25 people in one component adds an edge to any one of the 25 people in the other component, then the components merge. In other words, there are so many possible edges that would combine the components that one of them is bound to occur unless there is something separating the groups.
 
 The following visualizations show random graphs as they go from 2% density to 10% density. Even at only 8% or 10% density almost any random graph will be a single, large component (with maybe a few isolates).
 
 This attribute of networks means that components are rarely very interesting as a way of grouping nodes.
+
 ```{r}
 # Don't worry about understanding this code - it's basically just plotting 
 # different densities of random graphs
@@ -403,6 +428,7 @@ for(p in c(.02, .05, .10, .50)){
   print(plot)
 }
 ```
+
 ```{r}
 vax_g %>% transitivity(type = "global")
 ```
@@ -411,8 +437,8 @@ vax_g %>% transitivity(type = "global")
 vax_g %>% reciprocity()
 ```
 
-
 ### Cliques
+
 The next simplest idea is a clique---this identifies groups of nodes where everyone is connected to everyone else in the group.
 
 Let's find the largest cliques in this network, using the `largest_cliques` function
@@ -422,6 +448,7 @@ Let's find the largest cliques in this network, using the `largest_cliques` func
 vax_g %>% 
   largest_cliques()
 ```
+
 This network has a bunch of cliques of size 28 -- that means that each person in the clique is connected to each of the other 27 accounts.
 
 Let's visualize this by coloring the first of these cliques.
@@ -438,11 +465,12 @@ vax_g %>%
   scale_color_discrete(name='In largest clique') +
   theme_void()
 ```
+
 ### Community detection
 
 There are a number of more complicated algorithms for finding communities in networks, often called "community detection" or "clustering" algorithms. The very bottom of [this page](https://tidygraph.data-imaginist.com/reference/index.html) shows those which have been implemented in `ggraph`.
 
-Many of them are based on one of two ideas — the first is [**modularity**](https://en.wikipedia.org/wiki/Modularity_(networks)). These approaches attempt to find partitions of a network which maximize the number of edges within groups and minimize the number of edges between them.
+Many of them are based on one of two ideas --- the first is [**modularity**](https://en.wikipedia.org/wiki/Modularity_(networks)). These approaches attempt to find partitions of a network which maximize the number of edges within groups and minimize the number of edges between them.
 
 The second approach is based on "**random walks**." The idea is that if you start at a random place in a network and move along a random edge, and keep doing this over and over, then walks should generally stay within groups and rarely go between them.
 
@@ -457,6 +485,7 @@ vax_g %>%
   geom_node_point(aes(color=community)) +
   scale_color_viridis_d(name='Walktrap Communities')
 ```
+
 ```{r}
 vax_g %>%
   activate(nodes) %>%
@@ -465,10 +494,6 @@ vax_g %>%
   filter(community == 1) %>%
   select(name, community)
 ```
-
-
-
-
 
 ```{r}
 vax_g %>%
@@ -495,6 +520,7 @@ vax_g %>%
   scale_color_viridis(name='Coreness')
 
 ```
+
 ```{r}
 vax_g %>%
   activate(nodes) %>%
@@ -504,7 +530,6 @@ vax_g %>%
   select(name, coreness)
 ```
 
-
 ```{r}
 anti_rt_edge <- read.csv("Data/Anti_retweet_edgelist.csv")
 
@@ -512,6 +537,7 @@ vax_rt_g <- tbl_graph(edges = anti_rt_edge, nodes = anti_node, directed = T)
 plot(vax_rt_g)
 vax_rt_g
 ```
+
 ```{r}
 vax_rt_g %>%
   activate(nodes) %>%
@@ -532,4 +558,3 @@ vax_rt_g %>%
 ```{r}
 transitivity(vax_rt_g, type = "global")
 ```
-

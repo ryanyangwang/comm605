@@ -25,7 +25,7 @@ website:
          - week11.qmd
       - section: "Practices" 
         contents:
-         - practice1.qmd
+         
         
 
 format:

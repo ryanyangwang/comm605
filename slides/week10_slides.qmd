@@ -47,7 +47,8 @@ In the case of input data of images of different shapes:
     ![](/image/dendrogram.png)
 
 ## Unsupervised machine learning {.smaller}
--   Clustering (Unsupervised classification): 
+
+-   Clustering (Unsupervised classification):
 
     -   K-means clustering
 
